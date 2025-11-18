@@ -10,12 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 char	*ft_strcat(char *dest, char *src)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -28,15 +26,4 @@ char	*ft_strcat(char *dest, char *src)
 	}
 	dest[i + j] = '\0';
 	return (dest);
-}
-
-int	main(void)
-{
-	char dest[200] = "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello";
-	char src[200] = "World";
-	printf("Dest: %s\n", dest);
-	printf("Src: %s\n", src);
-	ft_strcat(dest, src);
-	printf("Concatenated output: %s\n", dest);
-	return (0);
 }

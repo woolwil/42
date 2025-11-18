@@ -33,7 +33,7 @@ int	main(void)
 	printf("%d\n", ft_str_is_numeric("abc"));
 	printf("%d\n", ft_str_is_numeric("a1b2c"));
 	printf("%d\n", ft_str_is_numeric("1a2b3c"));
-	printf("%d\n", ft_str_is_numeric("-1234567890")); 
+	printf("%d\n", ft_str_is_numeric("-1234567890"));
 	printf("%d\n", ft_str_is_numeric("12345!@#$"));
 	return (0);
 }

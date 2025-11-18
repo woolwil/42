@@ -6,15 +6,15 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 10:49:55 by ngvo              #+#    #+#             */
-/*   Updated: 2025/10/13 11:01:07 by ngvo             ###   ########.fr       */
+/*   Updated: 2025/11/18 00:00:00 by nyevonam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 int	ft_strlen(char *s)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (s && s[i])
 		i++;
 	return (i);
@@ -22,41 +22,62 @@ int	ft_strlen(char *s)
 
 int	is_space(char c)
 {
-	return (c == ' ' || (c >= 9 && c <= 13));
+	if (c == ' ')
+		return (1);
+	if (c >= 9 && c <= 13)
+		return (1);
+	return (0);
 }
 
 int	valid_base(char *base)
 {
-	int len = ft_strlen(base);
+	int		len;
+	int		i;
+	int		j;
+	char	c;
+
+	len = ft_strlen(base);
 	if (len < 2)
 		return (0);
-	for (int i = 0; i < len; i++)
+	i = 0;
+	while (i < len)
 	{
-		char c = base[i];
+		c = base[i];
 		if (c == '+' || c == '-' || is_space(c))
 			return (0);
-		for (int j = i + 1; j < len; j++)
+		j = i + 1;
+		while (j < len)
+		{
 			if (base[j] == c)
 				return (0);
+			j++;
+		}
+		i++;
 	}
 	return (len);
 }
 
 int	index_in_base(char c, char *base)
 {
-	for (int i = 0; base[i]; i++)
+	int	i;
+
+	i = 0;
+	while (base[i])
+	{
 		if (base[i] == c)
 			return (i);
+		i++;
+	}
 	return (-1);
 }
 
 int	ft_atoi_base(char *str, char *base)
 {
-	int blen;
-	int i;
-	int sign;
-	int idx;
-	long result;
+	int		blen;
+	int		i;
+	int		sign;
+	long	result;
+	int		idx;
 
 	blen = valid_base(base);
 	if (!blen)
@@ -66,33 +87,14 @@ int	ft_atoi_base(char *str, char *base)
 		i++;
 	sign = 1;
 	while (str && (str[i] == '+' || str[i] == '-'))
-	{
-		if (str[i] == '-')
+		if (str[i++] == '-')
 			sign = -sign;
-		i++;
-	}
 	result = 0;
 	idx = index_in_base(str[i], base);
-	if (idx == -1)
-		return (0);
-	while (str && (idx = index_in_base(str[i], base)) != -1)
+	while (str && idx != -1)
 	{
 		result = result * blen + idx;
-		i++;
+		idx = index_in_base(str[++i], base);
 	}
 	return ((int)(result * sign));
-}
-
-int	main(void)
-{
-	printf("%d\n", ft_atoi_base("42", "0123456789"));
-	printf("%d\n", ft_atoi_base("  \t\n   -2A", "0123456789ABCDEF"));
-	printf("%d\n", ft_atoi_base("101010", "01"));
-	printf("%d\n", ft_atoi_base("-101010", "01"));
-	/* invalid bases -> should print 0 */
-	printf("%d\n", ft_atoi_base("42", ""));
-	printf("%d\n", ft_atoi_base("42", "0"));
-	printf("%d\n", ft_atoi_base("42", "01234+6789"));
-	printf("%d\n", ft_atoi_base("42", "01234456789"));
-	return (0);
 }

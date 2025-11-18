@@ -10,9 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-
 int	ft_atoi(char *str)
 {
 	int	i;
@@ -36,20 +33,4 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	return (result * sign);
-}
-
-int	main(void)
-{
-	char	*str = "---+--+1234ab567";
-	char	*str2 = "123456789123456"; // 15 characters long
-	int			num;
-	int 		num2;
-
-	num = ft_atoi(str);
-	num2 = ft_atoi(str2);
-	printf("The FT_ATOI converted integer is: %d\n", num);
-	printf("The FT_ATOI converted integer is: %d\n", num2);
-	printf("The ATOI converted integer is: %d\n", atoi("123456789123456"));
-	printf("The ATOI converted integer is: %d\n", atoi("-1234ab567"));
-	return (0);
 }

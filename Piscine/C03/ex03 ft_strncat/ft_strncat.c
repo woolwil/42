@@ -10,13 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
-
-char *ft_strncat(char *dest, char *src, unsigned int nb)
+char	*ft_strncat(char *dest, char *src, unsigned int nb)
 {
-	unsigned int i;
-	unsigned int j;
+	unsigned int	i;
+	unsigned int	j;
 
 	i = 0;
 	j = 0;
@@ -29,18 +26,4 @@ char *ft_strncat(char *dest, char *src, unsigned int nb)
 	}
 	dest[i + j] = '\0';
 	return (dest);
-}
-
-int	main(void)
-{
-	int n = 0;
-
-	char dest[100] = "i wanna go home, ";
-	char src[100] = "let me go home";
-	printf("Dest: %s\n", dest);
-	printf("Src: %s\n", src);
-	ft_strncat(dest, src, (sizeof(dest) - strlen(dest) - 1));
-	// ft_strncat(dest, src, 10);
-	printf("Concatenated output: %s\n", dest);
-	return (0);
 }

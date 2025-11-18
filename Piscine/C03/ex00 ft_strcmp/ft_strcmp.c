@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	n;
@@ -22,15 +20,4 @@ int	ft_strcmp(char *s1, char *s2)
 		n++;
 	}
 	return (s1[n] - s2[n]);
-}
-
-int	main(void)
-{
-	char s1[] = "cats";
-	char s2[] = "catsdogs";
-
-	printf("s1: %s\n", s1);
-	printf("s2: %s\n", s2);
-	printf("result: %d\n", ft_strcmp(s1, s2));
-	return (0);
 }

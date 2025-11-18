@@ -35,26 +35,3 @@ void	ft_putnbr(int nb)
 	}
 	ft_putchar((nb % 10) + '0');
 }
-
-int	main(int argc, char **argv)
-{
-	int i = 0;
-	int j = 0;
-
-	if (argc < 2)
-	{
-		int number = -2025;
-		ft_putnbr(number);
-		ft_putchar('\n');
-		return (0);
-	}
-	else if (argc == 2)
-	{
-		while (argv[1][j] != '\0')
-		{
-			ft_putchar(argv[1][j]);
-			j++;
-		}
-		ft_putchar('\n');
-	}
-}

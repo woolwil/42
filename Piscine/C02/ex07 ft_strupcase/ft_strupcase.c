@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <string.h>
 
 char	*ft_strupcase(char *str)
 {
@@ -30,10 +31,15 @@ char	*ft_strupcase(char *str)
 
 int	main(void)
 {
-	char	str[100] = "HeLLo42";
-	char	str1[100] = "hello";
-	char	str2[100] = "alreadyUPPER";
-	char	str3[100] = "";
+	char	str[100];
+	char	str1[100];
+	char	str2[100];
+	char	str3[100];
+
+	strcpy(str, "HeLLo42");
+	strcpy(str1, "hello");
+	strcpy(str2, "alreadyUPPER");
+	strcpy(str3, "");
 	printf("%s\n", ft_strupcase(str));
 	printf("%s\n", ft_strupcase(str1));
 	printf("%s\n", ft_strupcase(str2));
