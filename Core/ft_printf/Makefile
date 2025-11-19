@@ -17,28 +17,38 @@ AR			= ar
 ARFLAGS		= rcs
 RM			= rm -f
 INCLUDES	= -I.
+TEST_NAME	= ft_printf
+MAIN		= main.c
+LINK_AR		= -lftprintf
+LIB_SEARCH	= -L.
 
-SRCS		= *.c\
+SRCS		= ft_printf.c \
+			print_format.c \
+			print_fts.c
 
 # BONUS_SRCS = 
 
 OBJS = $(SRCS:.c=.o)
 # BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
-.PHONY = all clean fclean re
+.PHONY: all clean fclean re test
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
 
-%.o: %.c *.h
+%.o: %.c ft_printf.h
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS)
+	$(RM) $(TEST_NAME)
 
-fclean: clean
+fclean: clean 
 	$(RM) $(NAME)
 
 re: fclean all
+
+test: $(NAME) $(MAIN)
+	$(CC) $(CFLAGS) $(INCLUDES) $(MAIN) $(LIB_SEARCH) $(LINK_AR) -o $(TEST_NAME)
