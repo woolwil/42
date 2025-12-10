@@ -1,6 +1,6 @@
 # get_next_line
 
-*This project has been created as part of the 42 curriculum by <ngvo>.*
+*This project has been created as part of the 42 curriculum by ngvo.*
 
 **Description**
 
@@ -46,3 +46,4 @@ The process can be broken down into three main stages:
     - This function finds the start of the *next* line (the character immediately after the first `\n`).
     - It allocates new memory for this "remainder" and copies the data into it.
     - Finally, it frees the old static buffer and returns the new remainder, which is then assigned back to the static variable in `get_next_line`. If no remainder exists, it returns `NULL`, effectively resetting the state.
+
