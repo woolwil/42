@@ -21,6 +21,36 @@ SuperMegaDlouheHeslo!123
 ## Configuration
 https://baigal.medium.com/born2beroot-e6e26dfb50ac
 
+### 0. Installing Vim, Git, Oh my Zsh
+<details>
+
+**0.1 Vim**
+- `apt-get update -y`
+- `apt-get upgrade -y`
+- `apt-get install vim -y`
+
+**0.1.1. Configure VIM**
+- `vim ~/.vimrc
+	- `syntax on`
+	- `set showcmd`
+	- `set incsearch`
+	- `set showmatch`
+	- `set mouse=a`
+	- `set number`
+	- `set tabstop=4`
+	- `set shiftwidth=4`
+
+**0.2. Git**
+- update and upgrade like usual
+- `apt-get install git -y`
+- `git --version`
+
+**0.3. Oh my zsh**
+- first install zsh
+- `apt install zsh`
+` $ sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"`
+</details>
+
 ### 1. Creating/Deleting users
 <details>
 
@@ -35,6 +65,19 @@ https://baigal.medium.com/born2beroot-e6e26dfb50ac
 
 **1.4. Check specific user:**
 - `cat /etc/passwd | grep "keyword"`
+
+**1.5. Adding user in sudo group**
+- `su -`
+- `usermod -aG sudo username`
+- more details in section 4.
+
+**1.6 Creating Groups**
+- `$ sudo groupadd user42`
+- `$ sudo groupadd evaluating`
+
+**1.7. Double-check creation**
+- `$ getent group`
+
 </details>
 
 ### 2. Firewall
@@ -42,6 +85,8 @@ https://baigal.medium.com/born2beroot-e6e26dfb50ac
 
 https://wiki.debian.org/Uncomplicated%20Firewall%20(ufw)
 
+**2.0 Install UFW**
+- `apt-get install ufw`
 **2.1 Enable Firewall:**
 
 - `ufw enable`
@@ -54,6 +99,8 @@ https://wiki.debian.org/Uncomplicated%20Firewall%20(ufw)
 **2.3 Allowing new rules:**
 
 - `ufw allow "X"`
+- `sudo ufw allow ssh`
+- `sudo ufw allow 4242`
 
 **2.4 Deleting already existing rules:**
 
@@ -73,6 +120,10 @@ https://wiki.debian.org/Uncomplicated%20Firewall%20(ufw)
 <details>
 https://wiki.debian.org/SSH#SSH_Server
 
+**3.0 Install SSH**
+- `apt-get update -y`
+- `apt-get install openssh-server` 
+
 **3.1 Check status of SSH**
 - Via **systemd**
 	- `systemctl status ssh` 
@@ -87,6 +138,8 @@ https://wiki.debian.org/SSH#SSH_Server
 - within the file `/etc/ssh/sshd_config`
 - `PermitRootLogin no`
 - `Port 4242`
+- double check port with `sudo grep Port /etc/ssh/sshd_config`
+- MAKE SURE TO DELETE '#'
 
 **3.4 Setting up Port Forward within VM**
 - VM Settings -> Network -> Port Forwarding
@@ -97,22 +150,48 @@ https://wiki.debian.org/SSH#SSH_Server
 **3.5 Connecting to VM through host machine**
 - In Host Machine Terminal
 	- `ssh ngvo@localhost -p 4242`
+- Troubleshooting: 
+- `@ WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! @
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.`
+
+- to fix just: `ssh-keygen -f "/home/ngvo/.ssh/known_hosts" -R "[localhost]:4242"`
 </details>
 
 ### 4. SUDO Security and Access Config
 <details>
 https://www.sudo.ws/docs/man/sudoers.man/
 
+**4.0. Install sudo**
+- `apt-get update -y`
+- `apt-get upgrade -y`
+- `apt install sudo`
+
 **4.1 Change Visudo Editor**
 - `sudo update-alternatives --config editor`
 
 **4.2 Tightening Security**
 
+**4.2.0. Password Quality Checking Library (libpam-pwquality)**
+- `$ sudo apt-get install libpam-pwquality`
+- length: 
+	- `$ sudo vim /etc/pam.d/common-password`
+	- find this line: `password [success=2 default=ignore] pam_unix.so obscure sha512`
+	- And add an extra word: `minlen=10` at the end.
+		- `password [success=1 default=ignore] pam_unix.so obscure use_authtok try_first_pass yescrypt minlen=10`
+- min 1 lowcase, min 1 upcase, min 1 digit, max same letter repetition 3
+	- find `password    requisite         pam_pwquality.so retry=3`
+	- `password    requisite         pam_pwquality.so retry=3 lcredit =-1 ucredit=-1 dcredit=-1 maxrepeat=3 usercheck=0 difok=7 enforce_for_root`
+
 **4.2.1 Sudo Password Config**
 
-- **Visudo**
+- **Visudo (editing sudoers)**
+	- add this into last line:
+		- `your_username    ALL=(ALL) ALL`
 	- `Defaults	passwd_tries=3`
 	- `Defaults badpass_message="Incorrect password, try again."`
+
 - `/etc/login.defs` (THIS ONLY OVERRIDES FOR FUTURE NEW USERS)
 	- `PASS_MAX_DAYS	30`
 	- `PASS_MIN_DAYS	2`
@@ -131,7 +210,6 @@ https://www.sudo.ws/docs/man/sudoers.man/#I/O_LOGGING
 	- `Defaults log_output`
 	- `Defaults iolog_dir="/var/log/sudo"`
 	- `Defaults logfile="/var/log/sudo/sudo.log`
-	- `Defaults badpass_message="x"`
 
 **4.4 Terminal Requirement (Teletypewriter TTY)**
 
@@ -316,5 +394,16 @@ EOF
 	- Status Check: `systemctl status cron`
 	- Stop Scheduler (Interrupt): `sudo systemctl stop cron`
 	- Restart: `sudo systemctl start cron`
-	- `*/10 * * * * sh /usr/local/bin/monitoring.sh`
+	- `$ sudo crontab -u root -e`
+			- `*/10 * * * * sh /usr/local/bin/monitoring.sh`
 </details>
+
+### For Evaluation
+
+**1. Debian vs Rocky Linux**
+
+**2. AppArmor vs SELinux**
+
+**3. UFW vs firewalld**
+
+**VirtualBox vs UTM**
