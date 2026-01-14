@@ -176,7 +176,7 @@ Find the pam_pwquality.so line and modify it:
 - Minimum Uppercase Char (1): `ucredit=-1`
 - Minimum Digit Chars (1): `dcredit=-1`
 - Max Repeating Chars (3): `maxrepeat=3`
-- No Identity Contained: `usercheck=0` 
+- No Identity Contained: `usercheck=1` 
 - Difference: 7 chars diff from old password: `difok=7`
 - Enforce for Root: `enforce_for_root`
 
