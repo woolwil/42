@@ -58,7 +58,8 @@ Before configuring security, we need the necessary tools. Log in as root.
 - `vim ~/.vimrc` for user-bound settings
 - `vim /etc/vim/vimrc` for global
 
-```syntax on
+```
+syntax on
 set showcmd
 set incsearch
 set showmatch
@@ -603,5 +604,30 @@ else
     echo -e "${RED}[FAIL]${NC} Check minlen, credits, or usercheck in $PAM_FILE"
 fi
 
+# 12. Ghost User Check (UIDs 1000 and above)
+echo -ne "Check: No Unauthorized Users... "
+# Lists all users with UID >= 1000, excluding 'nobody'
+EXTRA_USERS=$(awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd | grep -v "ngvo" | xargs)
+
+if [ -z "$EXTRA_USERS" ]; then
+    echo -e "${GREEN}[PASS]${NC}"
+else
+    echo -e "${RED}[FAIL]${NC} Found extra users: $EXTRA_USERS"
+fi
+
+# 13. Extra Group Audit (Detects custom-created groups)
+echo -ne "Check: No Unauthorized Groups... "
+
+# These are the standard Debian groups + the mandatory user42 group
+# We use a regex pattern to filter them out
+STANDARD_GROUPS="^(root|daemon|bin|sys|adm|tty|disk|lp|mail|news|uucp|man|proxy|kmem|dialout|fax|voice|cdrom|floppy|tape|sudo|audio|dip|www-data|backup|operator|list|irc|src|gnats|shadow|utmp|video|sasl|plugdev|staff|games|users|nogroup|systemd-journal|systemd-network|systemd-resolve|systemd-timesync|messagebus|_apt|systemd-coresump|netdev|ssh|user42|ngvo|crontab|input|sgx|clock|kvm|render|_ssh)$"
+# Get all groups from /etc/group, extract names, and filter out the standards
+EXTRA_GROUPS=$(cut -d: -f1 /etc/group | grep -Ev "$STANDARD_GROUPS" | xargs)
+
+if [ -z "$EXTRA_GROUPS" ]; then
+    echo -e "${GREEN}[PASS]${NC}"
+else
+    echo -e "${RED}[FAIL]${NC} Found extra custom groups: $EXTRA_GROUPS"
+fi
+
 echo -e "${YELLOW}========================================${NC}"
-echo "AUDIT COMPLETE: System is ready for evaluation."
