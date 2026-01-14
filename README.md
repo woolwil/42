@@ -4,4 +4,4 @@
 
 **Description**
 
-This repository will be used to push to and pull from at home and at the 42 Campus, allowing for a seamless integration between the two workplaces, and allow me as a student to freely access my work from all places.
+This repository will be used to push to and pull from at home and at the 42 Campus, allowing for a seamless integration between the two workplaces.
