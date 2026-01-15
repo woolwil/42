@@ -179,7 +179,7 @@ Find the pam_pwquality.so line and modify it:
 
 - `password requisite pam_pwquality.so retry=3 minlen=10 ucredit=-1 lcredit=-1 dcredit=-1 maxrepeat=3 difok=7 usercheck=1 enforce_for_root`
 
-- Minimum Length (10): `minlen = 10`
+- Minimum Length (10): `minlen=10`
 - Minimum Lowercase Char (1): `lcredit=-1`
 - Minimum Uppercase Char (1): `ucredit=-1`
 - Minimum Digit Chars (1): `dcredit=-1`
@@ -252,6 +252,14 @@ It is also possible that a host key has just been changed.
 ## 6. Monitoring Script monitoring.sh (usr/local/bin/monitoring.sh)
 
 Create the script to display system info every 10 minutes.
+Why **/usr/local/bin/**?
+Standardization: It follows the Filesystem Hierarchy Standard (FHS).
+
+System Admin Territory: /usr/bin/ is for the OS (managed by apt). /usr/local/bin/ is for you (the administrator).
+
+Safe from Updates: Files here won't be overwritten or deleted during a system update.
+
+Global Access: It's in your $PATH, so you can run `monitoring.sh` from any folder without typing the full path.
 
 <details>
 
@@ -417,6 +425,8 @@ echo "$msg" | /usr/bin/wall
 
 **6.1 Schedule Task (Cron)**
 
+- `chown root:root /usr/local/bin/monitoring.sh`
+	- for extra safety, makes `root` the **owner**
 - `chmod +x /usr/local/bin/monitoring.sh`
 - `crontab -u root -e`
 - `/etc/crontab`
@@ -501,12 +511,10 @@ In this project, I used it to create a specific encrypted partition structure th
 - more details in 2.4
 
 ### Monitoring Script
-- created a `systemd service` called `monitoring.service`
-- `systemd service` for the boot-up broadcast allows for better dependency management 
-	- using After=multi-user.target ensures the script only runs once the system is fully initialized
-		- making it more reliable than a standard cron `@reboot`
 
-### Final Double-Check
+### Final Double-Check (/usr/local/bin/full_audit.sh)
+
+`sudo chown root:root /usr/local/bin/full_audit.sh`
 
 ```
 #!/bin/bash
@@ -644,6 +652,6 @@ else
     echo -e "${RED}[FAIL]${NC} Found extra custom groups: $EXTRA_GROUPS"
 fi
 
-echo -e "${YELLOW}MAKE SURE TO RUN WITH ${GREEN}SUDO ${YELLOW}IF SOME ${RED}FAILED"
+echo -e "${YELLOW}MAKE SURE TO RUN WITH ${GREEN}SUDO ${YELLOW}IF SOME ${RED}[FAILED]"
 
 echo -e "${YELLOW}========================================${NC}"
