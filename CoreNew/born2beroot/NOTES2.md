@@ -320,6 +320,7 @@ WantedBy=multi-user.target
 		- `udis=$(df -m / | awk 'NR==2 {print $3}')`
 		- `tdis=$(df -m / | awk 'NR==2 {print $2}')`
 		- `pdis=$(df -m / | awk 'NR==2 {print $5}')`
+		-(NR==2 selects second line)
 	- This logic ensures you report both the absolute and relative disk usage for the root partition, which is required for the monitoring script output.
 - **CPU Load**
 	- `top` interactive dashboard (scripts cannot interact)
