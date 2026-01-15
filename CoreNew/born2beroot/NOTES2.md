@@ -508,7 +508,7 @@ In this project, I used it to create a specific encrypted partition structure th
 	- attempt bad password
 - `groupadd evaluator user42`
 - `ssh evaluator@localhost -p 4242`
-- more details in 2.4
+- more details in [Users...](#2-user--group-management)
 
 ### Monitoring Script
 
