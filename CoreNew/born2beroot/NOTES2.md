@@ -45,7 +45,7 @@ Before configuring security, we need the necessary tools. Log in as root.
 -	green if command exists, red if not
 - `git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting`
 - `vim ~/.zshrc`
-- change `plugins=(git)` to `plugins=(git zsh-syntax-highlighting sudo)
+- change `plugins=(git)` to `plugins=(git zsh-syntax-highlighting sudo)`
 - `source ~/.zshrc`
 
 **1.4 Configure Vim**
