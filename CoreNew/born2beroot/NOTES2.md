@@ -2,6 +2,21 @@
 
 This guide follows a logical progression for setting up your Debian server according to the 42 subject requirements.
 
+## Table of Contents
+
+1. [Temporary Credentials](#temporary-credentials)
+2. [Configuration](#configuration)
+3. [Initial Tooling & Prerequisites](#1-initial-tooling--prerequisites)
+4. [User & Group Management](#2-user--group-management)
+5. [Sudo Security Configuration](#3-sudo-security-configuration)
+   - [Configure Visudo](#31-configure-visudo)
+   - [Password Policy (PAM & Aging)](#32-password-policy-pam--aging)
+6. [Network & SSH Hardening](#4-network--ssh-hardening)
+7. [Hostname & OS Identity & AppArmor](#5-hostname--os-identity--apparmor)
+8. [Monitoring Script](#6-monitoring-script-monitoringsh-usrlocalbinmonitoringsh)
+9. [Verification Checklist](#7-verification-checklist)
+10. [Evaluation](#8-evaluation)
+
 ## Temporary Credentials
 <details>
 
@@ -111,7 +126,7 @@ Tighten sudo access as per the "Mandatory Part" requirements.
 
 ### 3.1 Configure Visudo
 
-Run visudo and add these configuration lines:
+Run `visudo` or `visudo -f /etc/sudoers.d/ngvo` and add these configuration lines:
 
 **Password attempt limit**
 
@@ -137,15 +152,8 @@ Run visudo and add these configuration lines:
 - `Defaults requiretty`
 - `Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"`
 
-```
-sudo cd /var/log/sudo
-sudo: cd: command not found
-sudo: "cd" is a shell built-in command, it cannot be run directly.
-sudo: the -s option may be used to run a privileged shell.
-sudo: the -D option may be used to run a command in a specific directory.
-```
 
-### 3.2 Password Policy (PAM & Aging)**
+### 3.2 Password Policy (PAM & Aging)
 
 Enforce the strong password policy requirements.
 
@@ -176,7 +184,7 @@ Find the pam_pwquality.so line and modify it:
 - Minimum Uppercase Char (1): `ucredit=-1`
 - Minimum Digit Chars (1): `dcredit=-1`
 - Max Repeating Chars (3): `maxrepeat=3`
-- No Identity Contained: `usercheck=1` 
+- No Identity Contained: `reject_username` 
 - Difference: 7 chars diff from old password: `difok=7`
 - Enforce for Root: `enforce_for_root`
 
@@ -245,7 +253,11 @@ It is also possible that a host key has just been changed.
 
 Create the script to display system info every 10 minutes.
 
+<details>
+
+### REDUNDANT IGNORE THIS PART: 
 ### Create a systemd service 
+I REPEAT **DO NOT DO THE SYSTEMD IT IS REDUNDANT!**
 - essentially tells the system to wait until env is ready to run this ...
 - `sudo vim /etc/systemd/system/monitoring.service`
 
@@ -268,6 +280,7 @@ WantedBy=multi-user.target
 ### Making sure it runs on PTS running on Zsh (pseudo-terminals)
 - `sudo vim /etc/zsh/zprofile`
 	- on bottom line: `/usr/local/bin/monitoring.sh`
+</details>
 
 ### monitoring.sh script
 - **line 1**: define interpreter: `#!/bin/bash`
@@ -291,6 +304,15 @@ WantedBy=multi-user.target
 		- `tram=$(free -m | awk '$1 == "Mem:" {print $2}')`
 		- `uram=$(free -m | awk '$1 == "Mem:" {print $3}')`
 		- `pram=$(free -m | awk '$1 == "Mem:" {printf("%.2f"), $3/$2*100}')`
+- **Disk Usage Explanation**
+	- `udis` gets the used disk space (in MB) for the root filesystem by extracting the 3rd column from the second line of `df -m /` output.
+	- `tdis` gets the total disk space (in MB) for the root filesystem by extracting the 2nd column from the same output.
+	- `pdis` gets the percentage of disk space used (e.g., 42%) by extracting the 5th column.
+	- Use:
+		- `udis=$(df -m / | awk 'NR==2 {print $3}')`
+		- `tdis=$(df -m / | awk 'NR==2 {print $2}')`
+		- `pdis=$(df -m / | awk 'NR==2 {print $5}')`
+	- This logic ensures you report both the absolute and relative disk usage for the root partition, which is required for the monitoring script output.
 - **CPU Load**
 	- `top` interactive dashboard (scripts cannot interact)
 		`-b` batch mode -> output is in plain text
@@ -375,7 +397,6 @@ sudoc=$(grep "COMMAND" /var/log/sudo/sudo.log 2>/dev/null | wc -l)
 
 # Construct the message in a variable
 msg="
-		$IDENTIFIER
         #Architecture: $arc
         #CPU physical: $pcpu
         #vCPU: $vcpu
@@ -390,22 +411,15 @@ msg="
         #Sudo cmds: $sudoc"
 
 # Broadcast to all terminals
+echo "$msg"	
 echo "$msg" | /usr/bin/wall
-
-# THE DUAL-OUTPUT LOGIC
-# If the script is running in a terminal (like your SSH login), just echo it.
-# If it's running in the background (Cron/Systemd), use wall.
-if [ -t 1 ]; then
-    echo "$msg"
-else
-    echo "$msg" | /usr/bin/wall
-fi
 ```
 
 **6.1 Schedule Task (Cron)**
 
 - `chmod +x /usr/local/bin/monitoring.sh`
 - `crontab -u root -e`
+- `/etc/crontab`
 
 Add at the bottom: `*/10 * * * * /usr/local/bin/monitoring.sh`
 
@@ -444,7 +458,7 @@ Add at the bottom: `*/10 * * * * /usr/local/bin/monitoring.sh`
 	- **Oh my Zsh!**
 		- `gst` instead of `git status`
 		- type command but forgot `sudo` -> `esc` twice
-		- navigae through menu of files with arrow keys or command options when hit tab
+		- navigate through menu of files with arrow keys or command options when hit tab
 
 ### SELinux vs AppArmor
 - **SELinux**
@@ -629,5 +643,7 @@ if [ -z "$EXTRA_GROUPS" ]; then
 else
     echo -e "${RED}[FAIL]${NC} Found extra custom groups: $EXTRA_GROUPS"
 fi
+
+echo -e "${YELLOW}MAKE SURE TO RUN WITH ${GREEN}SUDO ${YELLOW}IF SOME ${RED}FAILED"
 
 echo -e "${YELLOW}========================================${NC}"
