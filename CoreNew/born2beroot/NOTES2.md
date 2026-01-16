@@ -20,20 +20,18 @@ This guide follows a logical progression for setting up your Debian server accor
 ## Temporary Credentials
 <details>
 
-**Root**:
-
-Velkemale123?
-
+**Root**:  
+rootpw  
+Velkemale123?  
 Upperlower123?
 
-**ngvo**:
-
-Nevimcodelat123!
-
+**ngvo**:  
+ngvopw  
+Nevimcodelat123!  
 Whatdoido123!
 
-**Encryption**:
-
+**Encryption**:  
+encryptionpw  
 SuperMegaDlouheHeslo!123
 </details>
 
