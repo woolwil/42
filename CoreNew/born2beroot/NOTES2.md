@@ -592,6 +592,20 @@ else
     echo -e "${RED}[FAIL]${NC} Check tries, requiretty, or iolog_dir in visudo."
 fi
 
+# 7.1. Sudo Secure Path (Strict Subject Requirement)
+EXPECTED_PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+# Extract the path, remove 'Defaults secure_path=' and strip all quotes/spaces
+ACTUAL_PATH=$(sudo grep "secure_path" /etc/sudoers | cut -d'=' -f2 | sed 's/[" ]//g')
+
+echo -ne "Check: Sudo Secure Path... "
+if [ "$ACTUAL_PATH" = "$EXPECTED_PATH" ]; then
+    echo -e "${GREEN}[PASS]${NC}"
+else
+    echo -e "${RED}[FAIL]${NC}"
+    echo -e "   Expected: $EXPECTED_PATH"
+    echo -e "   Detected: $ACTUAL_PATH"
+fi
+
 # 8. User Groups
 echo -ne "Check: User ngvo Groups... "
 if groups ngvo | grep -q "sudo" && groups ngvo | grep -q "user42"; then
