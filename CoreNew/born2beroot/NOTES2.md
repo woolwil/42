@@ -22,13 +22,13 @@ This guide follows a logical progression for setting up your Debian server accor
 
 **Root**:  
 rootpw  
-Velkemale123?  
-Upperlower123?
+Velkemale123  
+Upperlower123
 
 **ngvo**:  
 ngvopw  
-Nevimcodelat123!  
-Whatdoido123!
+Nevimcodelat123  
+Whatdoido123
 
 **Encryption**:  
 encryptionpw  
