@@ -611,6 +611,8 @@ Examples:
 **Project Resources**:
 - Born2beRoot Subject PDF (42 Intranet)
 - [Medium Implementation Guide](https://baigal.medium.com/born2beroot-e6e26dfb50ac)
+- [gemartin99's Born2BeRoot guide](https://noreply.gitbook.io/born2beroot/installing-debian/configure-the-package-manager)
+- [Born2BeRoot Progress Tracker](https://born2beroot-tracking.pages.dev/)
 
 ---
 
