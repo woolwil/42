@@ -59,7 +59,9 @@ Before configuring security, we need the necessary tools. Log in as root.
 or
 - `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
 or  
-- `sh -c "$(fetch -o - https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
+- `sh -c "$(fetch -o - https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`  
+or  
+- `sh -c "$(wget -O- https://install.ohmyz.sh/)"`  
 
 **1. 3. 1. OPTIONAL - Syntax Highlighting and Sudo shortcuts**
 -	green if command exists, red if not
