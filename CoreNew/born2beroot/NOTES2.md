@@ -54,7 +54,7 @@ Before configuring security, we need the necessary tools. Log in as root.
 **1.3 Set Zsh as default**
 - `chsh -s $(which zsh)`
 - `sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`  
-or
+or  
 - `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
 or  
 - `sh -c "$(fetch -o - https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`  
