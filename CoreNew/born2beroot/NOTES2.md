@@ -594,7 +594,6 @@ fi
 
 # 7.1. Sudo Secure Path (Strict Subject Requirement)
 EXPECTED_PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
-# Extract the path, remove 'Defaults secure_path=' and strip all quotes/spaces
 ACTUAL_PATH=$(sudo grep "secure_path" /etc/sudoers | cut -d'=' -f2 | sed 's/[" ]//g')
 
 echo -ne "Check: Sudo Secure Path... "
