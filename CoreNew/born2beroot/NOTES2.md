@@ -184,7 +184,7 @@ To doublecheck the changes:
 
 Find the pam_pwquality.so line and modify it:
 
-- `password requisite pam_pwquality.so retry=3 minlen=10 ucredit=-1 lcredit=-1 dcredit=-1 maxrepeat=3 difok=7 usercheck=1 enforce_for_root`
+- `password requisite pam_pwquality.so retry=3 minlen=10 ucredit=-1 lcredit=-1 dcredit=-1 maxrepeat=3 difok=7 reject_username enforce_for_root`
 
 - Minimum Length (10): `minlen=10`
 - Minimum Lowercase Char (1): `lcredit=-1`
