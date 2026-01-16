@@ -474,7 +474,9 @@ Add at the bottom: `*/10 * * * * /usr/local/bin/monitoring.sh`
 	- **Oh my Zsh!**
 		- `gst` instead of `git status`
 		- type command but forgot `sudo` -> `esc` twice
-		- navigate through menu of files with arrow keys or command options when hit tab
+		- Menu Selection: `Tab` opens a menu you can navigate with arrow keys
+		- Case Insensitivity: `cd desk` and hit Tab, it knows you meant `cd Desktop`
+		- Smart Completion: If you type `kill` and hit Tab, a list opens up to choose from
 
 ### SELinux vs AppArmor
 - **SELinux**
