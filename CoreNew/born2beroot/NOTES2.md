@@ -628,7 +628,7 @@ if grep -q "minlen=10" $PAM_FILE && \
    grep -q "ucredit=-1" $PAM_FILE && \
    grep -q "lcredit=-1" $PAM_FILE && \
    grep -q "dcredit=-1" $PAM_FILE && \
-   grep -q "usercheck=1" $PAM_FILE; then
+   grep -q "reject_username" $PAM_FILE; then
     echo -e "${GREEN}[PASS]${NC}"
 else
     echo -e "${RED}[FAIL]${NC} Check minlen, credits, or usercheck in $PAM_FILE"
