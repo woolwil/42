@@ -56,6 +56,7 @@ Before configuring security, we need the necessary tools. Log in as root.
 **1.3 Set Zsh as default**
 
 - `sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"`
+- 
 **1. 3. 1. OPTIONAL - Syntax Highlighting and Sudo shortcuts**
 -	green if command exists, red if not
 - `git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting`
