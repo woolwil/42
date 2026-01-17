@@ -498,11 +498,11 @@ cat /etc/hosts | grep 127.0.1.1
 
 ### Quick Audit Script
 
-The system includes a comprehensive audit script at `/usr/local/bin/full_audit.sh` that performs automated compliance checks:
+The system includes a comprehensive audit script at `/usr/local/bin/audit.sh` that performs automated compliance checks:
 
 ```bash
 # Run comprehensive audit (requires sudo)
-sudo /usr/local/bin/full_audit.sh
+sudo /usr/local/bin/audit.sh
 ```
 
 **Checks Performed**:
