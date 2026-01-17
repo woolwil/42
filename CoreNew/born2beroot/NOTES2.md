@@ -49,16 +49,9 @@ Before configuring security, we need the necessary tools. Log in as root.
 
 **1.2 Install Required Packages**
 
-- `apt-get install vim git sudo ufw openssh-server libpam-pwquality net-tools zsh -y`
+- `apt-get install vim git sudo ufw openssh-server libpam-pwquality net-tools zsh wget -y`
 
 **1.3 Set Zsh as default**
-- `chsh -s $(which zsh)`
-- `sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`  
-or  
-- `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
-or  
-- `sh -c "$(fetch -o - https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`  
-or  
 - `sh -c "$(wget -O- https://install.ohmyz.sh/)"`  
 
 **1. 3. 1. OPTIONAL - Syntax Highlighting and Sudo shortcuts**
