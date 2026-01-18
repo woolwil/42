@@ -556,12 +556,23 @@ else
     echo -e "${RED}[FAIL]${NC} Hostname is $(hostname)"
 fi
 
-# 3. Partitioning (LVM & Crypt)
-echo -ne "Check: LVM & Encryption... "
-if lsblk | grep -q "lvm" && lsblk | grep -q "crypt"; then
+# 3. Partitioning (LVM, Crypt, & Mountpoint matching)
+echo -ne "Check: LVM Structure & Mountpoints... "
+# 1. Check for basic LVM and Encryption
+if ! lsblk | grep -q "lvm" || ! lsblk | grep -q "crypt"; then
+    echo -e "${RED}[FAIL]${NC} Missing LVM or Crypt tags."
+# 2. Check if LV names match their mountpoints (root, home, var, etc.)
+elif lsblk -n -o NAME,MOUNTPOINT | grep "LVMGroup" | awk '{
+    if ($2 == "/" && $1 !~ /root/) exit 1;
+    if ($2 == "/home" && $1 !~ /home/) exit 1;
+    if ($2 == "/var" && $1 !~ /var/) exit 1;
+    if ($2 == "/tmp" && $1 !~ /tmp/) exit 1;
+    if ($2 == "/srv" && $1 !~ /srv/) exit 1;
+    if ($2 == "/var/log" && $1 !~ /var--log/) exit 1;
+} END { if (NR == 0) exit 1; }'; then
     echo -e "${GREEN}[PASS]${NC}"
 else
-    echo -e "${RED}[FAIL]${NC} Missing LVM or Crypt tags in lsblk."
+    echo -e "${RED}[FAIL]${NC} Mountpoint/Name mismatch detected."
 fi
 
 # 4. AppArmor
