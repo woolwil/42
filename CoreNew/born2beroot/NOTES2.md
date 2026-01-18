@@ -340,7 +340,7 @@ WantedBy=multi-user.target
 		- `-b, --boot` time of last system boot
 - **LVM Use**
 	- `if` + `-gt 0`, `lsblk`, `grep`, `wc -l`
-	- `lvmu=$(if [ $(lsblk | grep "lvm" | wc -l) -gt 0]; then echo yes, else echo no; fi)
+	- `lvmu=$(if [ $(lsblk | grep "lvm" | wc -l) -gt 0]; then echo yes, else echo no; fi)`
 	- `if` Everything inside the square brackets is the condition we are checking.
 	- `-gt 0` This stands for "Greater Than 0." 
 		- It checks if the number of LVM lines found by wc -l is at least 1.
