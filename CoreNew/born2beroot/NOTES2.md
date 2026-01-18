@@ -561,10 +561,22 @@ fi
 
 # 5. UFW & Port 4242
 echo -ne "Check: Firewall (Port 4242)... "
-if sudo ufw status | grep -q "4242/tcp" && sudo ufw status | grep -q "ALLOW"; then
+# Simplified to check for 4242 generally, without forcing /tcp
+if sudo ufw status | grep -q "4242" && sudo ufw status | grep -q "ALLOW"; then
     echo -e "${GREEN}[PASS]${NC}"
 else
-    echo -e "${RED}[FAIL]${NC} Port 4242 not allowed in UFW."
+    echo -e "${RED}[FAIL]${NC} Port 4242 not open in UFW."
+fi
+
+# 10. Password Aging Policy (Defaults)
+echo -ne "Check: Password Aging Defaults (30/2/7)... "
+MAX=$(grep "^PASS_MAX_DAYS" /etc/login.defs | awk '{print $2}')
+MIN=$(grep "^PASS_MIN_DAYS" /etc/login.defs | awk '{print $2}')
+WARN=$(grep "^PASS_WARN_AGE" /etc/login.defs | awk '{print $2}')
+if [ "$MAX" = "30" ] && [ "$MIN" = "2" ] && [ "$WARN" = "7" ]; then
+    echo -e "${GREEN}[PASS]${NC}"
+else
+    echo -e "${RED}[FAIL]${NC} login.defs: Max:$MAX Min:$MIN Warn:$WARN"
 fi
 
 # 6. SSH Config (Port & Root)
@@ -625,6 +637,28 @@ if [ "$MAX" = "30" ] && [ "$MIN" = "2" ] && [ "$WARN" = "7" ]; then
     echo -e "${GREEN}[PASS]${NC}"
 else
     echo -e "${RED}[FAIL]${NC} Max: $MAX, Min: $MIN, Warn: $WARN"
+fi
+
+# 10. Password Aging Policy (Defaults)
+echo -ne "Check: Password Aging Defaults (30/2/7)... "
+MAX=$(grep "^PASS_MAX_DAYS" /etc/login.defs | awk '{print $2}')
+MIN=$(grep "^PASS_MIN_DAYS" /etc/login.defs | awk '{print $2}')
+WARN=$(grep "^PASS_WARN_AGE" /etc/login.defs | awk '{print $2}')
+if [ "$MAX" = "30" ] && [ "$MIN" = "2" ] && [ "$WARN" = "7" ]; then
+    echo -e "${GREEN}[PASS]${NC}"
+else
+    echo -e "${RED}[FAIL]${NC} login.defs: Max:$MAX Min:$MIN Warn:$WARN"
+fi
+
+# 10.1. User-Specific Aging (chage check)
+echo -ne "Check: Individual User Aging (root & ngvo)... "
+ROOT_CHAGE=$(sudo chage -l root | grep "Maximum number of days" | awk -F: '{print $2}' | tr -d ' ')
+NGVO_CHAGE=$(sudo chage -l ngvo | grep "Maximum number of days" | awk -F: '{print $2}' | tr -d ' ')
+
+if [ "$ROOT_CHAGE" = "30" ] && [ "$NGVO_CHAGE" = "30" ]; then
+    echo -e "${GREEN}[PASS]${NC}"
+else
+    echo -e "${RED}[FAIL]${NC} root:$ROOT_CHAGE days, ngvo:$NGVO_CHAGE days (Expected 30)"
 fi
 
 # 11. Password Complexity (PAM)
