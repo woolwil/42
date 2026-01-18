@@ -351,7 +351,7 @@ WantedBy=multi-user.target
 	- `ss`
 		- `-t` displays TCP sockets
 		- `-a` displays both listening and non listening
-			- for **TCP** -> established connoections sockets
+			- for **TCP** -> established connections sockets
 - **Users Log**
 	- `users`
 	- `wc -w` returns counted words
