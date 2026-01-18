@@ -517,7 +517,7 @@ In this project, I used it to create a specific encrypted partition structure th
 
 `sudo chown root:root /usr/local/bin/full_audit.sh`
 
-```
+```bash
 #!/bin/bash
 
 GREEN='\033[0;32m'

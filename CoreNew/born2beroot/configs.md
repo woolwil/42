@@ -433,8 +433,11 @@ password	required			pam_permit.so
 # end of pam-auth-update config
 ```
 
+### cron
+`*/10 * * * * /usr/local/bin/monitoring.sh`
+
 ### /usr/local/bin/monitoring.sh
-```
+```bash
 #!/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
@@ -489,7 +492,7 @@ echo "$msg" | /usr/bin/wall
 ```
 
 ### /usr/local/bin/audit.sh
-```
+```bash
 #!/bin/bash
 
 GREEN='\033[0;32m'
