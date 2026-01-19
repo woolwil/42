@@ -44,14 +44,15 @@ Before configuring security, we need the necessary tools. Log in as root.
 
 **1.1 Update System**
 
-- `apt-get update -y && apt-get upgrade -y`
+- `apt update -y && apt upgrade -y`
 
 
 **1.2 Install Required Packages**
 
-- `apt-get install vim git sudo ufw openssh-server libpam-pwquality net-tools zsh wget -y`
+- `apt install vim git sudo ufw openssh-server libpam-pwquality net-tools zsh wget -y`
+- `apt install vim sudo ufw openssh-serrver libpam-pwquality net-tools -y`
 
-**1.3 Set Zsh as default**
+**1.3 OPTIONAL - Set Zsh as default**
 - `sh -c "$(wget -O- https://install.ohmyz.sh/)"`  
 
 **1. 3. 1. OPTIONAL - Syntax Highlighting and Sudo shortcuts**
