@@ -1,0 +1,1 @@
+File 3 only has one line without newline at end.
