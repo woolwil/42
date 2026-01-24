@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:14:14 by ngvo              #+#    #+#             */
-/*   Updated: 2026/01/24 18:19:22 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/01/24 19:10:09 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*read_to_stash(int fd, char *stash);
 char	*extract_line(char *stash);
@@ -18,16 +18,16 @@ char	*update_stash(char *stash);
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
+	static char	*stash[OPEN_MAX];
 	char		*line;
 
-	if (!fd && BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= OPEN_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
-	stash = read_to_stash(fd, stash);
-	if (!stash)
+	stash[fd] = read_to_stash(fd, stash[fd]);
+	if (!stash[fd])
 		return (NULL);
-	line = extract_line(stash);
-	stash = update_stash(stash);
+	line = extract_line(stash[fd]);
+	stash[fd] = update_stash(stash[fd]);
 	return (line);
 }
 
