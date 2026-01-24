@@ -20,7 +20,3 @@ This project implements the `get_next_line` function, which reads a line from a 
 
 # Algorithm Explanation
 The algorithm uses a static stash to store leftover data between calls. It reads from the file descriptor into a buffer, appends to the stash, and extracts lines one at a time. For the bonus, an array indexed by file descriptor is used to manage multiple files simultaneously. Memory is managed carefully to avoid leaks and handle edge cases.
-
-# Additional Sections
-- Usage examples and feature list can be added as needed.
-- Technical choices: C, POSIX, static memory management.
