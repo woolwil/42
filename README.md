@@ -5,3 +5,6 @@
 **Description**
 
 This repository will be used to push to and pull from at home and at the 42 Campus, allowing for a seamless integration between the two workplaces.
+
+**Core** started in November, 2025.
+**Discovery Piscine** started on Jan 25, 2025, and finished on Jan 30, 2025.
