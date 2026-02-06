@@ -1,3 +1,0 @@
-This is file 1.
-Line two of file 1.
-End of file 1.
