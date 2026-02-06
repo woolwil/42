@@ -1,0 +1,2 @@
+File 2, first line.
+File 2, second line.
