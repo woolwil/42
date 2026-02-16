@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 15:36:22 by ngvo              #+#    #+#             */
-/*   Updated: 2026/02/16 01:14:28 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/02/16 02:02:00 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,17 @@ typedef struct s_stack_node
 // Error Handling
 
 // Stack Init
-void	init_stack_a(t_stack_node **a, char **argv)
-
+void	init_stack_a(t_stack_node **a, char **argv);
 
 // Nodes Init
 
 // Stack Utils
+bool	stack_sorted(t_stack_node *stack);
+void	sort_stacks(t_stack_node **a, t_stack_node **b);
 
 // Cmds
 
 // Algorithms
+void	sort_three(t_stack_node **a);
 
 #endif
