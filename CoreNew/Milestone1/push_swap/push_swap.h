@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 15:36:22 by ngvo              #+#    #+#             */
-/*   Updated: 2026/02/13 16:25:58 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/02/16 01:14:28 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <stdbool.h>
 # include <limits.h>
 # include "./libft/libft.h"
-# include "./ft_printf/ft_printf.h"
 
 typedef struct s_stack_node
 {
@@ -33,6 +32,8 @@ typedef struct s_stack_node
 // Error Handling
 
 // Stack Init
+void	init_stack_a(t_stack_node **a, char **argv)
+
 
 // Nodes Init
 
