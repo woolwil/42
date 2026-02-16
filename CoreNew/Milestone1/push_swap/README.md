@@ -62,7 +62,3 @@ The program will output the sequence of operations required to sort the stack.
 - [push_swap TUTORIAL!](https://www.youtube.com/watch?v=wRvipSG4Mmk)
 
 ## Additional Info
-
-**Error Handling:**
-- Handles invalid argument counts, empty input, integer overflows, duplicates, and invalid characters.
-- If any error is detected during input or stack population, the program frees all allocated memory and exits gracefully with an error message.
