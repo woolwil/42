@@ -6,7 +6,7 @@
 #    By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/13 15:15:48 by ngvo              #+#    #+#              #
-#    Updated: 2026/02/13 15:34:59 by ngvo             ###   ########.fr        #
+#    Updated: 2026/02/16 00:58:20 by ngvo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,6 @@ SRCS		= $(wildcard *.c)
 OBJS		= $(SRCS:.c=.o)
 LIBFT_DIR	= ./libft
 LIBFT_A	= $(LIBFT_DIR)/libft.a
-PRINTF_DIR	= ./ft_printf
-PRINTF_A = $(PRINTF_DIR)/libftprintf.a
 
 .PHONY: all clean fclean re
 
