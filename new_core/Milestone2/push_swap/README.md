@@ -60,5 +60,6 @@ The program will output the sequence of operations required to sort the stack.
 - push_swap subject PDF
 - [Linked list basics](https://www.geeksforgeeks.org/data-structures/linked-list/)
 - [push_swap TUTORIAL!](https://www.youtube.com/watch?v=wRvipSG4Mmk)
+- [Push Swap — A journey to find most efficient sorting algorithm](https://medium.com/@ayogun/push-swap-c1f5d2d41e97)
 
 ## Additional Info
