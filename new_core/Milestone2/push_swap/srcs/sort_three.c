@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.c"
+#include "../push_swap.h"
 
 void	sort_three(t_stack_node **a)
 {
