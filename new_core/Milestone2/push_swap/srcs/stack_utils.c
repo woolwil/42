@@ -12,49 +12,68 @@
 
 #include "../push_swap.h"
 
-static long	ft_atol(const char *s)
+int	stack_len(t_stack_node *stack)
 {
-	long	result;
-	int		sign;
+	int	count;
 
-	result = 0;
-	sign = 1;
-	while (*s == ' ' || (*s >= 9 && *s <= 13))
-		s++;
-	if (*s == '-' || *s == '+')
+	if (!stack) 
+		return (0);
+	count = 0;
+	while (stack)
 	{
-		if (*s == '-')
-			sign = -1;
-		s ++;
+		stack = stack->next;
+		count++;
 	}
-	while (ft_isdigit(*s))
-		result = result * 10 + (*s++ - '0');
-	return (result * sign);
+	return (count);
 }
 
-static void	append_node(t_stack_node **stack, int n)
+t_stack_node	*find_last(t_stack_node *stack)
 {
-	t_stack_node	*node;
-	t_stack_node	*last_node;
+	if (!stack)
+		return (NULL);
+	while (stack->next)
+		stack = stack->next;
+	return (stack);
+}
+
+t_stack_node	*find_min(t_stack_node *stack)
+{
+	long			min;
+	t_stack_node	*min_node;
 
 	if (!stack)
 		return (NULL);
-	node = malloc(sizeof(t_stack_node));
-	if (!node)
+	min = LONG_MAX;
+	while (stack)
+	{
+		if (stack->nbr < min)
+		{
+			min = stack->nbr;
+			min_node = stack;
+		}
+		stack = stack->next;
+	}
+	return (min_node); 
+}
+
+t_stack_node	*find_max(t_stack_node *stack)
+{
+	long			max;
+	t_stack_node	*max_node;
+
+	if (!stack)
 		return (NULL);
-	node->next = NULL;
-	node->nbr = n;
-	if (!(*stack))
+	max = LONG_MIN;
+	while (stack)
 	{
-		*stack = node;
-		node->prev = NULL;
+		if (stack->nbr > max)
+		{
+			max = stack->nbr;
+			max_node = stack;
+		}
+		stack = stack->next;
 	}
-	else
-	{
-		last_node = find_last(*stack);
-		last_node->next = node;
-		node->prev = last_node;
-	}
+	return (max_node);
 }
 
 bool	stack_sorted(t_stack_node *stack)
