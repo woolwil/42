@@ -14,8 +14,8 @@
 
 static void	swap(t_stack **head)
 {
-	if (!*head || !(!*head)->next)
-		return (NULL);
+	if (!*head || !(*head)->next)
+		return ;
 	*head = (*head)->next;
 	(*head)->prev->prev = *head;
 	(*head)->prev->next = (*head)->next;

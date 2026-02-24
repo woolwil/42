@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 15:36:22 by ngvo              #+#    #+#             */
-/*   Updated: 2026/02/24 21:32:07 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/02/24 21:39:53 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	prep_for_push(t_stack **stack, t_stack *top_node, char stack_name);
 bool	stack_sorted(t_stack *stack);
 void	sort_stacks(t_stack **a, t_stack **b);
 int		stack_len(t_stack *stack);
+t_stack	*find_last(t_stack*stack);
 t_stack	*find_min(t_stack *stack);
 t_stack	*find_max(t_stack *stack);
 

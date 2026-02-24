@@ -6,7 +6,7 @@
 #    By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/13 15:15:48 by ngvo              #+#    #+#              #
-#    Updated: 2026/02/17 18:39:58 by ngvo             ###   ########.fr        #
+#    Updated: 2026/02/24 21:48:28 by ngvo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,10 @@ CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
 RM			= rm -f
 INCLUDES	= -I.
-SRCS		= $(wildcard *.c)
-OBJS		= $(SRCS:.c=.o)
+SRCS_DIR	= ./srcs
+OBJS_DIR	= ./objs
+SRCS		= $(shell find $(SRCS_DIR) -name '*.c')
+OBJS		= $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
 LIBFT_DIR	= ./libft
 LIBFT_A	= $(LIBFT_DIR)/libft.a
 
@@ -27,9 +29,11 @@ all: $(LIBFT_A) $(NAME)
 
 
 $(NAME): $(OBJS) $(LIBFT_A)
-	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJS) -L$(LIBFT_DIR)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJS) -L$(LIBFT_DIR) -lft
 
-%.o: %.c
+
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 
@@ -37,7 +41,7 @@ $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
 
 clean:
-	$(RM) $(OBJS)
+	$(RM) -r $(OBJS_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
 
 

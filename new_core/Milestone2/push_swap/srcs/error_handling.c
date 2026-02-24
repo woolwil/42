@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 19:05:12 by ngvo              #+#    #+#             */
-/*   Updated: 2026/02/24 21:28:09 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/02/24 21:45:10 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	syntax_err(char *s_n)
 		return (1);
 	while (*++s_n)
 	{
-		if (!(s_n >= '0' && *s_n <= '9'))
+		if (!(*s_n >= '0' && *s_n <= '9'))
 			return (1);
 	}
 	return (0);
@@ -45,7 +45,7 @@ void	free_stack(t_stack **stack)
 	t_stack	*current;
 
 	if (!stack)
-		return (NULL);
+		return ;
 	current = *stack;
 	while (current)
 	{

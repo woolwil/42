@@ -38,10 +38,10 @@ static void	append_node(t_stack **stack, int n)
 	t_stack	*last_node;
 
 	if (!stack)
-		return (NULL);
+		return ;
 	node = malloc(sizeof(t_stack));
 	if (!node)
-		return (NULL);
+		return ;
 	node->next = NULL;
 	node->nbr = n;
 	if (!(*stack))
@@ -65,12 +65,12 @@ void	init_stack_a(t_stack **a, char **argv)
 	i = 0;
 	while (argv[i])
 	{
-		if (error_syntax(argv[i]))
+		if (syntax_err(argv[i]))
 			free_errors(a);
 		n = ft_atol(argv[i]);
 		if (n > INT_MAX || n < INT_MIN)
 			free_errors(a);
-		if (error_duplciate(*a, (int)n))
+		if (duplicate_err(*a, (int)n))
 			free_errors(a);
 		append_node(a, (int)n);
 		i++;

@@ -17,7 +17,7 @@ static void	rev_rotate(t_stack **stack)
 	t_stack	*last;
 
 	if (!*stack || !(*stack)->next)
-		return (NULL);
+		return ;
 	last = find_last(*stack);
 	last->prev->next = NULL;
 	last->next = *stack;

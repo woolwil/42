@@ -19,7 +19,7 @@ void	current_index(t_stack *stack)
 
 	i = 0;
 	if (!stack)
-		return (NULL);
+		return ;
 	median = stack_len(stack) / 2;
 	while (stack)
 	{
@@ -86,7 +86,7 @@ void	set_cheapest(t_stack *stack)
 	t_stack			*cheapest_node;
 
 	if (!stack)
-		return (NULL);
+		return ;
 	cheapest_value = LONG_MAX;
 	while (stack)
 	{

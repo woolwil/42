@@ -12,16 +12,34 @@
 
 #include "../../push_swap.h"
 
+static void	rotate_both(t_stack **a, t_stack **b, t_stack *cheapest)
+{
+	while (*b != cheapest->target_node
+		&& *a != cheapest)
+		rr(a, b, false);
+	current_index(*a);
+	current_index(*b);
+}
+
+static void	rev_rotate_both(t_stack **a, t_stack **b, t_stack *cheapest)
+{
+	while (*b != cheapest->target_node
+		&& *a != cheapest)
+		rrr(a, b, false);
+	current_index(*a);
+	current_index(*b);
+}
+
 static void	move_a2b(t_stack **a, t_stack **b)
 {
 	t_stack	*cheapest;
 
 	cheapest = get_cheapest(*a);
 	if (cheapest->above_median && cheapest->target_node->above_median)
-		rr(a, b, cheapest);
+		rotate_both(a, b, cheapest);
 	else if (!(cheapest->above_median)
 		&& !(cheapest->target_node->above_median))
-		rotate_both(a, b, cheapest);
+		rev_rotate_both(a, b, cheapest);
 	prep_for_push(a, cheapest, 'a');
 	prep_for_push(b, cheapest->target_node, 'b');
 	pb(b, a, false);
@@ -35,7 +53,7 @@ static void	move_b2a(t_stack **a, t_stack **b)
 
 static void	min_on_top(t_stack **a)
 {
-	while ((**a)->nbr != find_min(*a)->nbr)
+	while ((*a)->nbr != find_min(*a)->nbr)
 	{
 		if (find_min(*a)->above_median)
 			ra(a, false);
