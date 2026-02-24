@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 16:23:29 by ngvo              #+#    #+#             */
-/*   Updated: 2026/02/16 00:37:53 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/02/24 21:30:00 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	main(int argc, char **argv)
 {
-	t_stack_node	*a;
-	t_stack_node	*b;
+	t_stack	*a;
+	t_stack	*b;
 
 	a = NULL;
 	b = NULL;

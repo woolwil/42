@@ -12,7 +12,7 @@
 
 #include "../push_swap.h"
 
-void	current_index(t_stack_node *stack)
+void	current_index(t_stack *stack)
 {
 	int	i;
 	int	median;
@@ -33,11 +33,11 @@ void	current_index(t_stack_node *stack)
 	}
 }
 
-static void	set_target_a(t_stack_node *a, t_stack_node *b)
+static void	set_target_a(t_stack *a, t_stack *b)
 {
-	t_stack_node	*current_b;
-	t_stack_node	*target_node;
-	long			best_match_idx;
+	t_stack	*current_b;
+	t_stack	*target_node;
+	long	best_match_idx;
 
 	while (a)
 	{
@@ -45,12 +45,12 @@ static void	set_target_a(t_stack_node *a, t_stack_node *b)
 		current_b = b;
 		while (current_b)
 		{
-			if (current_b->nbr < a->nbr 
+			if (current_b->nbr < a->nbr
 				&& current_b->nbr > best_match_idx)
-				{
-					best_match_idx = current_b->nbr;
-					target_node = current_b;
-				}
+			{
+				best_match_idx = current_b->nbr;
+				target_node = current_b;
+			}
 		}
 		if (best_match_idx == LONG_MIN)
 			a->target_node = find_max(b);
@@ -60,7 +60,7 @@ static void	set_target_a(t_stack_node *a, t_stack_node *b)
 	}
 }
 
-static void	cost_analysis_a(t_stack_node *a, t_stack_node *b)
+static void	cost_analysis_a(t_stack *a, t_stack *b)
 {
 	int	len_a;
 	int	len_b;
@@ -69,10 +69,10 @@ static void	cost_analysis_a(t_stack_node *a, t_stack_node *b)
 	len_b = stack_len(b);
 	while (a)
 	{
-		a->push_cost = a->index;
+		a->push_cost = a->idx;
 		if (!(a->above_median))
 			a->push_cost = len_a - (a->idx);
-		if (a->target_node->above_median) 
+		if (a->target_node->above_median)
 			(a->push_cost += a->target_node->idx);
 		else
 			a->push_cost += len_b - (a->target_node->idx);
@@ -80,10 +80,10 @@ static void	cost_analysis_a(t_stack_node *a, t_stack_node *b)
 	}
 }
 
-void	set_cheapest(t_stack_node *stack)
+void	set_cheapest(t_stack *stack)
 {
 	long			cheapest_value;
-	t_stack_node	*cheapest_node;
+	t_stack			*cheapest_node;
 
 	if (!stack)
 		return (NULL);
@@ -100,7 +100,7 @@ void	set_cheapest(t_stack_node *stack)
 	cheapest_node->cheapest = true;
 }
 
-void	init_nodes_a(t_stack_node *a, t_stack_node *b)
+void	init_nodes_a(t_stack *a, t_stack *b)
 {
 	current_index(a);
 	current_index(b);

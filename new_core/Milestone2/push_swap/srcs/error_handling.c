@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 19:05:12 by ngvo              #+#    #+#             */
-/*   Updated: 2026/02/21 19:12:16 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/02/24 21:28:09 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	syntax_err(char *s_n)
 	return (0);
 }
 
-int	duplicate_err(t_stack_node *a, int n)
+int	duplicate_err(t_stack *a, int n)
 {
 	if (!a)
 		return (0);
@@ -39,10 +39,10 @@ int	duplicate_err(t_stack_node *a, int n)
 	return (0);
 }
 
-void	free_stack(t_stack_node **stack)
+void	free_stack(t_stack **stack)
 {
-	t_stack_node	*tmp;
-	t_stack_node	*current;
+	t_stack	*tmp;
+	t_stack	*current;
 
 	if (!stack)
 		return (NULL);
@@ -57,7 +57,7 @@ void	free_stack(t_stack_node **stack)
 	*stack = NULL;
 }
 
-void	free_errors(t_stack_node **a)
+void	free_errors(t_stack **a)
 {
 	free_stack(a);
 	ft_printf("Error\n");

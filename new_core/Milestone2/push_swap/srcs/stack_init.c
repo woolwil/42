@@ -32,14 +32,14 @@ static long	ft_atol(const char *s)
 	return (result * sign);
 }
 
-static void	append_node(t_stack_node **stack, int n)
+static void	append_node(t_stack **stack, int n)
 {
-	t_stack_node	*node;
-	t_stack_node	*last_node;
+	t_stack	*node;
+	t_stack	*last_node;
 
 	if (!stack)
 		return (NULL);
-	node = malloc(sizeof(t_stack_node));
+	node = malloc(sizeof(t_stack));
 	if (!node)
 		return (NULL);
 	node->next = NULL;
@@ -57,7 +57,7 @@ static void	append_node(t_stack_node **stack, int n)
 	}
 }
 
-void	init_stack_a(t_stack_node **a, char **argv)
+void	init_stack_a(t_stack **a, char **argv)
 {
 	long	n;
 	int		i;
@@ -77,7 +77,7 @@ void	init_stack_a(t_stack_node **a, char **argv)
 	}
 }
 
-t_stack_node	*get_cheapest(t_stack_node *stack)
+t_stack	*get_cheapest(t_stack *stack)
 {
 	if (!stack)
 		return (NULL);
@@ -90,9 +90,7 @@ t_stack_node	*get_cheapest(t_stack_node *stack)
 	return (NULL);
 }
 
-void	prep_for_push(t_stack_node **stack, 
-						t_stack_node *top_node, 
-						char stack_name)
+void	prep_for_push(t_stack **stack, t_stack *top_node, char stack_name)
 {
 	while (*stack != top_node)
 	{

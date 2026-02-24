@@ -12,7 +12,7 @@
 
 #include "../../push_swap.h"
 
-static void	swap(t_stack_node **head)
+static void	swap(t_stack **head)
 {
 	if (!*head || !(!*head)->next)
 		return (NULL);
@@ -25,21 +25,21 @@ static void	swap(t_stack_node **head)
 	(*head)->prev = NULL;
 }
 
-void	sa(t_stack_node **a, bool print)
+void	sa(t_stack **a, bool print)
 {
 	swap (a);
 	if (!print)
 		ft_printf("sa\n");
 }
 
-void	sb(t_stack_node **b, bool print)
+void	sb(t_stack **b, bool print)
 {
 	swap (b);
 	if (!print)
 		ft_printf("sb\n");
 }
 
-void	ss(t_stack_node **a, t_stack_node **b, bool print)
+void	ss(t_stack **a, t_stack **b, bool print)
 {
 	swap(a);
 	swap(b);

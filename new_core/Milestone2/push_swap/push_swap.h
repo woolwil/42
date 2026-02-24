@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 15:36:22 by ngvo              #+#    #+#             */
-/*   Updated: 2026/02/16 02:02:00 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/02/24 21:32:07 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,50 @@ typedef struct s_stack_node
 	int					push_cost;
 	bool				above_median;
 	bool				cheapest;
-	struct s_stack_node *target_node;
-	struct s_stack_node *next;
-	struct s_stack_node *prev;
-}	t_stack_node;
+	struct s_stack_node	*target_node;
+	struct s_stack_node	*next;
+	struct s_stack_node	*prev;
+}	t_stack;
 
 // Error Handling
+int		syntax_err(char *s_n);
+int		duplicate_err(t_stack *a, int n);
+void	free_stack(t_stack **stack);
+void	free_errors(t_stack **a);
 
 // Stack Init
-void	init_stack_a(t_stack_node **a, char **argv);
+void	init_stack_a(t_stack **a, char **argv);
 
 // Nodes Init
+void	init_nodes_a(t_stack *a, t_stack *b);
+void	init_nodes_b(t_stack *a, t_stack *b);
+void	current_index(t_stack *stack);
+void	set_cheapest(t_stack *stack);
+t_stack	*get_cheapest(t_stack *stack);
+void	prep_for_push(t_stack **stack, t_stack *top_node, char stack_name);
 
 // Stack Utils
-bool	stack_sorted(t_stack_node *stack);
-void	sort_stacks(t_stack_node **a, t_stack_node **b);
+bool	stack_sorted(t_stack *stack);
+void	sort_stacks(t_stack **a, t_stack **b);
+int		stack_len(t_stack *stack);
+t_stack	*find_min(t_stack *stack);
+t_stack	*find_max(t_stack *stack);
 
 // Cmds
+void	pa(t_stack **a, t_stack **b, bool print);
+void	pb(t_stack **b, t_stack **a, bool print);
+void	ra(t_stack **a, bool print);
+void	rb(t_stack **b, bool print);
+void	rr(t_stack **a, t_stack **b, bool print);
+void	sa(t_stack **a, bool print);
+void	sb(t_stack **b, bool print);
+void	ss(t_stack **a, t_stack **b, bool print);
+void	rra(t_stack **a, bool print);
+void	rrb(t_stack **b, bool print);
+void	rrr(t_stack **a, t_stack **b, bool print);
 
 // Algorithms
-void	sort_three(t_stack_node **a);
+void	sort_three(t_stack **a);
+void	sort_stacks(t_stack **a, t_stack **b);
 
 #endif

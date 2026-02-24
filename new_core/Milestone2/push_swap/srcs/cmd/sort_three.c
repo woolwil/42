@@ -12,9 +12,9 @@
 
 #include "../../push_swap.h"
 
-void	sort_three(t_stack_node **a)
+void	sort_three(t_stack **a)
 {
-	t_stack_node	*biggest_node;
+	t_stack	*biggest_node;
 
 	biggest_node = find_max(*a);
 	if (biggest_node == *a)
