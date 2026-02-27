@@ -29,7 +29,7 @@ void	current_index(t_stack *stack)
 		else
 			stack->above_median = false;
 		stack = stack->next;
-		i++;
+		++i;
 	}
 }
 
