@@ -33,25 +33,26 @@ typedef struct s_stack_node
 bool	is_syntax_error(char *str);
 void	free_stack(t_stack **stack);
 void	error_free(t_stack **stack, char **argv, int is_split);
+void	free_split(char **args);
 
 // Stack Init
 void	init_stack_a(t_stack **a, char **argv, int is_split);
 
 // Nodes Init
-void	init_node_a(t_stack *a, t_stack *b);
-void	init_node_b(t_stack *a, t_stack *b);
-void	current_index(t_stack *stack);
-void	set_cheapest(t_stack *stack);
-t_stack	*get_cheapest(t_stack *stack);
-void	prep_4_push(t_stack **stack, t_stack *top_node, char stack_name);
+// void	init_node_a(t_stack *a, t_stack *b);
+// void	init_node_b(t_stack *a, t_stack *b);
+// void	current_index(t_stack *stack);
+// void	set_cheapest(t_stack *stack);
+// t_stack	*get_cheapest(t_stack *stack);
+// void	prep_4_push(t_stack **stack, t_stack *top_node, char stack_name);
 
 // Stack Utils
-bool	stack_sorted(t_stack *stack);
-void	sort_stacks(t_stack **a, t_stack **b);
-int		stack_len(t_stack *stack);
+// bool	stack_sorted(t_stack *stack);
+// void	sort_stacks(t_stack **a, t_stack **b);
+// int		stack_len(t_stack *stack);
 t_stack	*find_last(t_stack*stack);
-t_stack	*find_min(t_stack *stack);
-t_stack	*find_max(t_stack *stack);
+// t_stack	*find_min(t_stack *stack);
+// t_stack	*find_max(t_stack *stack);
 bool	is_duplicate(t_stack *a, int n);
 
 
@@ -69,7 +70,7 @@ void	rrb(t_stack **b, bool print);
 void	rrr(t_stack **a, t_stack **b, bool print);
 
 // Algorithms
-void	sort_3(t_stack **a);
-void	sort_stacks(t_stack **a, t_stack **b);
+//void	sort_3(t_stack **a);
+//void	sort_stacks(t_stack **a, t_stack **b);
 
 #endif
