@@ -16,6 +16,7 @@ void	init_stack_a(t_stack **a, char **argv, int is_split)
 {
 	int		i;
 	long	nbr;
+	int		app_bool;
 
 	i = 1;
 	if (is_split)
@@ -31,7 +32,9 @@ void	init_stack_a(t_stack **a, char **argv, int is_split)
 			error_free(a, argv, is_split);
 		if (is_duplicate(*a, (int)nbr))
 			error_free(a, argv, is_split);
-		append_node(a, (int)nbr);
+		app_bool = append_node(a, (int)nbr);
+		if (!app_bool)
+			error_free(a, argv, is_split);
 		i++;
 	}
 }
@@ -69,16 +72,16 @@ bool	is_duplicate(t_stack *stack, int n)
 	return (0);
 }
 
-static void	append_node(t_stack **stack, int n)
+static bool	append_node(t_stack **stack, int n)
 {
 	t_stack	*node;
 	t_stack *last_node;
 
 	if (!stack)
-		return ;	
+		return (false);	
 	node = malloc(sizeof (t_stack));
 	if (!node)
-		error_free(stack);
+		return (false);
 	node->nbr = n;
 	node->next = NULL;
 	if (!*stack) 
@@ -92,4 +95,5 @@ static void	append_node(t_stack **stack, int n)
 		last_node->next = node;
 		node->prev = last_node;
 	}
+	return (true);
 }
