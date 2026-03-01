@@ -32,3 +32,13 @@ void	cost_analysis(t_stack *a, t_stack *b)
 		a = a->next;
 	}
 }
+
+void	set_cheapest(t_stack *stack)
+{
+	long	cheapest_value;
+	t_stack	*cheapest_node;
+
+	if (!stack)
+		return ;
+	cheapest_value = LONG_MAX;
+}

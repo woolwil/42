@@ -42,7 +42,7 @@ void	init_stack_a(t_stack **a, char **argv, int is_split);
 // void	init_node_a(t_stack *a, t_stack *b);
 // void	init_node_b(t_stack *a, t_stack *b);
 void	current_index(t_stack *stack);
-// void	set_cheapest(t_stack *stack);
+void	set_cheapest(t_stack *stack);
 // t_stack	*get_cheapest(t_stack *stack);
 // void	prep_4_push(t_stack **stack, t_stack *top_node, char stack_name);
 void	cost_analysis(t_stack *a, t_stack *b);
