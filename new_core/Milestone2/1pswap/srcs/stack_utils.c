@@ -12,7 +12,7 @@
 
 #include "../push_swap.h"
 
-int		stack_len(t_stack *stack)
+int	stack_len(t_stack *stack)
 {
 	int	count;
 
@@ -77,7 +77,7 @@ t_stack	*find_min(t_stack *stack)
 	return (min_node);
 }
 
-t_stack *find_max(t_stack *stack)
+t_stack	*find_max(t_stack *stack)
 {
 	long	max;
 	t_stack	*max_node;
@@ -97,4 +97,4 @@ t_stack *find_max(t_stack *stack)
 	return (max_node);
 }
 
-stack_sorted;
+// stack_sorted;

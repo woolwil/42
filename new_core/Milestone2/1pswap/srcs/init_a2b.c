@@ -31,8 +31,8 @@ void	prep_for_push(t_stack **stack, t_stack *top_node, char stack_name)
 				rrb(stack, false);
 		}
 	}
-
 }
+
 void	cost_analysis(t_stack *a, t_stack *b)
 {
 	int	len_a;
@@ -49,7 +49,7 @@ void	cost_analysis(t_stack *a, t_stack *b)
 		if (a->target_node->above_median)
 			a->push_cost += a->target_node->index;
 		else
-			a->push_cost += len_b = (a->target_node->index);
+			a->push_cost += len_b - (a->target_node->index);
 		a = a->next;
 	}
 }

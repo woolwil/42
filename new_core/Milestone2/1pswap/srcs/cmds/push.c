@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:59:24 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/01 15:59:24 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/10 18:06:49 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,13 @@ static void	push(t_stack **dest, t_stack **src)
 	*src = (*src)->next;
 	if (*src)
 		(*src)->prev = NULL;
-	
 	if (!*dest)
 		node_to_push->next = NULL;
 	else
-    {
-        node_to_push->next = *dest;
-        (*dest)->prev = node_to_push;
-    }
+	{
+		node_to_push->next = *dest;
+		(*dest)->prev = node_to_push;
+	}
 	*dest = node_to_push;
 	(*dest)->prev = NULL;
 }

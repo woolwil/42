@@ -75,16 +75,16 @@ bool	is_duplicate(t_stack *stack, int n)
 static bool	append_node(t_stack **stack, int n)
 {
 	t_stack	*node;
-	t_stack *last_node;
+	t_stack	*last_node;
 
 	if (!stack)
-		return (false);	
+		return (false);
 	node = malloc(sizeof (t_stack));
 	if (!node)
 		return (false);
 	node->nbr = n;
 	node->next = NULL;
-	if (!*stack) 
+	if (!*stack)
 	{
 		*stack = node;
 		node->prev = NULL;

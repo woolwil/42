@@ -26,10 +26,11 @@ void	free_split(char **args)
 	}
 	free(args);
 }
+
 void	free_stack(t_stack **stack)
 {
-	t_stack *current;
-	t_stack *tmp;
+	t_stack	*current;
+	t_stack	*tmp;
 
 	if (!stack || (!*stack))
 		return ;
@@ -52,7 +53,7 @@ void	error_free(t_stack **stack, char **argv, int is_split)
 	exit(1);
 }
 
-bool is_syntax_error(char *str)
+bool	is_syntax_error(char *str)
 {
 	int	i;
 
