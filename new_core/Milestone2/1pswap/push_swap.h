@@ -62,16 +62,16 @@ void	pa(t_stack **a, t_stack **b, bool print);
 void	pb(t_stack **b, t_stack **a, bool print);
 void	ra(t_stack **a, bool print);
 void	rb(t_stack **b, bool print);
-// void	rr(t_stack **a, t_stack **b, bool print);
+void	rr(t_stack **a, t_stack **b, bool print);
 void	sa(t_stack **a, bool print);
 void	sb(t_stack **b, bool print);
 void	ss(t_stack **a, t_stack **b, bool print);
-// void	rra(t_stack **a, bool print);
-// void	rrb(t_stack **b, bool print);
-// void	rrr(t_stack **a, t_stack **b, bool print);
+void	rra(t_stack **a, bool print);
+void	rrb(t_stack **b, bool print);
+void	rrr(t_stack **a, t_stack **b, bool print);
 
 // Algorithms
-//void	sort_3(t_stack **a);
+//void	sort_three(t_stack **a);
 //void	sort_stacks(t_stack **a, t_stack **b);
 
 #endif

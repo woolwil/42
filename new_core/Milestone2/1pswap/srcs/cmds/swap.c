@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 15:17:19 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/10 18:09:29 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/10 20:25:41 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	swap(t_stack **head)
 
 	if (!*head || !(*head)->next)
 		return ;
+	first = *head;
+	second = first->next;
 	first->next = second->next; //1st now points to 3rd
 	first->prev = second; //1st now points to 2nd
 	second->next = first;
@@ -28,17 +30,24 @@ static void	swap(t_stack **head)
 	*head = second;
 }
 
-void	sa(t_stack *a, bool print)
+void	sa(t_stack **a, bool print)
 {
-
+	swap(a);
+	if (print)
+		write (1, "sa\n", 3);
 }
 
-void	sb(t_stack *b, bool print)
+void	sb(t_stack **b, bool print)
 {
-
+	swap(b);
+	if (print)
+		write (1, "sb\n", 3);
 }
 
-void	ss(t_stack *a, t_stack *b, bool print)
+void	ss(t_stack **a, t_stack **b, bool print)
 {
-	
+	swap(a);
+	swap(b);
+	if (print)
+		write (1, "ss\n", 3);
 }
