@@ -46,6 +46,8 @@ void	set_cheapest(t_stack *stack);
 // t_stack	*get_cheapest(t_stack *stack);
 void	prep_for_push(t_stack **stack, t_stack *top_node, char stack_name);
 void	cost_analysis(t_stack *a, t_stack *b);
+void	set_target_a(t_stack *a, t_stack *b)
+void	set_target_b(t_stack *a, t_stack *b)
 
 // Stack Utils
 // bool	stack_sorted(t_stack *stack);
@@ -71,7 +73,6 @@ void	rrb(t_stack **b, bool print);
 void	rrr(t_stack **a, t_stack **b, bool print);
 
 // Algorithms
-//void	sort_three(t_stack **a);
-//void	sort_stacks(t_stack **a, t_stack **b);
+void	sort_three(t_stack **a);
 
 #endif

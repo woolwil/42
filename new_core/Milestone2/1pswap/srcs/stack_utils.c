@@ -96,5 +96,7 @@ t_stack	*find_max(t_stack *stack)
 	}
 	return (max_node);
 }
+void	sort_stacks(t_stack **a, t_stack **b)
+{
 
-// stack_sorted;
+}

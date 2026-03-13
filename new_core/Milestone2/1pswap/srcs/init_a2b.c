@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:53:07 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/01 15:53:07 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/12 18:27:16 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ void	prep_for_push(t_stack **stack, t_stack *top_node, char stack_name)
 		if (stack_name == 'a')
 		{
 			if (top_node->above_median)
-				ra(stack, false);
+				ra(stack, true);
 			else
-				rra(stack, false);
+				rra(stack, true);
 		}
 		else if (stack_name == 'b')
 		{
 			if (top_node->above_median)
-				rb(stack, false);
+				rb(stack, true);
 			else
-				rrb(stack, false);
+				rrb(stack, true);
 		}
 	}
 }
@@ -72,7 +72,36 @@ void	set_cheapest(t_stack *stack)
 		}
 		stack = stack->next;
 	}
-	cheapest_node->cheapest = true;
+	if (cheapest_node)
+		cheapest_node->cheapest = true;
+}
+
+void	set_target_a(t_stack *a, t_stack *b)
+{
+	t_stack	*current_b;
+	t_stack *target_node;
+	long	best_match_nbr;
+
+	while (a)
+	{
+		best_match_nbr = LONG_MIN;
+		current_b = b;
+		while (current_b)
+		{
+			if (current_b->nbr < a->nbr && current_b->nbr > best_match_nbr)
+			{
+				best_match_nbr = current_b->nbr;
+				target_node = current_b;
+			}
+			current_b = current_b->next;
+		}
+		/// if no smaller node, pick B's max
+		if (best_match_nbr == LONG_MIN)
+			a->target_node = find_max(b);
+		else
+			a->target_node = target_node;
+		a = a->next;
+	}
 }
 
 void	init_nodes_a(t_stack *a, t_stack *b)
