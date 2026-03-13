@@ -32,10 +32,12 @@ void	cost_analysis(t_stack *a, t_stack *b)
 		a = a->next;
 	}
 }
+
 void	sort_stacks(t_stack **a, t_stack **b)
 {
 	int		len_a;
 	t_stack	*min_node;
+
 	//init push 2 b
 	len_a = stack_len(*a);
 	if (len_a-- > 3 && !stack_sorted(*a))
@@ -57,4 +59,17 @@ void	sort_stacks(t_stack **a, t_stack **b)
 	current_index(*a);
 	min_node = find_min(*a);
 	prep_for_push(a, min_node, 'a');
+}
+bool	stack_sorted(t_stack *stack)
+{
+	if (!stack)
+		return (true);
+	while (stack->next)
+	{
+		// If the current number is bigger than the next one, it's not sorted
+		if (stack->nbr > stack->next->nbr)
+			return (false);
+		stack = stack->next;
+	}
+	return (true);
 }

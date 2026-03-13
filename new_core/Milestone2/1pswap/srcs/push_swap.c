@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 	a = NULL;
 	b = NULL;
 	if (argc < 2 || (argc == 2 && !argv[1][0]))
-		return (1);
+		return (0);
 	if (argc == 2)
 		args = ft_split(argv[1], ' ');
 	else
@@ -29,9 +29,9 @@ int	main(int argc, char **argv)
 	init_stack_a(&a, args, (argc == 2));
 	if (!stack_sorted(a))
 		if (stack_len(a) == 2)
-			sa(&a, false);
+			sa(&a, true);
 	else if (stack_len(a) == 3)
-		sort_3(&a);
+		sort_three(&a);
 	else
 		sort_stacks(&a, &b);
 	free_stack(&a);

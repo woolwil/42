@@ -18,7 +18,7 @@ void	init_stack_a(t_stack **a, char **argv, int is_split)
 	long	nbr;
 	int		app_bool;
 
-	i = 1;
+	i = 0;
 	if (is_split)
 		i = 0;
 	if (!*argv)
@@ -43,9 +43,11 @@ static long	ft_atol(const char *s)
 {
 	long	result;
 	int		sign;
+	int		digit_count;
 
 	result = 0;
 	sign = 1;
+	digit_count = 0;
 	while (*s == ' ' || (*s >= 9 && *s <= 13))
 		s++;
 	if (*s == '-' || *s == '+')
@@ -55,21 +57,25 @@ static long	ft_atol(const char *s)
 		s ++;
 	}
 	while (ft_isdigit(*s))
+	{
 		result = result * 10 + (*s++ - '0');
+		if (++digit_count > 18)
+			break ;
+	}
 	return (result * sign);
 }
 
 bool	is_duplicate(t_stack *stack, int n)
 {
 	if (!stack)
-		return (0);
+		return (false);
 	while (stack)
 	{
 		if (stack->nbr == n)
-			return (1);
+			return (true);
 		stack = stack->next;
 	}
-	return (0);
+	return (false);
 }
 
 static bool	append_node(t_stack **stack, int n)
