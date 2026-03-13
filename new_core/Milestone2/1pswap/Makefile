@@ -6,7 +6,7 @@
 #    By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/13 16:11:37 by ngvo              #+#    #+#              #
-#    Updated: 2026/03/13 16:13:23 by ngvo             ###   ########.fr        #
+#    Updated: 2026/03/13 16:14:15 by ngvo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,14 +23,13 @@ LIBFT_DIR   = libft
 LIBFT_A     = $(LIBFT_DIR)/libft.a
 
 # Explicit Source Files
-# Commands subfolder
+# (Split into two variables just to stay organized)
 CMDS_SRCS   = $(SRCS_DIR)/cmds/move.c \
               $(SRCS_DIR)/cmds/push.c \
               $(SRCS_DIR)/cmds/rev_rot.c \
               $(SRCS_DIR)/cmds/rotate.c \
               $(SRCS_DIR)/cmds/swap.c
 
-# Main logic files
 MAIN_SRCS   = $(SRCS_DIR)/error_handling.c \
               $(SRCS_DIR)/init_a2b.c \
               $(SRCS_DIR)/push_swap.c \
@@ -42,24 +41,26 @@ MAIN_SRCS   = $(SRCS_DIR)/error_handling.c \
 
 SRCS        = $(CMDS_SRCS) $(MAIN_SRCS)
 
-# The Substitution Reference
-# This converts srcs/cmds/push.c -> objs/cmds/push.o 
-# and srcs/main.c -> objs/main.o
+# The Substitution Reference:
+# Pattern is $(VARIABLE:OLD=NEW)
+# We are saying: Look at SRCS, find the pattern 'srcs/%.c' 
+# and replace it with 'objs/%.o'
 OBJS        = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 .PHONY: all clean fclean re libft
 
 all: libft $(NAME)
 
+# Build libft by calling its own Makefile
 libft:
 	@$(MAKE) -C $(LIBFT_DIR)
 
+# Link everything together
 $(NAME): $(OBJS) $(LIBFT_A)
 	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -o $(NAME)
 
-# Rule for all .o files
-# @mkdir -p $(dir $@) is critical here because it creates 
-# the 'objs/' folder AND the 'objs/cmds/' subfolder automatically.
+# Compile .c to .o
+# mkdir -p $(dir $@) ensures objs/cmds/ exists before push.o is created
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
