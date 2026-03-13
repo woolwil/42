@@ -12,33 +12,6 @@
 
 #include "../push_swap.h"
 
-void	init_stack_a(t_stack **a, char **argv, int is_split)
-{
-	int		i;
-	long	nbr;
-	int		app_bool;
-
-	i = 0;
-	if (is_split)
-		i = 0;
-	if (!*argv)
-		return ;
-	while (argv[i])
-	{
-		if (is_syntax_error(argv[i]))
-			error_free(a, argv, is_split);
-		nbr = ft_atol(argv[i]);
-		if (nbr < INT_MIN || nbr > INT_MAX)
-			error_free(a, argv, is_split);
-		if (is_duplicate(*a, (int)nbr))
-			error_free(a, argv, is_split);
-		app_bool = append_node(a, (int)nbr);
-		if (!app_bool)
-			error_free(a, argv, is_split);
-		i++;
-	}
-}
-
 static long	ft_atol(const char *s)
 {
 	long	result;
@@ -102,4 +75,31 @@ static bool	append_node(t_stack **stack, int n)
 		node->prev = last_node;
 	}
 	return (true);
+}
+
+void	init_stack_a(t_stack **a, char **argv, int is_split)
+{
+	int		i;
+	long	nbr;
+	int		app_bool;
+
+	i = 0;
+	if (is_split)
+		i = 0;
+	if (!*argv)
+		return ;
+	while (argv[i])
+	{
+		if (is_syntax_error(argv[i]))
+			error_free(a, argv, is_split);
+		nbr = ft_atol(argv[i]);
+		if (nbr < INT_MIN || nbr > INT_MAX)
+			error_free(a, argv, is_split);
+		if (is_duplicate(*a, (int)nbr))
+			error_free(a, argv, is_split);
+		app_bool = append_node(a, (int)nbr);
+		if (!app_bool)
+			error_free(a, argv, is_split);
+		i++;
+	}
 }

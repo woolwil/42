@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 20:31:12 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/12 16:51:56 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/13 16:27:27 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ void	sort_three(t_stack **a)
 	else if ((*a)->next == max_node)
 		rra(a, true);
 	//Max bot, check if top mid are right
-	if ((*a)->value > (*a)->next->value)
+	if ((*a)->nbr > (*a)->next->nbr)
 		sa(a, true);
 }

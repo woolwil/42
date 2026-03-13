@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:53:07 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/12 18:27:16 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/13 16:28:51 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,11 @@ void	set_cheapest(t_stack *stack)
 	if (!stack)
 		return ;
 	cheapest_value = LONG_MAX;
+	cheapest_node = NULL;
 	while (stack)
 	{
 		stack->cheapest = false;
-		if (stack->push_cost < cheapest_node)
+		if (stack->push_cost < cheapest_value)
 		{
 			cheapest_value = stack->push_cost;
 			cheapest_node = stack;
