@@ -12,6 +12,19 @@
 
 #include "../push_swap.h"
 
+static void	sort_if_needed(t_stack **a, t_stack **b)
+{
+	if (!stack_sorted(*a))
+	{
+		if (stack_len(*a) == 2)
+			sa(a, true);
+		else if (stack_len(*a) == 3)
+			sort_three(a);
+		else
+			sort_stacks(a, b);
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_stack	*a;
@@ -27,15 +40,7 @@ int	main(int argc, char **argv)
 	else
 		args = argv + 1;
 	init_stack_a(&a, args, (argc == 2));
-	if (!stack_sorted(a))
-	{
-		if (stack_len(a) == 2)
-			sa(&a, true);
-		else if (stack_len(a) == 3)
-			sort_three(&a);
-		else
-			sort_stacks(&a, &b);
-	}
+	sort_if_needed(&a, &b);
 	free_stack(&a);
 	if (argc == 2)
 		free_split(args);

@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 16:37:01 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/14 16:41:56 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/14 19:17:15 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,36 +22,31 @@ static void	free_error(t_stack **a, t_stack **b, char **args, int is_split)
 	exit(1);
 }
 
-static void	apply_instruction(char *line, t_stack **a, t_stack **b,
-		char **args, int is_split)
+static int	apply_instruction(char *line, t_stack **a, t_stack **b)
 {
 	if (!ft_strncmp(line, "sa\n", 4))
-		sa(a, false);
+		return (sa(a, false), 1);
 	else if (!ft_strncmp(line, "sb\n", 4))
-		sb(b, false);
+		return (sb(b, false), 1);
 	else if (!ft_strncmp(line, "ss\n", 4))
-		ss(a, b, false);
+		return (ss(a, b, false), 1);
 	else if (!ft_strncmp(line, "pa\n", 4))
-		pa(a, b, false);
+		return (pa(a, b, false), 1);
 	else if (!ft_strncmp(line, "pb\n", 4))
-		pb(b, a, false);
+		return (pb(b, a, false), 1);
 	else if (!ft_strncmp(line, "ra\n", 4))
-		ra(a, false);
+		return (ra(a, false), 1);
 	else if (!ft_strncmp(line, "rb\n", 4))
-		rb(b, false);
+		return (rb(b, false), 1);
 	else if (!ft_strncmp(line, "rr\n", 4))
-		rr(a, b, false);
+		return (rr(a, b, false), 1);
 	else if (!ft_strncmp(line, "rra\n", 5))
-		rra(a, false);
+		return (rra(a, false), 1);
 	else if (!ft_strncmp(line, "rrb\n", 5))
-		rrb(b, false);
+		return (rrb(b, false), 1);
 	else if (!ft_strncmp(line, "rrr\n", 5))
-		rrr(a, b, false);
-	else
-	{
-		free(line);
-		free_error(a, b, args, is_split);
-	}
+		return (rrr(a, b, false), 1);
+	return (0);
 }
 
 static char	*get_next_line_lite(int fd)
@@ -62,6 +57,7 @@ static char	*get_next_line_lite(int fd)
 	int		rd;
 
 	i = 0;
+	rd = 0;
 	buf = malloc(5);
 	if (!buf)
 		return (NULL);
@@ -75,24 +71,36 @@ static char	*get_next_line_lite(int fd)
 			break ;
 	}
 	if (rd <= 0 && i == 0)
-	{
-		free(buf);
-		return (NULL);
-	}
+		return (free(buf), NULL);
 	if (i == 4 && buf[3] != '\n')
-	{
-		free(buf);
-		return (ft_strdup("INVALID"));
-	}
+		return (free(buf), ft_strdup("INVALID"));
 	buf[i] = '\0';
 	return (buf);
+}
+
+static void	read_instructions(t_stack **a, t_stack **b,
+		char **args, int is_split)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = get_next_line_lite(0);
+		if (!line)
+			break ;
+		if (!ft_strncmp(line, "INVALID", 8) || !apply_instruction(line, a, b))
+		{
+			free(line);
+			free_error(a, b, args, is_split);
+		}
+		free(line);
+	}
 }
 
 int	main(int argc, char **argv)
 {
 	t_stack	*a;
 	t_stack	*b;
-	char	*line;
 	char	**args;
 
 	a = NULL;
@@ -106,19 +114,7 @@ int	main(int argc, char **argv)
 	init_stack_a(&a, args, (argc == 2));
 	if (argc == 2 && !args)
 		free_error(&a, &b, args, (argc == 2));
-	while (1)
-	{
-		line = get_next_line_lite(0);
-		if (!line)
-			break ;
-		if (!ft_strncmp(line, "INVALID", 8))
-		{
-			free(line);
-			free_error(&a, &b, args, (argc == 2));
-		}
-		apply_instruction(line, &a, &b, args, (argc == 2));
-		free(line);
-	}
+	read_instructions(&a, &b, args, (argc == 2));
 	if (stack_sorted(a) && !b)
 		write(1, "OK\n", 3);
 	else
