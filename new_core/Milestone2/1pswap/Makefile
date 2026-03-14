@@ -6,7 +6,7 @@
 #    By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/13 16:11:37 by ngvo              #+#    #+#              #
-#    Updated: 2026/03/13 17:10:38 by ngvo             ###   ########.fr        #
+#    Updated: 2026/03/14 15:18:06 by ngvo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ MAIN_SRCS   = $(SRCS_DIR)/error_handling.c \
               $(SRCS_DIR)/sort_three.c \
               $(SRCS_DIR)/stack_init.c \
               $(SRCS_DIR)/stack_utils.c \
+              $(SRCS_DIR)/stack_utils2.c \
               $(SRCS_DIR)/turk_alg.c
 
 SRCS        = $(CMDS_SRCS) $(MAIN_SRCS)
