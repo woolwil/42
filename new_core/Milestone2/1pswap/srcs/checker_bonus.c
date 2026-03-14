@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/14 16:32:41 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/14 16:32:43 by ngvo             ###   ########.fr       */
+/*   Created: 2026/03/14 16:37:01 by ngvo              #+#    #+#             */
+/*   Updated: 2026/03/14 16:37:02 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "push_swap.h"
 
 static void	free_error(t_stack **a, t_stack **b)
 {
@@ -22,33 +22,56 @@ static void	free_error(t_stack **a, t_stack **b)
 
 static void	apply_instruction(char *line, t_stack **a, t_stack **b)
 {
-	if (!ft_strncmp(line, "sa\n"))
+	if (!ft_strncmp(line, "sa\n", 3))
 		sa(a, false);
-	else if (!ft_strcmp(line, "sb\n"))
+	else if (!ft_strncmp(line, "sb\n", 3))
 		sb(b, false);
-	else if (!ft_strcmp(line, "ss\n"))
+	else if (!ft_strncmp(line, "ss\n", 3))
 		ss(a, b, false);
-	else if (!ft_strcmp(line, "pa\n"))
+	else if (!ft_strncmp(line, "pa\n", 3))
 		pa(a, b, false);
-	else if (!ft_strcmp(line, "pb\n"))
+	else if (!ft_strncmp(line, "pb\n", 3))
 		pb(b, a, false);
-	else if (!ft_strcmp(line, "ra\n"))
+	else if (!ft_strncmp(line, "ra\n", 3))
 		ra(a, false);
-	else if (!ft_strcmp(line, "rb\n"))
+	else if (!ft_strncmp(line, "rb\n", 3))
 		rb(b, false);
-	else if (!ft_strcmp(line, "rr\n"))
+	else if (!ft_strncmp(line, "rr\n", 3))
 		rr(a, b, false);
-	else if (!ft_strcmp(line, "rra\n"))
+	else if (!ft_strncmp(line, "rra\n", 4))
 		rra(a, false);
-	else if (!ft_strcmp(line, "rrb\n"))
+	else if (!ft_strncmp(line, "rrb\n", 4))
 		rrb(b, false);
-	else if (!ft_strcmp(line, "rrr\n"))
+	else if (!ft_strncmp(line, "rrr\n", 4))
 		rrr(a, b, false);
 	else
-	{
-		free(line);
 		free_error(a, b);
+}
+
+/* ** Simple replacement for GNL: reads from stdin into a buffer 
+** until a newline or EOF.
+*/
+static char	*get_next_line_lite(int fd)
+{
+	char	*buf;
+	char	c;
+	int		i;
+	int		rd;
+
+	i = 0;
+	buf = malloc(10); // Instructions are max 4 chars + \n + \0
+	if (!buf)
+		return (NULL);
+	while ((rd = read(fd, &c, 1)) > 0)
+	{
+		buf[i++] = c;
+		if (c == '\n')
+			break ;
 	}
+	if (rd <= 0 && i == 0)
+		return (free(buf), NULL);
+	buf[i] = '\0';
+	return (buf);
 }
 
 int	main(int argc, char **argv)
@@ -56,16 +79,20 @@ int	main(int argc, char **argv)
 	t_stack	*a;
 	t_stack	*b;
 	char	*line;
+	char	**args;
 
 	a = NULL;
 	b = NULL;
 	if (argc < 2 || (argc == 2 && !argv[1][0]))
 		return (0);
-	// Using your existing init logic from push_swap
-	stack_init(&a, argv + 1);
+	if (argc == 2)
+		args = ft_split(argv[1], ' ');
+	else
+		args = argv + 1;
+	init_stack_a(&a, args, (argc == 2));
 	while (1)
 	{
-		line = get_next_line(0);
+		line = get_next_line_lite(0);
 		if (!line)
 			break ;
 		apply_instruction(line, &a, &b);
