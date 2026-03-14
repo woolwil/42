@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:29:11 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/13 17:11:31 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/13 18:00:09 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,28 @@ t_stack	*get_cheapest(t_stack *stack)
 
 void	move_a2b(t_stack **a, t_stack **b)
 {
-	t_stack	*cheapest_node;
+	t_stack	*cheapest;
 
-	cheapest_node = get_cheapest(*a);
-	// get cheapest node to A top
-	prep_for_push(a, cheapest_node, 'a');
-	// get its target node to B top
-	prep_for_push(b, cheapest_node->target_node, 'b');
+	cheapest = get_cheapest(*a);
+	// 1. Loop rr as long as BOTH nodes are not at the top
+	if (cheapest->above_median && cheapest->target_node->above_median)
+	{
+		while (*a != cheapest && *b != cheapest->target_node)
+			rr(a, b, true); // This is your existing function!
+	}
+	// 2. Loop rrr as long as BOTH nodes are not at the top
+	else if (!(cheapest->above_median) && !(cheapest->target_node->above_median))
+	{
+		while (*a != cheapest && *b != cheapest->target_node)
+			rrr(a, b, true); // This is your existing function!
+	}
+	// 3. Refresh indices after simultaneous rotations
+	current_index(*a);
+	current_index(*b);
+	// 4. Individual rotations to finish the job
+	prep_for_push(a, cheapest, 'a');
+	prep_for_push(b, cheapest->target_node, 'b');
+	// 5. Finally push
 	pb(b, a, true);
 }
 
@@ -42,30 +57,3 @@ void	move_b2a(t_stack **a, t_stack **b)
 	prep_for_push(a, (*b)->target_node, 'a');
 	pa(a, b, true);
 }
-
-// void	set_target_b(t_stack *a, t_stack *b)
-// {
-// 	t_stack	*current_a;
-// 	t_stack	*target_node;
-// 	long	best_match_nbr;
-
-// 	while (b)
-// 	{
-// 		best_match_nbr = LONG_MAX;
-// 		current_a = a;
-// 		while (current_a)
-// 		{
-// 			if (current_a->nbr > b->nbr && current_a->nbr < best_match_nbr)
-// 			{
-// 				best_match_nbr = current_a->nbr;
-// 				target_node = current_a;
-// 			}
-// 			current_a = current_a->next;
-// 		}
-// 		if (best_match_nbr == LONG_MAX)
-// 			b->target_node = find_min(a);
-// 		else
-// 			b->target_node = target_node;
-// 		b = b->next;
-// 	}
-// }

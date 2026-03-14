@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:59:24 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/10 18:06:49 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/14 14:37:15 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	push(t_stack **dest, t_stack **src)
 	*src = (*src)->next;
 	if (*src)
 		(*src)->prev = NULL;
+	node_to_push->prev = NULL;
 	if (!*dest)
 		node_to_push->next = NULL;
 	else
@@ -36,13 +37,13 @@ static void	push(t_stack **dest, t_stack **src)
 void	pa(t_stack **a, t_stack **b, bool print)
 {
 	push(a, b);
-	if (!print)
+	if (print)
 		write(1, "pa\n", 3);
 }
 
 void	pb(t_stack **b, t_stack **a, bool print)
 {
 	push(b, a);
-	if (!print)
+	if (print)
 		write(1, "pb\n", 3);
 }
