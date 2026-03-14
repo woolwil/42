@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 15:17:22 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/14 15:38:10 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/14 19:02:04 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,10 @@ void	cost_analysis(t_stack *a, t_stack *b)
 	len_b = stack_len(b);
 	while (a)
 	{
-		// CASE 1: Both at the top - we use rr
 		if (a->above_median && a->target_node->above_median)
 			a->push_cost = max(a->index, a->target_node->index);
-		// CASE 2: Both at the bottom - we use rrr
 		else if (!(a->above_median) && !(a->target_node->above_median))
 			a->push_cost = max(len_a - a->index, len_b - a->target_node->index);
-		// CASE 3: Oppositse directions - no savings possible
 		else
 		{
 			if (a->above_median)

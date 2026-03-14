@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 19:53:46 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/10 20:16:13 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/14 19:04:03 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static void	reverse_rotate(t_stack **head)
 {
-	t_stack *last_node;
-	
+	t_stack	*last_node;
+
 	if (!*head || !(*head)->next)
 		return ;
-	last_node = find_last(*head); // Detach last node: The second-to-last node becomes the new tail
+	last_node = find_last(*head);
 	last_node->prev->next = NULL;
-	last_node->next = *head; // attach last_node to the top of the stack.
+	last_node->next = *head;
 	last_node->prev = NULL;
 	(*head)->prev = last_node;
 	*head = last_node;

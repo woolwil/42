@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:53:07 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/14 15:37:57 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/14 19:00:11 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	set_cheapest(t_stack *stack)
 void	set_target_a(t_stack *a, t_stack *b)
 {
 	t_stack	*current_b;
-	t_stack *target_node;
+	t_stack	*target_node;
 	long	best_match_nbr;
 
 	while (a)
@@ -75,7 +75,6 @@ void	set_target_a(t_stack *a, t_stack *b)
 			}
 			current_b = current_b->next;
 		}
-		/// if no smaller node, pick B's max
 		if (best_match_nbr == LONG_MIN)
 			a->target_node = find_max(b);
 		else
