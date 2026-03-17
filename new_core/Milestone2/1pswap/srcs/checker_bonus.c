@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 16:37:01 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/14 19:17:15 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/17 17:58:01 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,13 @@ int	main(int argc, char **argv)
 
 	a = NULL;
 	b = NULL;
-	if (argc < 2 || (argc == 2 && !argv[1][0]))
+	if (argc < 2)
 		return (0);
+	if (argc == 2 && !argv[1][0])
+	{
+		write(2, "Error\n", 6);
+		return (1);
+	}
 	if (argc == 2)
 		args = ft_split(argv[1], ' ');
 	else

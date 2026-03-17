@@ -33,8 +33,13 @@ int	main(int argc, char **argv)
 
 	a = NULL;
 	b = NULL;
-	if (argc < 2 || (argc == 2 && !argv[1][0]))
+	if (argc < 2)
 		return (0);
+	if (argc == 2 && !argv[1][0])
+	{
+		write(2, "Error\n", 6);
+		return (1);
+	}
 	if (argc == 2)
 		args = ft_split(argv[1], ' ');
 	else
