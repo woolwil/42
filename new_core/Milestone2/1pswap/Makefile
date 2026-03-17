@@ -6,7 +6,7 @@
 #    By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/13 16:11:37 by ngvo              #+#    #+#              #
-#    Updated: 2026/03/14 18:53:26 by ngvo             ###   ########.fr        #
+#    Updated: 2026/03/15 14:05:45 by ngvo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,6 @@ CMDS_SRCS   = $(SRCS_DIR)/cmds/move.c \
 COMMON_SRCS = $(SRCS_DIR)/error_handling.c \
               $(SRCS_DIR)/init_a2b.c \
 			  $(SRCS_DIR)/init_b2a.c \
-              $(SRCS_DIR)/sort_small.c \
               $(SRCS_DIR)/sort_three.c \
               $(SRCS_DIR)/stack_init.c \
               $(SRCS_DIR)/stack_utils.c \
