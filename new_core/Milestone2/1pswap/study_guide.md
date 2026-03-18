@@ -179,9 +179,15 @@ Step by step:
 Step by step:
 1. Allocate new node and fill value.
 2. If stack empty: set as head.
-3. Else find last node and append.
-4. Wire `prev`/`next` pointers.
+3. Else find last node (tail) and attach new node after it.
+4. Wire pointers: `last->next = new`, `new->prev = last`, `new->next = NULL`.
 5. Return success/failure.
+
+What `append` means here:
+- `append` means add at the end (tail), not at the top (head).
+- This preserves input order while creating stack A.
+- Example: input `3 1 2` becomes `3 -> 1 -> 2` in the list.
+- If nodes were inserted at the head each time, order would reverse (`2 -> 1 -> 3`), which would hurt sorting logic.
 
 ### `void init_stack_a(t_stack **a, char **argv, int is_split)`
 Step by step:
@@ -189,7 +195,7 @@ Step by step:
 2. Validate syntax (`is_syntax_error`).
 3. Convert and range-check (`INT_MIN..INT_MAX`).
 4. Check duplicate values.
-5. Append node to A.
+5. Append node to A (tail insertion keeps argv order).
 6. On any failure, call `error_free`.
 
 Evaluation focus:
@@ -241,13 +247,40 @@ Step by step:
 2. Return larger one.
 
 ### `void cost_analysis(t_stack *a, t_stack *b)`
-Step by step:
-1. Compute lengths of A and B.
-2. For each node in A, inspect its target in B.
-3. If both nodes are in upper halves: cost is max of forward rotations.
-4. If both are in lower halves: cost is max of reverse rotations.
-5. Otherwise: sum separate rotations for each stack.
-6. Store result in `a->push_cost`.
+Step by step (matches your code exactly):
+1. Compute stack lengths once:
+2. Loop through every node in A (`while (a)`).
+3. If both are in top half:
+    - Condition: `a->above_median && a->target_node->above_median`
+    - Formula: `a->push_cost = max(a->index, a->target_node->index)`
+4. Else if both are in bottom half:
+    - Condition: `!a->above_median && !a->target_node->above_median`
+    - Formula: `a->push_cost = max(len_a - a->index, len_b - a->target_node->index)`
+5. Else (mixed directions), compute each stack cost separately then add:
+    - A-side:
+       - if `a->above_median`: `a->push_cost = a->index`
+       - else: `a->push_cost = len_a - a->index`
+    - B-side (target):
+       - if `a->target_node->above_median`: `a->push_cost += a->target_node->index`
+       - else: `a->push_cost += len_b - a->target_node->index`
+6. Move to next A node: `a = a->next`.
+
+Math interpretation:
+- Same direction (both up or both down): `cost = max(rot_a, rot_b)`.
+- Reason: shared moves are possible with `rr` or `rrr`, so total is not sum.
+- Opposite directions: `cost = rot_a + rot_b`.
+- Reason: moves cannot be shared, so costs add normally.
+
+How rotation counts are measured:
+- Forward rotate count to bring index `i` to top: `i`.
+- Reverse rotate count to bring index `i` to top: `len - i`.
+
+Quick numeric example:
+- `len_a = 6`, `len_b = 5`
+- If `a->index = 1` (top half) and `target->index = 2` (top half):
+   - `cost = max(1, 2) = 2` (can overlap with `rr`)
+- If `a->index = 1` (top half) and `target->index = 4` (bottom half):
+   - `cost = 1 + (5 - 4) = 2` (no overlap, separate directions)
 
 Why important:
 - This function makes simultaneous `rr/rrr` optimization possible.
@@ -269,11 +302,28 @@ Step by step:
 3. Mark only that node as `cheapest = true`.
 
 ### `void set_target_a(t_stack *a, t_stack *b)`
-Step by step:
-1. For each node in A, scan B.
-2. Find the biggest value in B that is still smaller than `a->nbr`.
-3. If found, assign as target.
-4. If not found, target is max node in B.
+Step by step (matches your code exactly):
+1. Loop through every node in A (`while (a)`).
+2. For the current A node, initialize:
+   - `best_match_nbr = LONG_MIN`
+   - `current_b = b`
+3. Scan all nodes in B (`while (current_b)`).
+4. Keep only values that are smaller than `a->nbr`, and among those keep the largest one:
+   - Condition: `current_b->nbr < a->nbr && current_b->nbr > best_match_nbr`
+   - If true, update:
+     - `best_match_nbr = current_b->nbr`
+     - `target_node = current_b`
+5. After scanning B:
+   - If no smaller value was found (`best_match_nbr == LONG_MIN`), fallback to `find_max(b)`.
+   - Otherwise use the saved `target_node`.
+6. Move to next A node (`a = a->next`).
+
+Selection rule in one line:
+- For each `a`, choose `target in B = argmax { b->nbr | b->nbr < a->nbr }`, else `max(B)`.
+
+Quick example:
+- If `a->nbr = 42` and B values are `[50, 40, 10]`, target is `40`.
+- If `a->nbr = 5` and B values are `[50, 40, 10]`, no smaller exists, so target is `50` (`max(B)`).
 
 Interpretation:
 - Chooses where A-node should land in B to keep B in useful order.
@@ -295,11 +345,28 @@ Step by step:
 2. Assign target in A for each node in B.
 
 ### `void set_target_b(t_stack *a, t_stack *b)`
-Step by step:
-1. For each node in B, scan A.
-2. Find the smallest value in A that is still bigger than `b->nbr`.
-3. If found, assign it as target.
-4. If none found, fallback target is min node in A.
+Step by step (matches your code exactly):
+1. Loop through every node in B (`while (b)`).
+2. For the current B node, initialize:
+   - `best_match_nbr = LONG_MAX`
+   - `current_a = a`
+3. Scan all nodes in A (`while (current_a)`).
+4. Keep only values that are bigger than `b->nbr`, and among those keep the smallest one:
+   - Condition: `current_a->nbr > b->nbr && current_a->nbr < best_match_nbr`
+   - If true, update:
+     - `best_match_nbr = current_a->nbr`
+     - `target_node = current_a`
+5. After scanning A:
+   - If no bigger value was found (`best_match_nbr == LONG_MAX`), fallback to `find_min(a)`.
+   - Otherwise use the saved `target_node`.
+6. Move to next B node (`b = b->next`).
+
+Selection rule in one line:
+- For each `b`, choose `target in A = argmin { a->nbr | a->nbr > b->nbr }`, else `min(A)`.
+
+Quick example:
+- If `b->nbr = 42` and A values are `[10, 50, 60]`, target is `50`.
+- If `b->nbr = 99` and A values are `[10, 50, 60]`, no bigger exists, so target is `10` (`min(A)`).
 
 Interpretation:
 - Places each B-node back into the correct ascending slot in A.
