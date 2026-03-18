@@ -445,10 +445,40 @@ Evaluation focus:
 ### `static void push(t_stack **dest, t_stack **src)`
 Step by step:
 1. If source empty, return.
-2. Detach source head node.
-3. Fix new source head `prev`.
-4. Insert detached node at destination head.
-5. Fix destination pointers.
+2. Save source head in a temporary pointer (node to move).
+3. Advance source head to `src->next`.
+4. If new source head exists, set its `prev = NULL`.
+5. Insert moved node at destination head:
+   - if destination is empty: moved node becomes the only node,
+   - otherwise: moved node points to old destination head, and old head `prev` points back.
+6. Set moved node `prev = NULL`, then update destination head to this moved node.
+
+Important note:
+- The node is transferred between stacks; it is not freed or recreated.
+
+ASCII picture (`pb`: move top of A to top of B):
+
+Before:
+```text
+A: NULL <- [a1] <-> [a2] <-> ...
+              ^
+             head
+
+B: NULL <- [b1] <-> [b2] <-> ...
+              ^
+             head
+```
+
+After `pb`:
+```text
+A: NULL <- [a2] <-> ...
+              ^
+             head
+
+B: NULL <- [a1] <-> [b1] <-> [b2] <-> ...
+              ^
+             head
+```
 
 ### `void pa(t_stack **a, t_stack **b, bool print)`
 Step by step:
@@ -467,9 +497,33 @@ Step by step:
 ### `static void swap(t_stack **head)`
 Step by step:
 1. Check at least two nodes exist.
-2. Keep pointers to first and second.
-3. Rewire links so second becomes head.
-4. Fix `prev` on affected nodes.
+2. Save `first = *head` and `second = first->next`.
+3. Detach `second` from its old position by linking `first->next` to `second->next`.
+4. Link `second` before `first`:
+   - `second->next = first`
+   - `second->prev = NULL`
+   - `first->prev = second`
+5. If a third node exists, fix its back link: `first->next->prev = first`.
+6. Update stack head to `second`.
+
+Important note:
+- `swap` changes links only; no node is allocated or freed.
+
+ASCII picture (3-node example):
+
+Before (`head = first`):
+```text
+NULL <- [first] <-> [second] <-> [third] -> NULL
+          ^
+         head
+```
+
+After `sa` (`head = second`):
+```text
+NULL <- [second] <-> [first] <-> [third] -> NULL
+          ^
+         head
+```
 
 ### `void sa(t_stack **a, bool print)`
 Step by step:
@@ -497,6 +551,22 @@ Step by step:
 3. Move head to second node.
 4. Attach old head after old tail.
 5. Update pointers (`prev`/`next`).
+
+ASCII picture (rotate up):
+
+Before:
+```text
+NULL <- [first] <-> [second] <-> [third] -> NULL
+          ^
+         head
+```
+
+After `ra/rb`:
+```text
+NULL <- [second] <-> [third] <-> [first] -> NULL
+          ^
+         head
+```
 
 ### `void ra(t_stack **a, bool print)`
 Step by step:
@@ -526,6 +596,22 @@ Step by step:
 4. Insert tail as new head.
 5. Fix pointers.
 
+ASCII picture (rotate down):
+
+Before:
+```text
+NULL <- [first] <-> [second] <-> [third] -> NULL
+          ^
+         head
+```
+
+After `rra/rrb`:
+```text
+NULL <- [third] <-> [first] <-> [second] -> NULL
+          ^
+         head
+```
+
 ### `void rra(t_stack **a, bool print)`
 Step by step:
 1. Reverse rotate A.
@@ -545,39 +631,72 @@ Step by step:
 
 ## `srcs/checker_bonus.c` (bonus)
 
-### `static void free_error(t_stack **a, t_stack **b, char **args, int is_split)`
+### `static int init_checker_data(int argc, char **argv, char ***args)`
 Step by step:
-1. Free both stacks.
-2. Free split args if used.
-3. Print `Error` and exit.
+1. Handle startup edge cases early:
+   - `argc < 2` returns `0` (nothing to check),
+   - empty single argument (`""`) prints `Error` and returns `1`.
+2. Select parse mode:
+   - if `argc == 2`: split one quoted string with `ft_split`,
+   - else: use `argv + 1` directly.
+3. Return status used by `main`:
+   - `2` means continue normal checker flow.
+
+Why it exists:
+- Keeps argument parsing logic out of `main`, so `main` stays short and Norm-friendly.
 
 ### `static int apply_instruction(char *line, t_stack **a, t_stack **b)`
 Step by step:
-1. Compare input line with valid op names.
-2. Execute matching command with `print=false`.
-3. Return 1 on success.
-4. Return 0 on invalid instruction.
+1. Compare `line` against all valid instruction strings (`sa`, `sb`, `ss`, `pa`, `pb`, `ra`, `rb`, `rr`, `rra`, `rrb`, `rrr`).
+2. If matched, execute the operation with `print=false` (checker must not print operations).
+3. Return `1` when instruction is valid and executed.
+4. Return `0` when instruction is unknown.
+
+Why it exists:
+- Centralizes instruction dispatch in one place and cleanly separates validation from reading.
 
 ### `static char *get_next_line_lite(int fd)`
 Step by step:
-1. Allocate short buffer (up to 4 chars + `\0`).
-2. Read char by char until newline/EOF/limit.
-3. Return `NULL` at clean EOF.
-4. Return `"INVALID"` marker if command too long.
+1. Allocate a fixed small buffer (`5` bytes) because checker ops are short.
+2. Read one character at a time until:
+   - newline, or
+   - EOF, or
+   - max instruction length is reached.
+3. If EOF happens before any char is read, return `NULL` (normal end of input).
+4. If length exceeds expected command size (no newline within limit), return `"INVALID"` marker.
+5. Null-terminate and return the line.
+
+Why it exists:
+- Simple, controlled input reader tailored to checker instructions only.
 
 ### `static void read_instructions(...)`
 Step by step:
-1. Loop reading instructions from stdin.
-2. Validate and apply each instruction.
-3. On invalid command: free and exit via `free_error`.
+1. Loop forever reading one instruction line from stdin.
+2. Stop when `get_next_line_lite` returns `NULL` (clean EOF).
+3. For each line:
+   - reject `"INVALID"`,
+   - reject unknown operations (`apply_instruction == 0`),
+   - otherwise apply operation on stacks.
+4. On invalid line: free current line, free stack B, then call `error_free` for final cleanup/exit.
+5. Free each processed line before reading the next one.
+
+Why it exists:
+- Owns the checker runtime loop and guarantees cleanup on malformed instruction input.
 
 ### `int main(int argc, char **argv)`
 Step by step:
-1. Parse args like `push_swap`.
-2. Build and validate stack A.
-3. Read and execute stdin instructions.
-4. Print `OK` if A sorted and B empty, else `KO`.
-5. Free all allocations.
+1. Initialize stacks `a` and `b` to `NULL`.
+2. Call `init_checker_data` and handle early return statuses.
+3. Determine parse mode (`is_split = (argc == 2)`) and guard split allocation failure.
+4. Build/validate stack A with `init_stack_a`.
+5. Execute stdin instructions via `read_instructions`.
+6. Evaluate final state:
+   - print `OK` if A is sorted and B is empty,
+   - otherwise print `KO`.
+7. Free all owned memory before returning.
+
+Evaluation focus:
+- Checker does not sort by itself; it validates and executes given operations, then judges final stack state.
 
 ---
 
@@ -816,4 +935,4 @@ Ideal answer:
 
 ### Stable memory cleanup path
 - Releasing all allocated memory in both normal and error exits.
-- In your code: `free_stack`, `free_split`, `error_free`, and checker’s `free_error`.
+- In your code: `free_stack`, `free_split`, and `error_free`.

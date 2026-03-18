@@ -6,21 +6,11 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 16:37:01 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/17 17:58:01 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/18 15:04:08 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
-
-static void	free_error(t_stack **a, t_stack **b, char **args, int is_split)
-{
-	free_stack(a);
-	free_stack(b);
-	if (is_split)
-		free_split(args);
-	write(2, "Error\n", 6);
-	exit(1);
-}
 
 static int	apply_instruction(char *line, t_stack **a, t_stack **b)
 {
@@ -91,20 +81,15 @@ static void	read_instructions(t_stack **a, t_stack **b,
 		if (!ft_strncmp(line, "INVALID", 8) || !apply_instruction(line, a, b))
 		{
 			free(line);
-			free_error(a, b, args, is_split);
+			free_stack(b);
+			error_free(a, args, is_split);
 		}
 		free(line);
 	}
 }
 
-int	main(int argc, char **argv)
+static int	init_checker_data(int argc, char **argv, char ***args)
 {
-	t_stack	*a;
-	t_stack	*b;
-	char	**args;
-
-	a = NULL;
-	b = NULL;
 	if (argc < 2)
 		return (0);
 	if (argc == 2 && !argv[1][0])
@@ -113,20 +98,37 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	if (argc == 2)
-		args = ft_split(argv[1], ' ');
+		*args = ft_split(argv[1], ' ');
 	else
-		args = argv + 1;
-	init_stack_a(&a, args, (argc == 2));
-	if (argc == 2 && !args)
-		free_error(&a, &b, args, (argc == 2));
-	read_instructions(&a, &b, args, (argc == 2));
+		*args = argv + 1;
+	return (2);
+}
+
+int	main(int argc, char **argv)
+{
+	t_stack	*a;
+	t_stack	*b;
+	char	**args;
+	int		status;
+	int		is_split;
+
+	a = NULL;
+	b = NULL;
+	status = init_checker_data(argc, argv, &args);
+	if (status != 2)
+		return (status);
+	is_split = (argc == 2);
+	if (is_split && !args)
+		error_free(&a, args, is_split);
+	init_stack_a(&a, args, is_split);
+	read_instructions(&a, &b, args, is_split);
 	if (stack_sorted(a) && !b)
 		write(1, "OK\n", 3);
 	else
 		write(1, "KO\n", 3);
 	free_stack(&a);
 	free_stack(&b);
-	if (argc == 2)
+	if (is_split)
 		free_split(args);
 	return (0);
 }
