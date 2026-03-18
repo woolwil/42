@@ -6,7 +6,7 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 16:58:19 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/14 19:00:58 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/18 12:12:33 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,23 @@ void	set_target_b(t_stack *a, t_stack *b)
 {
 	t_stack	*current_a;
 	t_stack	*target_node;
-	long	best_match_nbr;
+	long	candidate_value;
 
 	while (b)
 	{
-		best_match_nbr = LONG_MAX;
+		candidate_value = LONG_MAX;
 		current_a = a;
 		while (current_a)
 		{
-			if (current_a->nbr > b->nbr && current_a->nbr < best_match_nbr)
+			if (current_a->value > b->value
+				&& current_a->value < candidate_value)
 			{
-				best_match_nbr = current_a->nbr;
+				candidate_value = current_a->value;
 				target_node = current_a;
 			}
 			current_a = current_a->next;
 		}
-		if (best_match_nbr == LONG_MAX)
+		if (candidate_value == LONG_MAX)
 			b->target_node = find_min(a);
 		else
 			b->target_node = target_node;

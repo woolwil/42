@@ -85,7 +85,7 @@ Think of this as 6 scenes in a movie.
 ## 3) Data Structure Reminder (`t_stack`)
 
 Each node stores:
-- `nbr`: integer value.
+- `value`: integer value.
 - `index`: current position from top.
 - `above_median`: true if index is in first half.
 - `target_node`: destination reference in the other stack.
@@ -171,7 +171,7 @@ Step by step:
 ### `bool is_duplicate(t_stack *stack, int n)`
 Step by step:
 1. Traverse stack.
-2. Compare each `nbr` with `n`.
+2. Compare each `value` with `n`.
 3. Return true on first match.
 4. Return false if not found.
 
@@ -224,13 +224,13 @@ Step by step:
 
 ### `t_stack *find_min(t_stack *stack)`
 Step by step:
-1. Track smallest `nbr` seen.
+1. Track smallest `value` seen.
 2. Keep pointer to min node.
 3. Return min node.
 
 ### `t_stack *find_max(t_stack *stack)`
 Step by step:
-1. Track largest `nbr` seen.
+1. Track largest `value` seen.
 2. Keep pointer to max node.
 3. Return max node.
 
@@ -289,9 +289,9 @@ Why important:
 
 ## `srcs/init_a2b.c`
 
-### `void prep_for_push(t_stack **stack, t_stack *top_node, char stack_name)`
+### `void prep_for_push(t_stack **stack, t_stack *desired_top, char stack_name)`
 Step by step:
-1. Rotate until `top_node` becomes stack head.
+1. Rotate until `desired_top` becomes stack head.
 2. If node in top half: use forward rotate (`ra`/`rb`).
 3. If node in bottom half: use reverse rotate (`rra`/`rrb`).
 
@@ -305,25 +305,25 @@ Step by step:
 Step by step (matches your code exactly):
 1. Loop through every node in A (`while (a)`).
 2. For the current A node, initialize:
-   - `best_match_nbr = LONG_MIN`
+   - `candidate_value = LONG_MIN`
    - `current_b = b`
 3. Scan all nodes in B (`while (current_b)`).
-4. Keep only values that are smaller than `a->nbr`, and among those keep the largest one:
-   - Condition: `current_b->nbr < a->nbr && current_b->nbr > best_match_nbr`
+4. Keep only values that are smaller than `a->value`, and among those keep the largest one:
+   - Condition: `current_b->value < a->value && current_b->value > candidate_value`
    - If true, update:
-     - `best_match_nbr = current_b->nbr`
+     - `candidate_value = current_b->value`
      - `target_node = current_b`
 5. After scanning B:
-   - If no smaller value was found (`best_match_nbr == LONG_MIN`), fallback to `find_max(b)`.
+   - If no smaller value was found (`candidate_value == LONG_MIN`), fallback to `find_max(b)`.
    - Otherwise use the saved `target_node`.
 6. Move to next A node (`a = a->next`).
 
 Selection rule in one line:
-- For each `a`, choose `target in B = argmax { b->nbr | b->nbr < a->nbr }`, else `max(B)`.
+- For each `a`, choose `target in B = argmax { b->value | b->value < a->value }`, else `max(B)`.
 
 Quick example:
-- If `a->nbr = 42` and B values are `[50, 40, 10]`, target is `40`.
-- If `a->nbr = 5` and B values are `[50, 40, 10]`, no smaller exists, so target is `50` (`max(B)`).
+- If `a->value = 42` and B values are `[50, 40, 10]`, target is `40`.
+- If `a->value = 5` and B values are `[50, 40, 10]`, no smaller exists, so target is `50` (`max(B)`).
 
 Interpretation:
 - Chooses where A-node should land in B to keep B in useful order.
@@ -348,25 +348,25 @@ Step by step:
 Step by step (matches your code exactly):
 1. Loop through every node in B (`while (b)`).
 2. For the current B node, initialize:
-   - `best_match_nbr = LONG_MAX`
+   - `candidate_value = LONG_MIN`
    - `current_a = a`
 3. Scan all nodes in A (`while (current_a)`).
-4. Keep only values that are bigger than `b->nbr`, and among those keep the smallest one:
-   - Condition: `current_a->nbr > b->nbr && current_a->nbr < best_match_nbr`
+4. Keep only values that are bigger than `b->value`, and among those keep the smallest one:
+   - Condition: `current_a->value > b->value && current_a->value < candidate_value`
    - If true, update:
-     - `best_match_nbr = current_a->nbr`
+     - `candidate_value = current_a->value`
      - `target_node = current_a`
 5. After scanning A:
-   - If no bigger value was found (`best_match_nbr == LONG_MAX`), fallback to `find_min(a)`.
+   - If no bigger value was found (`candidate_value == LONG_MAX`), fallback to `find_min(a)`.
    - Otherwise use the saved `target_node`.
 6. Move to next B node (`b = b->next`).
 
 Selection rule in one line:
-- For each `b`, choose `target in A = argmin { a->nbr | a->nbr > b->nbr }`, else `min(A)`.
+- For each `b`, choose `target in A = argmin { a->value | a->value > b->value }`, else `min(A)`.
 
 Quick example:
-- If `b->nbr = 42` and A values are `[10, 50, 60]`, target is `50`.
-- If `b->nbr = 99` and A values are `[10, 50, 60]`, no bigger exists, so target is `10` (`min(A)`).
+- If `b->value = 42` and A values are `[10, 50, 60]`, target is `50`.
+- If `b->value = 99` and A values are `[10, 50, 60]`, no bigger exists, so target is `10` (`min(A)`).
 
 Interpretation:
 - Places each B-node back into the correct ascending slot in A.
@@ -377,7 +377,7 @@ Interpretation:
 
 ### `void sort_stacks(t_stack **a, t_stack **b)`
 Step by step:
-1. Push two nodes from A to B (when possible) to bootstrap.
+1. Push two nodes from A to B (when possible) to initialize.
 2. While A has more than 3 and is unsorted:
    - initialize A-node metadata (`init_nodes_a`),
    - move one best candidate A -> B (`move_a2b`).
@@ -765,7 +765,7 @@ Ideal answer:
 - In your project, each stack is a doubly linked list (`next` + `prev`).
 
 ### Node
-- One element in the list, storing value and metadata (`nbr`, `index`, `target_node`, etc.).
+- One element in the list, storing value and metadata (`value`, `index`, `target_node`, etc.).
 
 ### Stack top / head
 - The first node in the linked list.

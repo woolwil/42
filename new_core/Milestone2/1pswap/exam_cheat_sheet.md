@@ -48,7 +48,8 @@
 ## 5) Why your data structure works
 
 - Doubly linked list (`next` + `prev`) makes rewiring for swap/push/rotate efficient.
-- Useful metadata stored per node: `index`, `above_median`, `target_node`, `push_cost`, `cheapest`.
+- Core node fields: `value`, `index`, `next`, `prev`.
+- Useful decision metadata per node: `above_median`, `target_node`, `push_cost`, `cheapest`.
 
 ---
 

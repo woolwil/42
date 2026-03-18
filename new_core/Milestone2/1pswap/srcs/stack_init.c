@@ -44,7 +44,7 @@ bool	is_duplicate(t_stack *stack, int n)
 		return (false);
 	while (stack)
 	{
-		if (stack->nbr == n)
+		if (stack->value == n)
 			return (true);
 		stack = stack->next;
 	}
@@ -61,7 +61,7 @@ static bool	append_node(t_stack **stack, int n)
 	node = malloc(sizeof (t_stack));
 	if (!node)
 		return (false);
-	node->nbr = n;
+	node->value = n;
 	node->next = NULL;
 	if (!*stack)
 	{
@@ -80,7 +80,7 @@ static bool	append_node(t_stack **stack, int n)
 void	init_stack_a(t_stack **a, char **argv, int is_split)
 {
 	int		i;
-	long	nbr;
+	long	value;
 	int		app_bool;
 
 	i = 0;
@@ -92,12 +92,12 @@ void	init_stack_a(t_stack **a, char **argv, int is_split)
 	{
 		if (is_syntax_error(argv[i]))
 			error_free(a, argv, is_split);
-		nbr = ft_atol(argv[i]);
-		if (nbr < INT_MIN || nbr > INT_MAX)
+		value = ft_atol(argv[i]);
+		if (value < INT_MIN || value > INT_MAX)
 			error_free(a, argv, is_split);
-		if (is_duplicate(*a, (int)nbr))
+		if (is_duplicate(*a, (int)value))
 			error_free(a, argv, is_split);
-		app_bool = append_node(a, (int)nbr);
+		app_bool = append_node(a, (int)value);
 		if (!app_bool)
 			error_free(a, argv, is_split);
 		i++;

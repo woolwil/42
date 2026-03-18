@@ -67,9 +67,9 @@ t_stack	*find_min(t_stack *stack)
 	min = LONG_MAX;
 	while (stack)
 	{
-		if (stack->nbr < min)
+		if (stack->value < min)
 		{
-			min = stack->nbr;
+			min = stack->value;
 			min_node = stack;
 		}
 		stack = stack->next;
@@ -87,9 +87,9 @@ t_stack	*find_max(t_stack *stack)
 	max = LONG_MIN;
 	while (stack)
 	{
-		if (stack->nbr > max)
+		if (stack->value > max)
 		{
-			max = stack->nbr;
+			max = stack->value;
 			max_node = stack;
 		}
 		stack = stack->next;

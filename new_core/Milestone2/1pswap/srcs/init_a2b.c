@@ -6,26 +6,26 @@
 /*   By: ngvo <ngvo@student.42prague.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:53:07 by ngvo              #+#    #+#             */
-/*   Updated: 2026/03/14 19:00:11 by ngvo             ###   ########.fr       */
+/*   Updated: 2026/03/18 12:27:06 by ngvo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	prep_for_push(t_stack **stack, t_stack *top_node, char stack_name)
+void	prep_for_push(t_stack **stack, t_stack *desired_top, char stack_name)
 {
-	while (*stack != top_node)
+	while (*stack != desired_top)
 	{
 		if (stack_name == 'a')
 		{
-			if (top_node->above_median)
+			if (desired_top->above_median)
 				ra(stack, true);
 			else
 				rra(stack, true);
 		}
 		else if (stack_name == 'b')
 		{
-			if (top_node->above_median)
+			if (desired_top->above_median)
 				rb(stack, true);
 			else
 				rrb(stack, true);
@@ -60,22 +60,23 @@ void	set_target_a(t_stack *a, t_stack *b)
 {
 	t_stack	*current_b;
 	t_stack	*target_node;
-	long	best_match_nbr;
+	long	candidate_value;
 
 	while (a)
 	{
-		best_match_nbr = LONG_MIN;
+		candidate_value = LONG_MIN;
 		current_b = b;
 		while (current_b)
 		{
-			if (current_b->nbr < a->nbr && current_b->nbr > best_match_nbr)
+			if (current_b->value < a->value
+				&& current_b->value > candidate_value)
 			{
-				best_match_nbr = current_b->nbr;
+				candidate_value = current_b->value;
 				target_node = current_b;
 			}
 			current_b = current_b->next;
 		}
-		if (best_match_nbr == LONG_MIN)
+		if (candidate_value == LONG_MIN)
 			a->target_node = find_max(b);
 		else
 			a->target_node = target_node;

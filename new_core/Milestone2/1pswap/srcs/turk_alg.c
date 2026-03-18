@@ -39,7 +39,7 @@ bool	stack_sorted(t_stack *stack)
 		return (true);
 	while (stack->next)
 	{
-		if (stack->nbr > stack->next->nbr)
+		if (stack->value > stack->next->value)
 			return (false);
 		stack = stack->next;
 	}
