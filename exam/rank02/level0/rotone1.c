@@ -1,0 +1,27 @@
+#include <unistd.h>
+#include <stdlib.h>
+
+int	main(int ac, char **av)
+{
+	int		i;
+	char	*str;
+
+	if (ac == 2)
+	{
+		i = 0;
+		str = av[1];
+		while (str[i])
+		{
+			if ((str[i] >= 'a' && str[i] <= 'y') || (str[i] >= 'A' &&  str[i] <= 'Y'))
+				str[i] += 1;
+			else if (str[i] == 'z')
+				str[i] = 'a';
+			else if (str[i] == 'Z')
+				str[i] = 'A';
+			write (1, &str[i], 1);
+			i++;
+		}
+	}
+	write (1, "\n", 1);
+	return (0);
+}
