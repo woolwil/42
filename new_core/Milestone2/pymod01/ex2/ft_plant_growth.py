@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 
 class Plant:
-    def __init__(self, name, height, age):
+    def __init__(self, name: str, height: float, age: int) -> None:
         self.name = name
         self.height = height
         self.age_days = age
 
-    def grow(self):
+    def grow(self) -> None:
         self.height += 0.8
 
-    def age(self):
+    def age(self) -> None:
         self.age_days += 1
 
 
-def main():
+def main() -> None:
     plant = Plant("Rose", 25, 30)
     start_height = plant.height
 
