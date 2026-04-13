@@ -1,27 +1,24 @@
 #include <unistd.h>
-#include <stdlib.h>
 
-int	main(int ac, char **av)
+int main(int argc, char **argv)
 {
-	int		i;
-	char	*str;
+    if (argc == 2)
+    {
+        int i = 0;
+        char *args = argv[1];
 
-	if (ac == 2)
-	{
-		i = 0;
-		str = av[1];
-		while (str[i])
-		{
-			if ((str[i] >= 'a' && str[i] <= 'y') || (str[i] >= 'A' &&  str[i] <= 'Y'))
-				str[i] += 1;
-			else if (str[i] == 'z')
-				str[i] = 'a';
-			else if (str[i] == 'Z')
-				str[i] = 'A';
-			write (1, &str[i], 1);
-			i++;
-		}
-	}
-	write (1, "\n", 1);
-	return (0);
+        while (args[i])
+        {
+            if (args[i] == 'z')
+                args[i] = 'a';
+            else if (args[i] == 'Z')
+                args[i] = 'A';
+            else if ((args[i] >= 'a' && args[i] <= 'y') || (args[i] >= 'A' && args[i] <= 'Y'))
+                args[i] += 1;
+            write(1, &args[i], 1);
+            i++;
+        }
+    }
+    write(1, "\n", 1);
+    return (0);
 }
