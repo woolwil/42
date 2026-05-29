@@ -3,30 +3,28 @@
 int main(int ac, char **av)
 {
     int i = 0;
-    char c;
 
     if (ac == 2)
     {
         while (av[1][i])
         {
-            c = av[1][i];
-            if (c >= 'a' && c <= 'z')
+            if (av[1][i] >= 'a' && av[1][i] <= 'z')
             {
-                if (c <= 'm')
-                    c += 13;
+                if (av[1][i] <= 'm')
+                    av[1][i] += 13;
                 else
-                    c -= 13;
-            }
-            else if (c >= 'A' && c <= 'Z')
+                    av[1][i] -= 13;
+                }
+            if (av[1][i] >= 'A' && av[1][i] <= 'Z')
             {
-                if (c <= 'M')
-                    c += 13;
-                else
-                    c -= 13;
+                if (av[1][i] <= 'M')
+                    av[1][i] += 13;
+                else   
+                    av[1][i] -= 13;
             }
-            write(1, &c, 1);
+            write(1, &av[1][i], 1);
             i++;
-        }
+            }
     }
     write(1, "\n", 1);
     return (0);
