@@ -55,5 +55,6 @@ def main() -> None:
         print(f"{player} is missing: {missing}")
         print()
 
+
 if __name__ == "__main__":
     main()
