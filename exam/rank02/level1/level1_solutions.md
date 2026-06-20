@@ -481,16 +481,20 @@ FUNCTION main(argc, argv[])
             k = 0
             WHILE s2[k] is not null terminator
                 IF s1[i] equals s2[k]
-                    l = 0
-                    FIND first occurrence of s1[i] in s1
-                    
-                    IF first occurrence is at index i (not seen before)
-                        l = 0
-                        FIND first occurrence of s2[k] in s2
-                        
-                        IF first occurrence is at index k (not seen before)
-                            WRITE s1[i] to stdout
-                        END IF
+					l = 0
+					WHILE s1[l] is not equal to s1[i]
+						INCREMENT l
+					END WHILE
+
+					IF l equals i
+						l = 0
+						WHILE s2[l] is not equal to s2[k]
+							INCREMENT l
+						END WHILE
+
+						IF l equals k
+							WRITE s1[i] to stdout
+						END IF
                     END IF
                 END IF
                 INCREMENT k
@@ -557,30 +561,23 @@ END FUNCTION
 ```c
 #include <unistd.h>
 
-void	last_word(char *str)
+int main(int ac, char **av)
 {
-	int	j = 0;
-	int i = 0;
+    int i = 0;
+    char *str = av[1];
 
-	while (str[i])
-	{
-		if (str[i] == ' ' && str[i + 1] >= 33 && str[i + 1] <= 126)
-			j = i + 1;
-		i++;
-	}
-	while (str[j] >= 33 && str[j] <= 126)
-	{
-		write(1, &str[j], 1);
-		j++;
-	}
-}
-
-int		main(int argc, char **argv)
-{
-	if (argc == 2)
-		last_word(argv[1]);
-	write(1, "\n", 1);
-	return (0);
+    if (ac == 2)
+    {
+        while(str[i])
+            i++;
+        while (i > 0 && (str[i - 1] == ' ' || str[i - 1] == '\t'))
+            i--;
+        while (i > 0 && str[i - 1] != ' ' && str[i - 1] != '\t')
+            i--;
+        while (str[i] && str[i] != ' ' && str[i] != '\t')
+            write(1, &str[i++], 1);
+    }
+    write(1, "\n", 1);
 }
 ```
 
