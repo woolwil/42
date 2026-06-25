@@ -2,31 +2,30 @@
 
 int main(int ac, char **av)
 {
-    unsigned char c;
-    int i = 0, j = 0;
-    int seen[256] = {0};
-    
-    if (ac == 3)
+    if(ac == 3)
     {
+        unsigned char seen[256] = {0};
+        int i = 0, j = 0;
+
         while(av[1][i])
         {
-            c = av[1][i];
-            if(seen[c] == 0)
+            if(seen[(unsigned char)av[1][i]] == 0)
             {
-                write(1, &c, 1);
-                seen[c] = 1;
+                write(1, &av[1][i], 1);
+                seen[(unsigned char)av[1][i]] = 1;
             }
-            i++;
+            else
+                i++;
         }
         while(av[2][j])
         {
-            c = av[2][j];
-            if (seen[c] == 0)
+            if(seen[(unsigned char)av[2][j]] == 0)
             {
-                write(1, &c, 1);
-                seen[c] = 1;
+                write(1, &av[2][j], 1);
+                seen[(unsigned char)av[2][j]] = 1;
             }
-            j++;
+            else
+                j++;
         }
     }
     write(1, "\n", 1);

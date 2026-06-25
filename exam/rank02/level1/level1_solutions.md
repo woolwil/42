@@ -12,24 +12,23 @@ A comprehensive guide to all Level 1 exercises with code implementations and pse
 ```c
 #include <unistd.h>
 
-int	main(int ac, char **av)
+int main(int ac, char **av)
 {
-	int	i;
-
-	i = 0;
-	if (ac == 2)
-	{
-		while (av[1][i] != '\0')
-		{
-			if (av[1][i] >= 'a' && av[1][i] <= 'z')
-				av[1][i] = 219 - av[1][i];
-			else if (av[1][i] >= 'A' && av[1][i] <= 'Z')
-				av[1][i] = 155 - av[1][i];
-			write(1, &av[1][i], 1);
-			i++;
-		}
-	}
-	write(1, "\n", 1);
+    if (ac == 2)
+    {
+        int i = 0;
+        
+        while(av[1][i])
+        {
+            if(av[1][i] >= 'a' && av[1][i] <= 'z')
+                av[1][i] = 'a' + 'z' - av[1][i];
+            else if(av[1][i] >= 'A' && av[1][i] <= 'Z')
+                av[1][i] = 'A' + 'Z' - av[1][i];
+            write(1, &av[1][i], 1);
+            i++;
+        }
+    }
+    write(1, "\n", 1);
 }
 ```
 
@@ -274,9 +273,9 @@ size_t  ft_strcspn(const char *s, const char *reject)
 
 	i = 0;
 	k = 0;
-	while (s[i] != '\0')
+	while (s[i])
 	{
-		while (reject[k] != '\0')
+		while (reject[k])
 		{
 			if (reject[k] == s[i])
 				return (i);
@@ -425,45 +424,33 @@ END FUNCTION
 ```c
 #include <unistd.h>
 
-int	main(int ac, char **av)
+int main(int ac, char **av)
 {
-	int	i;
-	int k;
-	int l;
-	char *s1;
-	char *s2;
+    int i = 0, j;
+    unsigned char seen[256] = {0};
 
-	i = 0;
-	l = 0;
-	if (ac == 3)
-	{
-		s1 = av[1];
-		s2 = av[2];
-		while (s1[i] != '\0')
-		{
-			k = 0;
-			while (s2[k] != '\0')
-			{
-				if(s1[i] == s2[k])
-				{ 
-					l = 0;
-					while (s1[l] != s1[i])
-						l++;
-					if (l == i)
-					{
-						l = 0;
-						while (s2[l] != s2[k])
-							l++;
-						if (l == k)
-							write(1, &s1[i], 1);
-					}
-				}
-				k++;
-			}
-			i++;
-		}
-	}
-	write(1, "\n", 1);
+    if (ac == 3)
+    {
+        while(av[1][i])
+        {
+            if(!seen[(unsigned char)av[1][i]])
+            {
+                j = 0;
+                while(av[2][j])
+                {
+                    if(av[1][i] == av[2][j])
+                    {
+                        write(1, &av[1][i], 1);
+                        seen[(unsigned char)av[1][i]] = 1;
+                        break ;
+                    }
+                    j++;
+                }
+            }
+            i++;
+        }
+    }
+    write(1, "\n", 1);
 }
 ```
 
@@ -564,18 +551,21 @@ END FUNCTION
 int main(int ac, char **av)
 {
     int i = 0;
-    char *str = av[1];
 
     if (ac == 2)
     {
-        while(str[i])
+        while(av[1][i])
             i++;
-        while (i > 0 && (str[i - 1] == ' ' || str[i - 1] == '\t'))
+        i--;
+        while(i && av[1][i] == ' ')
             i--;
-        while (i > 0 && str[i - 1] != ' ' && str[i - 1] != '\t')
+        while(i && av[1][i] != ' ')
             i--;
-        while (str[i] && str[i] != ' ' && str[i] != '\t')
-            write(1, &str[i++], 1);
+        while(av[1][i + 1] && av[1][i + 1] != ' ')
+        {
+            write(1, &av[1][i + 1], 1);
+            i++;
+        }
     }
     write(1, "\n", 1);
 }
@@ -746,25 +736,23 @@ END FUNCTION
 
 ### Code
 ```c
-#include <stdlib.h>
 #include <unistd.h>
 
-int main(int argc, char **argv)
+int main(int ac, char **av)
 {
-	if (argc == 2)
-	{
-		for (int i = 0; argv[1][i]; i += 1)
-		{
-			if (argv[1][i] == '_')
-			{
-				i += 1;
-				argv[1][i] -= 32;
-			}
-			write(STDOUT_FILENO, &argv[1][i], 1);
-		}
-	}
-	write(STDOUT_FILENO, "\n", 1);
-	return EXIT_SUCCESS;
+    if (ac == 2)
+    {
+        for(int i = 0; av[1][i]; i++)
+        {
+            if(av[1][i] == '_')
+            {
+                i++;
+                av[1][i] -= 32;
+            }
+            write(1, &av[1][i], 1);
+        }
+    }
+    write(1, "\n", 1);
 }
 ```
 
@@ -918,7 +906,7 @@ int	main(int argc, char const *argv[])
 	{
 		while (argv[2][j])
 			if (argv[2][j++] == argv[1][i])
-				i += 1;
+				i++;
 		if (!argv[1][i])
 			ft_putstr(argv[1]);
 	}
