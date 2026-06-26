@@ -214,7 +214,7 @@ END FUNCTION
 
 ---
 
-## 3. expand_str
+## 3.   
 
 **Description:** Expand spacing - replace single spaces with three spaces between words.
 
@@ -677,7 +677,7 @@ void	ft_putnbr(int n)
 {
 	char digit;
 
-	if (n >= 10)
+	if (n > 9)
 		ft_putnbr(n / 10);
 
 	digit = (n % 10) + '0';
