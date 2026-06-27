@@ -860,11 +860,9 @@ void	str_capitalizer(char *str)
 
 		while (*str != '\0' && *str != ' ' && *str != '\t')
 		{
-			if (*str >= 'a' && *str <= 'z'
-			&& (*(str + 1) == '\0' || *(str + 1) == ' ' || *(str + 1) == '\t'))
+			if (*str >= 'a' && *str <= 'z' && (*(str + 1) == '\0' || *(str + 1) == ' ' || *(str + 1) == '\t'))
 				*str = *str - ('a' - 'A');
-			else if (*str >= 'A' && *str <= 'Z' && *(str + 1) != '\0'
-			&& *(str + 1) != ' ' && *(str + 1) != '\t')
+			else if (*str >= 'A' && *str <= 'Z' && *(str + 1) != '\0' && *(str + 1) != ' ' && *(str + 1) != '\t')
 				*str = *str + ('a' - 'A');
 			write(1, str, 1);
 			++str;
