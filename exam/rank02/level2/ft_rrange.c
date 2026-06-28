@@ -1,27 +1,25 @@
 #include <stdlib.h>
 
-int absolute_value(int n);
-
 int *ft_rrange(int start, int end)
 {
-    int nbr_ints;
     int *arr;
-    int direction;
-    int i;
+    int size;
+    int i = 0;
 
-    nbr_ints = 1 + absolute_value(end - start);
-    arr = malloc(sizeof(int) * nbr_ints);
+    size = abs((end - start)) + 1;
+    arr = malloc(sizeof(int) * size);
 
-    if(start > end)
-        direction = 1;
-    else
-        direction = -1;
-    i = 0;
-    while(i < nbr_ints)
+    if(!arr)
+        return NULL;
+        
+    while(i < size)
     {
         arr[i] = end;
-        end += direction;
-        ++i;
+        if(start > end)
+            end++;
+        else
+            end--;
+        i++;
     }
     return arr;
 }
