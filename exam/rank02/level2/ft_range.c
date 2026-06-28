@@ -2,21 +2,12 @@
 
 int *ft_range(int start, int end)
 {
-    int *arr;
-    int size;
-    int i;
-    int current;
-    int step;
+    int current = start;
+    int step = (start < end) ? 1 : -1;
+    int i = 0;
+    int size = abs(end - start) + 1;
+    int *arr = malloc(sizeof(int) * size);
 
-    size = abs(end - start) + 1;
-    arr = malloc(sizeof(int) * size);
-
-    if(!arr)
-        return NULL;
-
-    i = 0;
-    current = start;
-    step = (start < end) ? 1 : -1;
     while(i < size)
     {
         arr[i] = current;
@@ -25,3 +16,4 @@ int *ft_range(int start, int end)
     }
     return arr;
 }
+
