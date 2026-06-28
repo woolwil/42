@@ -298,48 +298,41 @@ END FUNCTION
 
 ### Code
 ```c
-char	to_lower(char c)
+int get_digit(char c, int base)
 {
-	if (c >= 'A' && c <= 'Z')
-		return (c + ('a' - 'A'));
-	return (c);
-}
+    int digit = -1;
+    
+    if(c >= '0' && c <= '9')
+        digit = c - '0';
+    else if(c >= 'a' && c <= 'f')
+        digit = c - 'a' + 10;
+    else if(c >= 'A' && c <= 'F')
+        digit = c - 'A' + 10;
 
-int get_digit(char c, int digits_in_base)
-{
-	int max_digit;
-	if (digits_in_base <= 10)
-		max_digit = digits_in_base + '0';
-	else
-		max_digit = digits_in_base - 10 + 'a';
-
-	if (c >= '0' && c <= '9' && c <= max_digit)
-		return (c - '0');
-	else if (c >= 'a' && c <= 'f' && c <= max_digit)
-		return (10 + c - 'a');
-	else
-		return (-1);
+    if(digit != -1 && digit < base)
+        return digit;
+    else
+        return -1;
 }
 
 int ft_atoi_base(const char *str, int str_base)
 {
-	int result = 0;
-	int sign = 1;
-	int digit;
+    int n = 0;
+    int sign = 1;
+    int digit;
 
-	if (*str == '-')
-	{
-		sign = -1;
-		++str;
-	}
-
-	while ((digit = get_digit(to_lower(*str), str_base)) >= 0)
-	{
-		result = result * str_base;
-		result = result + (digit * sign);
-		++str;
-	}
-	return (result);
+    if(*str == '-')
+    {
+        sign = -sign; 
+        ++str;
+    }
+    while((digit = get_digit(*str, str_base)) >= 0)
+    {
+        n *= str_base;
+        n += digit * sign;
+        ++str;
+    }
+    return n;
 }
 ```
 
