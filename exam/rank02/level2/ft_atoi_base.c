@@ -28,9 +28,8 @@ int ft_atoi_base(const char *str, int str_base)
     }
     while((digit = get_digit(*str, str_base)) >= 0)
     {
-        n *= str_base;
-        n += digit * sign;
+        n = n * str_base + digit;
         ++str;
     }
-    return n;
+    return (n * sign);
 }

@@ -1,38 +1,43 @@
 #include <unistd.h>
 
-void str_capitalizer(char *c)
+int is_separator(char c)
 {
-    while(*c)
-    {
-        while(*c && (*c == ' ' || *c == '\t'))
-        {
-            write(1, c, 1);
-            ++c;
-        }
-        while(*c && *c != ' ' && *c != '\t')
-        {
-            if(*c >= 'a' && *c <= 'z' && (*(c + 1) == '\0' || *(c + 1) == ' ' || *(c + 1) == '\t'))
-                *c -= 32;
-            else if(*c >= 'A' && *c <= 'Z' && *(c + 1) != '\0' && *(c + 1) != ' ' && *(c + 1) != '\t')
-                *c += 32;
-            write(1, c, 1);
-            ++c;
-        }
-    }
-    write(1, "\n", 1);
+	return (c == ' ' || c == '\t' || c == '\0');
 }
 
-int main(int ac, char **av)
+void rstr_capitalizer(char *str)
 {
-    if(ac > 1)
-    {
-        int i = 1;
-        while(i < ac)
-        {
-            str_capitalizer(av[i]);
-            ++i;
-        }
-    }
-    else
-        write(1, "\n", 1);
+	int i = 0;
+
+	while (str[i])
+	{
+		// Lowercase all letters by default
+		if (str[i] >= 'A' && str[i] <= 'Z')
+			str[i] += 32;
+
+		// If a character is a letter and is followed by a separator,
+		// it's the last letter of a word, so capitalize it.
+		if ((str[i] >= 'a' && str[i] <= 'z') && is_separator(str[i + 1]))
+			str[i] -= 32;
+
+		write(1, &str[i], 1);
+		i++;
+	}
+}
+
+int main(int argc, char **argv)
+{
+	if (argc > 1)
+	{
+		int i = 1;
+		while (i < argc)
+		{
+			rstr_capitalizer(argv[i]);
+			write(1, "\n", 1);
+			i++;
+		}
+	}
+	else
+		write(1, "\n", 1);
+	return (0);
 }
