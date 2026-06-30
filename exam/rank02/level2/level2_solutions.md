@@ -840,44 +840,41 @@ END FUNCTION
 ```c
 #include <unistd.h>
 
-void	str_capitalizer(char *str)
+int is_separator(char c)
 {
-	while (*str != '\0')
-	{
-		while (*str != '\0' && (*str == ' ' || *str == '\t'))
-		{
-			write(1, str, 1);
-			++str;
-		}
-
-		while (*str != '\0' && *str != ' ' && *str != '\t')
-		{
-			if (*str >= 'a' && *str <= 'z' && (*(str + 1) == '\0' || *(str + 1) == ' ' || *(str + 1) == '\t'))
-				*str = *str - ('a' - 'A');
-			else if (*str >= 'A' && *str <= 'Z' && *(str + 1) != '\0' && *(str + 1) != ' ' && *(str + 1) != '\t')
-				*str = *str + ('a' - 'A');
-			write(1, str, 1);
-			++str;
-		}
-	}
-	write(1, "\n", 1);
+	return (c == ' ' || c == '\t');
 }
 
-int		main(int argc, char **argv)
+void str_capitalizer(char *str)
 {
-	if (argc == 1)
-		write(1, "\n", 1);
-	else
+	int i = 0;
+
+	while (str[i])
+	{
+		if ((i == 0 || is_separator(str[i - 1])) && (str[i] >= 'a' && str[i] <= 'z'))
+			str[i] -= 32;
+		else if (!(i == 0 || is_separator(str[i - 1])) && (str[i] >= 'A' && str[i] <= 'Z'))
+			str[i] += 32;
+
+		write(1, &str[i], 1);
+		i++;
+	}
+}
+
+int main(int argc, char **argv)
+{
+	if (argc > 1)
 	{
 		int i = 1;
 		while (i < argc)
 		{
 			str_capitalizer(argv[i]);
-			++i;
+			write(1, "\n", 1);
+			i++;
 		}
 	}
-
-	return (0);
+	else
+		write(1, "\n", 1);
 }
 ```
 
