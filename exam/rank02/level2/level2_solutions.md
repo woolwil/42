@@ -842,19 +842,23 @@ END FUNCTION
 
 int is_separator(char c)
 {
-	return (c == ' ' || c == '\t');
+	return (c == ' ' || c == '\t' || c == '\0');
 }
 
-void str_capitalizer(char *str)
+void rstr_capitalizer(char *str)
 {
 	int i = 0;
 
 	while (str[i])
 	{
-		if ((i == 0 || is_separator(str[i - 1])) && (str[i] >= 'a' && str[i] <= 'z'))
-			str[i] -= 32;
-		else if (!(i == 0 || is_separator(str[i - 1])) && (str[i] >= 'A' && str[i] <= 'Z'))
+		// Lowercase all letters by default
+		if (str[i] >= 'A' && str[i] <= 'Z')
 			str[i] += 32;
+
+		// If a character is a letter and is followed by a separator,
+		// it's the last letter of a word, so capitalize it.
+		if ((str[i] >= 'a' && str[i] <= 'z') && is_separator(str[i + 1]))
+			str[i] -= 32;
 
 		write(1, &str[i], 1);
 		i++;
@@ -868,13 +872,14 @@ int main(int argc, char **argv)
 		int i = 1;
 		while (i < argc)
 		{
-			str_capitalizer(argv[i]);
+			rstr_capitalizer(argv[i]);
 			write(1, "\n", 1);
 			i++;
 		}
 	}
 	else
 		write(1, "\n", 1);
+	return (0);
 }
 ```
 
@@ -920,50 +925,41 @@ END FUNCTION
 ```c
 #include <unistd.h>
 
-void	str_capitalizer(char *str)
+int is_separator(char c)
 {
-	while (*str != '\0')
-	{
-		while (*str != '\0' && (*str == ' ' || *str == '\t'))
-		{
-			write(1, str, 1);
-			++str;
-		}
-
-		if (*str != '\0')
-		{
-			if (*str >= 'a' && *str <= 'z')
-				*str = *str - ('a' - 'A');
-			write(1, str, 1);
-			++str;
-		}
-
-		while (*str != '\0' && *str != ' ' && *str != '\t')
-		{
-			if (*str >= 'A' && *str <= 'Z')
-				*str = *str + ('a' - 'A');
-			write(1, str, 1);
-			++str;
-		}
-	}
-	write(1, "\n", 1);
+	return (c == ' ' || c == '\t');
 }
 
-int		main(int argc, char **argv)
+void str_capitalizer(char *str)
 {
-	if (argc == 1)
-		write(1, "\n", 1);
-	else
+	int i = 0;
+
+	while (str[i])
+	{
+		if ((i == 0 || is_separator(str[i - 1])) && (str[i] >= 'a' && str[i] <= 'z'))
+			str[i] -= 32;
+		else if (!(i == 0 || is_separator(str[i - 1])) && (str[i] >= 'A' && str[i] <= 'Z'))
+			str[i] += 32;
+
+		write(1, &str[i], 1);
+		i++;
+	}
+}
+
+int main(int argc, char **argv)
+{
+	if (argc > 1)
 	{
 		int i = 1;
 		while (i < argc)
 		{
 			str_capitalizer(argv[i]);
-			++i;
+			write(1, "\n", 1);
+			i++;
 		}
 	}
-
-	return (0);
+	else
+		write(1, "\n", 1);
 }
 ```
 
