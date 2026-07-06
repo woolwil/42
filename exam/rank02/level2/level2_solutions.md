@@ -33,31 +33,23 @@ void	ft_putnbr(int n)
 	write(1, &c, 1);
 }
 
-int		is_prime(int n)
+int is_prime(int n)
 {
-	int i = 2;
-
-	while (i < n)
-	{
-		if (n % i == 0)
-			return (0);
-		++i;
-	}
-	return (1);
+    if(n < 2)
+        return 0;
+    for(int i = 2; i * i <= n; i++)
+        if(n % i == 0)
+            return 0;
+    return 1;
 }
 
-int		add_prime_sum(int n)
+int add_prime_sum(int n)
 {
-	int sum = 0;
-	int i = 2;
-
-	while (i <= n)
-	{
-		if (is_prime(i) == 1)
-			sum += i;
-		++i;
-	}
-	return (sum);
+    int sum = 0;
+    for(int i = 2; i <= n; i++)
+        if(is_prime(i) == 1)
+            sum += i;
+    return sum;
 }
 
 int		main(int argc, char **argv)
@@ -301,18 +293,17 @@ END FUNCTION
 int get_digit(char c, int base)
 {
     int digit = -1;
-    
+
     if(c >= '0' && c <= '9')
         digit = c - '0';
     else if(c >= 'a' && c <= 'f')
         digit = c - 'a' + 10;
-    else if(c >= 'A' && c <= 'F')
+    else if(c >= 'A' && c <= 'f')
         digit = c - 'A' + 10;
-
-    if(digit != -1 && digit < base)
+    
+    if(digit >= 0 && digit < base)
         return digit;
-    else
-        return -1;
+    return -1;
 }
 
 int ft_atoi_base(const char *str, int str_base)
@@ -323,7 +314,7 @@ int ft_atoi_base(const char *str, int str_base)
 
     if(*str == '-')
     {
-        sign = -sign; 
+        sign = -sign;
         ++str;
     }
     while((digit = get_digit(*str, str_base)) >= 0)
@@ -331,7 +322,7 @@ int ft_atoi_base(const char *str, int str_base)
         n = n * str_base + digit;
         ++str;
     }
-    return (n * sign);
+    return(n * sign);
 }
 ```
 
