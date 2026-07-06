@@ -34,33 +34,6 @@ void	flood_fill(char **tab, t_point size, t_point begin)
 }
 ```
 
-### Pseudocode
-```
-STRUCTURE t_point
-    integer x
-    integer y
-END STRUCTURE
-
-FUNCTION fill(2D array tab, t_point size, t_point cur, character to_fill)
-    IF cur.y < 0 OR cur.y >= size.y OR cur.x < 0 OR cur.x >= size.x
-        RETURN (out of bounds)
-    
-    IF tab[cur.y][cur.x] != to_fill
-        RETURN (different color, stop filling)
-    
-    tab[cur.y][cur.x] = 'F' (mark as filled)
-    
-    CALL fill(tab, size, (cur.x-1, cur.y), to_fill) (left)
-    CALL fill(tab, size, (cur.x+1, cur.y), to_fill) (right)
-    CALL fill(tab, size, (cur.x, cur.y-1), to_fill) (up)
-    CALL fill(tab, size, (cur.x, cur.y+1), to_fill) (down)
-END FUNCTION
-
-FUNCTION flood_fill(2D array tab, t_point size, t_point begin)
-    character original_color = tab[begin.y][begin.x]
-    CALL fill(tab, size, begin, original_color)
-END FUNCTION
-```
 
 ---
 
@@ -73,92 +46,47 @@ END FUNCTION
 #include <stdio.h>
 #include <stdlib.h>
 
-int		is_prime(int n)
+int is_prime(int n)
 {
 	int i = 2;
 
 	while (i < n)
 	{
 		if (n % i == 0)
-			return (0);
+			return 0;
 		++i;
 	}
-	return (1);
+	return 1;
 }
 
-void	fprime(char *str)
+void fprime(char *str)
 {
-	int n = atoi(str);
-	int factor = 2;
-	int first = 1;
+	int n = atoi(str), factor = 2, first = 1;
 
 	if (n == 1)
 		printf("1");
-
 	while (factor <= n)
 	{
 		if (n % factor == 0 && is_prime(factor))
 		{
-			if (first == 1)
-				printf("%d", factor);
-			else
-				printf("*%d", factor);
+			printf(first ? "%d" : "*%d", factor);
 			first = 0;
-			n = n / factor;
+			n /= factor;
 		}
 		else
 			++factor;
 	}
 }
 
-int		main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	if (argc == 2)
 		fprime(argv[1]);
-
 	printf("\n");
-	return (0);
+	return 0;
 }
 ```
 
-### Pseudocode
-```
-FUNCTION is_prime(integer n)
-    DECLARE integer i = 2
-    WHILE i < n
-        IF n % i equals 0
-            RETURN 0 (not prime)
-        INCREMENT i
-    RETURN 1 (is prime)
-END FUNCTION
-
-FUNCTION fprime(string str)
-    DECLARE integers n = convert str to int, factor = 2, first = 1
-    
-    IF n equals 1
-        PRINT "1"
-    
-    WHILE factor <= n
-        IF n is divisible by factor AND is_prime(factor)
-            IF first equals 1
-                PRINT factor
-            ELSE
-                PRINT "*" + factor
-            first = 0
-            n = n / factor (divide out this prime factor)
-        ELSE
-            INCREMENT factor
-        END IF
-    END WHILE
-END FUNCTION
-
-FUNCTION main(argc, argv[])
-    IF argc equals 2
-        CALL fprime(argv[1])
-    PRINT newline
-    RETURN 0
-END FUNCTION
-```
 
 ---
 
@@ -170,91 +98,48 @@ END FUNCTION
 ```c
 #include <stdlib.h>
 
-int		absolute_value(int nbr)
+int abs_val(int n)
 {
-	if (nbr < 0)
-		return (-nbr);
-	return (nbr);
+	return (n < 0) ? -n : n;
 }
 
-int		get_len(int nbr)
+int len(int n)
 {
-	int len = 0;
-	if (nbr <= 0)
-		++len;
-	while (nbr != 0)
+	int i = 0;
+
+	if (n <= 0)
+		++i;
+	while (n != 0)
 	{
-		++len;
-		nbr = nbr / 10;
+		++i;
+		n /= 10;
 	}
-	return (len);
+	return (i);
 }
 
-char	*ft_itoa(int nbr)
+char *ft_itoa(int n)
 {
-	char *result;
-	int len;
+	char *res;
+	int i = len(n);
 
-	len = get_len(nbr);
-	result = malloc(sizeof(char) * (len + 1));
-	result[len] = '\0';
-
-	if (nbr < 0)
-		result[0] = '-';
-	else if (nbr == 0)
-		result[0] = '0';
-
-	while (nbr != 0)
+	res = malloc(sizeof(char) * (i + 1));
+	if (!res)
+		return (0);
+	res[i] = '\0';
+	if (n < 0)
+		res[0] = '-';
+	else if (n == 0)
+		res[0] = '0';
+	while (n != 0)
 	{
-		--len;
-		result[len] = absolute_value(nbr % 10) + '0';
-		nbr = nbr / 10;
+		--i;
+		res[i] = abs_val(n % 10) + '0';
+		n /= 10;
 	}
-	return (result);
+	return (res);
 }
 ```
 
-### Pseudocode
-```
-FUNCTION absolute_value(integer nbr)
-    IF nbr < 0
-        RETURN -nbr
-    RETURN nbr
-END FUNCTION
-
-FUNCTION get_len(integer nbr)
-    DECLARE integer len = 0
-    IF nbr <= 0
-        INCREMENT len (for negative sign or extra for 0)
-    
-    WHILE nbr != 0
-        INCREMENT len
-        nbr = nbr / 10
-    
-    RETURN len
-END FUNCTION
-
-FUNCTION ft_itoa(integer nbr)
-    DECLARE string result
-    DECLARE integer len
-    
-    len = get_len(nbr)
-    result = allocate memory for len + 1 characters
-    result[len] = null terminator
-    
-    IF nbr < 0
-        result[0] = '-'
-    ELSE IF nbr equals 0
-        result[0] = '0'
-    
-    WHILE nbr != 0
-        DECREMENT len
-        result[len] = absolute_value(nbr % 10) + '0'
-        nbr = nbr / 10
-    
-    RETURN result
-END FUNCTION
-```
 
 ---
 
@@ -269,9 +154,7 @@ END FUNCTION
 
 void	ft_list_foreach(t_list *begin_list, void (*f)(void *))
 {
-	t_list *list_ptr;
-
-	list_ptr = begin_list;
+	t_list *list_ptr = begin_list;
 	while (list_ptr)
 	{
 		(*f)(list_ptr->data);
@@ -289,17 +172,6 @@ typedef struct    s_list
 }                 t_list;
 ```
 
-### Pseudocode
-```
-FUNCTION ft_list_foreach(node begin_list, function f)
-    DECLARE node list_ptr = begin_list
-    
-    WHILE list_ptr is not NULL
-        CALL function f with list_ptr->data
-        list_ptr = list_ptr->next
-    END WHILE
-END FUNCTION
-```
 
 ---
 
@@ -316,12 +188,11 @@ int cmp(void *a, void *b);
 
 void ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(void *, void *))
 {
-	if (begin_list == NULL || *begin_list == NULL)
-		return;
-
 	t_list *cur = *begin_list;
 
-	if (cmp(cur->data, data_ref) == 0)
+	if (!begin_list || !*begin_list)
+		return;
+	if (!cmp(cur->data, data_ref))
 	{
 		*begin_list = cur->next;
 		free(cur);
@@ -341,23 +212,6 @@ typedef struct    s_list
 }                 t_list;
 ```
 
-### Pseudocode
-```
-FUNCTION ft_list_remove_if(pointer to node begin_list, void data_ref, comparison function cmp)
-    IF begin_list is NULL OR *begin_list is NULL
-        RETURN
-    
-    DECLARE node cur = *begin_list
-    
-    IF cmp(cur->data, data_ref) equals 0 (match found)
-        *begin_list = cur->next (skip this node)
-        FREE cur
-        RECURSIVELY CALL ft_list_remove_if on updated begin_list
-    ELSE
-        RECURSIVELY CALL ft_list_remove_if on cur->next
-    END IF
-END FUNCTION
-```
 
 ---
 
@@ -369,136 +223,70 @@ END FUNCTION
 ```c
 #include <stdlib.h>
 
-int	ft_wordlen(char *str)
+static int	is_sep(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n');
+}
+
+static int	ft_wordlen(char *str)
 {
 	int i = 0;
 
-	while (str[i] != '\0' && str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
+	while (str[i] && !is_sep(str[i]))
 		++i;
 	return (i);
 }
 
-char	*word_dupe(char *str)
+static char	*word_dupe(char *str)
 {
-	int i = 0;
-	int len = ft_wordlen(str);
+	int		len = ft_wordlen(str);
+	int		i = 0;
 	char *word = malloc(sizeof(char) * (len + 1));
-	
-	word[len] = '\0';
+    if (!word)
+		return (0);
 	while (i < len)
 	{
 		word[i] = str[i];
 		++i;
 	}
+	word[i] = '\0';
 	return (word);
-}
-
-void	fill_words(char **array, char *str)
-{
-	int word_index = 0;
-	
-	while (*str == ' ' || *str == '\t' || *str == '\n')
-		++str;
-	while (*str != '\0')
-	{
-		array[word_index] = word_dupe(str);
-		++word_index;
-		while (*str != '\0' && *str != ' ' && *str != '\t' && *str != '\n')
-			++str;
-		while (*str == ' ' || *str == '\t' || *str == '\n')
-			++str;
-	}
-}
-
-int		count_words(char *str)
-{
-	int num_words = 0;
-	
-	while (*str == ' ' || *str == '\t' || *str == '\n')
-		++str;
-	while (*str != '\0')
-	{
-		++num_words;
-		while (*str != '\0' && *str != ' ' && *str != '\t' && *str != '\n')
-			++str;
-		while (*str == ' ' || *str == '\t' || *str == '\n')
-			++str;
-	}
-	return (num_words);
 }
 
 char	**ft_split(char *str)
 {
-	int		num_words;
 	char	**array;
-	
-	num_words = count_words(str);
-	array = malloc(sizeof(char *) * (num_words + 1));
-	
-	array[num_words] = 0;
-	fill_words(array, str);
+	int		count = 0;
+	int		i = 0;
+	int		j = 0;
+
+	while (str[i])
+	{
+		while (str[i] && is_sep(str[i]))
+			++i;
+		if (str[i])
+			++count;
+		while (str[i] && !is_sep(str[i]))
+			++i;
+	}
+	array = malloc(sizeof(char *) * (count + 1));
+	if (!array)
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		while (str[i] && is_sep(str[i]))
+			++i;
+		if (str[i])
+			array[j++] = word_dupe(str + i);
+		while (str[i] && !is_sep(str[i]))
+			++i;
+	}
+	array[j] = 0;
 	return (array);
 }
 ```
 
-### Pseudocode
-```
-FUNCTION ft_wordlen(string str)
-    DECLARE integer i = 0
-    WHILE str[i] is not null AND not space AND not tab AND not newline
-        INCREMENT i
-    RETURN i
-END FUNCTION
-
-FUNCTION word_dupe(string str)
-    DECLARE integers i = 0, len = ft_wordlen(str)
-    DECLARE string word = allocate memory for len + 1 characters
-    word[len] = null terminator
-    
-    WHILE i < len
-        word[i] = str[i]
-        INCREMENT i
-    
-    RETURN word
-END FUNCTION
-
-FUNCTION fill_words(string array, string str)
-    DECLARE integer word_index = 0
-    
-    SKIP all whitespace (space, tab, newline)
-    WHILE *str is not null terminator
-        array[word_index] = word_dupe(str)
-        INCREMENT word_index
-        SKIP all non-whitespace characters
-        SKIP all whitespace characters
-    END WHILE
-END FUNCTION
-
-FUNCTION count_words(string str)
-    DECLARE integer num_words = 0
-    
-    SKIP all whitespace at start
-    WHILE *str is not null terminator
-        INCREMENT num_words
-        SKIP all non-whitespace characters
-        SKIP all whitespace characters
-    END WHILE
-    
-    RETURN num_words
-END FUNCTION
-
-FUNCTION ft_split(string str)
-    DECLARE integers num_words
-    DECLARE string array
-    
-    num_words = count_words(str)
-    array = allocate memory for num_words + 1 string pointers
-    array[num_words] = NULL (null-terminate array)
-    CALL fill_words(array, str)
-    
-    RETURN array
-END FUNCTION
-```
 
 ---
 
@@ -508,103 +296,46 @@ END FUNCTION
 
 ### Code
 ```c
-#include <unistd.h>
+#include <unistd.h>#include <unistd.h>
 
-void ft_putchar(char c)
+static void ft_putchar(char c)
 {
 	write(1, &c, 1);
 }
 
-int ft_strlen(char *str)
+static int is_space(char c)
 {
-	int i = 0;
-	
-	while (str[i])
-		i++;
-	return (i);
+	return (c == ' ' || c == '\t');
 }
 
-int main(int ac, char *av[])
+int main(int ac, char **av)
 {
-	char *tmp;
-	char *rev;
-	int len;
+	int i = 0, printed = 0, start, end;
 
-	if (ac == 2)
+	if (ac != 2)
 	{
-		tmp = av[1];
-		len = ft_strlen(tmp);
-		rev = NULL;
-		len--;
-		while (tmp[len])
-		{
-			if (tmp[len - 1] == ' ')
-			{
-				rev = &tmp[len];
-				while (*rev && *rev != ' ')
-				{
-					ft_putchar(*rev);
-					rev++;
-				}
-				ft_putchar(' ');
-			}
-			else if (len == 0)
-			{
-				rev = &tmp[len];
-				while (*rev && *rev != ' ')
-				{
-					ft_putchar(*rev);
-					rev++;
-				}
-			}
-			len--;
-		}
+		ft_putchar('\n');
+		return (0);
+	}
+	while (av[1][i])
+		++i;
+	while (i > 0)
+	{
+		while (i > 0 && is_space(av[1][i - 1]))
+			--i;
+		end = i;
+		while (i > 0 && !is_space(av[1][i - 1]))
+			--i;
+		start = i;
+		if (printed)
+			ft_putchar(' ');
+		while (start < end)
+			ft_putchar(av[1][start++]);
+		printed = 1;
 	}
 	ft_putchar('\n');
+	return (0);
 }
-```
-
-### Pseudocode
-```
-FUNCTION ft_putchar(character c)
-    WRITE c to stdout
-END FUNCTION
-
-FUNCTION ft_strlen(string str)
-    DECLARE integer i = 0
-    WHILE str[i] exists
-        INCREMENT i
-    RETURN i
-END FUNCTION
-
-FUNCTION main(argc, argv[])
-    DECLARE strings tmp, rev
-    DECLARE integer len
-    
-    IF argc equals 2
-        tmp = argv[1]
-        len = ft_strlen(tmp)
-        len-- (start from last character)
-        
-        WHILE tmp[len] exists
-            IF tmp[len - 1] is space (found word boundary)
-                rev = pointer to start of current word
-                WHILE *rev exists AND *rev is not space
-                    CALL ft_putchar(*rev)
-                    INCREMENT rev
-                CALL ft_putchar(' ')
-            
-            ELSE IF len equals 0 (first word)
-                rev = pointer to start of first word
-                WHILE *rev exists AND *rev is not space
-                    CALL ft_putchar(*rev)
-                    INCREMENT rev
-            
-            DECREMENT len
-        END WHILE
-    
-    CALL ft_putchar(newline)
-END FUNCTION
 ```
 
 ---
@@ -617,119 +348,64 @@ END FUNCTION
 ```c
 #include <unistd.h>
 
-int		skip_whitespace(char *str, int i)
+int skip(char *s, int i)
 {
-	while (str[i] == ' ' || str[i] == '\t')
+	while (s[i] == ' ' || s[i] == '\t')
 		++i;
 	return (i);
 }
 
-int		ft_wordlen(char *str)
+int len(char *s)
 {
 	int i = 0;
 
-	while (str[i] != '\0' && str[i] != ' ' && str[i] != '\t')
+	while (s[i] && s[i] != ' ' && s[i] != '\t')
 		++i;
 	return (i);
 }
 
-int		print_word(char *str, int i, int *is_first)
+int print_word(char *s, int i, int *first)
 {
-	int word_len;
+	int n;
 
-	i = skip_whitespace(str, i);
-	word_len = ft_wordlen(str + i);
-	if (*is_first == 0)
+	i = skip(s, i);
+	n = len(s + i);
+	if (!*first)
 		write(1, " ", 1);
-	write(1, str + i, word_len);
-	*is_first = 0;
-	return (i + word_len);
+	write(1, s + i, n);
+	*first = 0;
+	return (i + n);
 }
 
-int		epur_str(char *str)
+int epur(char *s)
 {
-	int i = 0;
-	int is_first = 1;
+	int i = 0, first = 1;
 
-	i = skip_whitespace(str, i);
-	while (str[i] != '\0')
+	i = skip(s, i);
+	while (s[i])
 	{
-		i = print_word(str, i, &is_first);
-		i = skip_whitespace(str, i);
+		i = print_word(s, i, &first);
+		i = skip(s, i);
 	}
-	return (is_first);
+	return (first);
 }
 
-int		main(int argc, char **argv)
+int main(int ac, char **av)
 {
-	if (argc >= 2)
-	{
-		char *str = argv[1];
-		int i = 0;
-		int is_first;
+	int i = 0, first;
 
-		i = skip_whitespace(str, i);
-		i = i + ft_wordlen(str + i);
-		is_first = epur_str(str + i);
-		print_word(str, 0, &is_first);
+	if (ac >= 2)
+	{
+		i = skip(av[1], i);
+		i += len(av[1] + i);
+		first = epur(av[1] + i);
+		print_word(av[1], 0, &first);
 	}
 	write(1, "\n", 1);
 	return (0);
 }
 ```
 
-### Pseudocode
-```
-FUNCTION skip_whitespace(string str, integer i)
-    WHILE str[i] is space or tab
-        INCREMENT i
-    RETURN i
-END FUNCTION
-
-FUNCTION ft_wordlen(string str)
-    DECLARE integer i = 0
-    WHILE str[i] is not null AND not space AND not tab
-        INCREMENT i
-    RETURN i
-END FUNCTION
-
-FUNCTION print_word(string str, integer i, pointer is_first)
-    DECLARE integer word_len
-    
-    i = skip_whitespace(str, i)
-    word_len = ft_wordlen(str + i)
-    
-    IF *is_first equals 0
-        WRITE " " to stdout
-    
-    WRITE word_len characters from str+i to stdout
-    *is_first = 0
-    RETURN i + word_len
-END FUNCTION
-
-FUNCTION epur_str(string str)
-    DECLARE integers i = 0, is_first = 1
-    
-    i = skip_whitespace(str, i)
-    WHILE str[i] is not null terminator
-        i = print_word(str, i, &is_first)
-        i = skip_whitespace(str, i)
-    
-    RETURN is_first
-END FUNCTION
-
-FUNCTION main(argc, argv[])
-    IF argc >= 2
-        str = argv[1]
-        i = skip_whitespace(str, 0)
-        i = i + ft_wordlen(str + i) (skip first word)
-        is_first = epur_str(str + i) (print remaining words)
-        print_word(str, 0, &is_first) (print first word at end)
-    
-    WRITE newline to stdout
-    RETURN 0
-END FUNCTION
-```
 
 ---
 
@@ -739,44 +415,26 @@ END FUNCTION
 
 ### Code
 ```c
-void	sort_int_tab(int *tab, unsigned int size)
+void sort_int_tab(int *tab, unsigned int size)
 {
-	unsigned int	i = 0;
-	int	temp;
+	unsigned int i = 0;
+	int temp;
 
-	while (i < (size - 1))
+	while (i < size - 1)
 	{
 		if (tab[i] > tab[i + 1])
 		{
 			temp = tab[i];
-			tab[i] = tab[i+ 1];
+			tab[i] = tab[i + 1];
 			tab[i + 1] = temp;
 			i = 0;
 		}
 		else
-			i++;
+			++i;
 	}
 }
 ```
 
-### Pseudocode
-```
-FUNCTION sort_int_tab(integer array tab, unsigned integer size)
-    DECLARE unsigned integer i = 0
-    DECLARE integer temp
-    
-    WHILE i < (size - 1)
-        IF tab[i] > tab[i + 1]
-            temp = tab[i]
-            tab[i] = tab[i + 1]
-            tab[i + 1] = temp
-            i = 0 (restart from beginning after swap)
-        ELSE
-            INCREMENT i
-        END IF
-    END WHILE
-END FUNCTION
-```
 
 ---
 
@@ -787,16 +445,16 @@ END FUNCTION
 ### Code
 ```c
 #include "ft_list.h"
+#include <stdlib.h>
 
-t_list	*sort_list(t_list *lst, int (*cmp)(int, int))
+t_list *sort_list(t_list *lst, int (*cmp)(int, int))
 {
-	int	swap;
-	t_list	*tmp;
+	int swap;
+	t_list *tmp = lst;
 
-	tmp = lst;
-	while(lst->next != NULL)
+	while (lst->next)
 	{
-		if (((*cmp)(lst->data, lst->next->data)) == 0)
+		if (cmp(lst->data, lst->next->data) == 0)
 		{
 			swap = lst->data;
 			lst->data = lst->next->data;
@@ -806,8 +464,7 @@ t_list	*sort_list(t_list *lst, int (*cmp)(int, int))
 		else
 			lst = lst->next;
 	}
-	lst = tmp;
-	return (lst);
+	return (tmp);
 }
 ```
 
@@ -823,27 +480,6 @@ struct s_list {
 t_list	*sort_list(t_list *lst, int (*cmp)(int, int));
 ```
 
-### Pseudocode
-```
-FUNCTION sort_list(node lst, comparison function cmp)
-    DECLARE integer swap
-    DECLARE node tmp = lst
-    
-    WHILE lst->next is not NULL
-        IF cmp(lst->data, lst->next->data) equals 0 (swap needed)
-            swap = lst->data
-            lst->data = lst->next->data
-            lst->next->data = swap
-            lst = tmp (restart from beginning after swap)
-        ELSE
-            lst = lst->next
-        END IF
-    END WHILE
-    
-    lst = tmp (reset to head)
-    RETURN lst
-END FUNCTION
-```
 
 ---
 

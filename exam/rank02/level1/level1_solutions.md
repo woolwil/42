@@ -32,26 +32,6 @@ int main(int ac, char **av)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION main(argc, argv[])
-    DECLARE integer i = 0
-    
-    IF argc equals 2
-        WHILE argv[1][i] is not null terminator
-            IF argv[1][i] is lowercase letter (a-z)
-                argv[1][i] = 219 - argv[1][i] (mirror: a↔z, b↔y, etc)
-            ELSE IF argv[1][i] is uppercase letter (A-Z)
-                argv[1][i] = 155 - argv[1][i] (mirror uppercase)
-            
-            WRITE argv[1][i] to stdout
-            INCREMENT i
-        END WHILE
-    END IF
-    
-    WRITE newline to stdout
-END FUNCTION
-```
 
 ---
 
@@ -84,23 +64,6 @@ int main(int argc, char **argv)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION main(argc, argv[])
-    IF argc equals 2
-        FOR each character i in argv[1]
-            IF argv[1][i] is uppercase letter (A-Z)
-                WRITE "_" to stdout
-                argv[1][i] = argv[1][i] + 32 (convert to lowercase)
-            
-            WRITE argv[1][i] to stdout
-        END FOR
-    END IF
-    
-    WRITE newline to stdout
-    RETURN EXIT_SUCCESS
-END FUNCTION
-```
 
 ---
 
@@ -141,32 +104,6 @@ int	main(int ac, char **av)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION main(argc, argv[])
-    DECLARE integers n1 = 0, n2 = 0, res = 0
-    
-    IF argc equals 4
-        n1 = convert argv[1] to integer
-        n2 = convert argv[3] to integer
-        
-        IF argv[2][0] is '+'
-            res = n1 + n2
-        ELSE IF argv[2][0] is '-'
-            res = n1 - n2
-        ELSE IF argv[2][0] is '*'
-            res = n1 * n2
-        ELSE IF argv[2][0] is '/'
-            res = n1 / n2
-        ELSE IF argv[2][0] is '%'
-            res = n1 % n2
-        
-        PRINT res with newline
-    ELSE
-        WRITE newline to stdout
-    END IF
-END FUNCTION
-```
 
 ---
 
@@ -199,25 +136,6 @@ int     ft_atoi(const char *str)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION ft_atoi(string str)
-    DECLARE integers nbr = 0, sig = 1, i = 0
-    
-    IF str[0] is '-' or '+'
-        IF str[0] is '-'
-            sig = -1
-        INCREMENT i
-    END IF
-    
-    WHILE str[i] exists AND str[i] is digit ('0'-'9')
-        nbr = (nbr * 10) + (ASCII value of str[i] - ASCII '0')
-        INCREMENT i
-    END WHILE
-    
-    RETURN nbr * sig
-END FUNCTION
-```
 
 ---
 
@@ -241,18 +159,6 @@ int	ft_strcmp(char *s1, char *s2)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION ft_strcmp(string s1, string s2)
-    DECLARE integer i = 0
-    
-    WHILE s1[i] equals s2[i] AND s1[i] is not null AND s2[i] is not null
-        INCREMENT i
-    END WHILE
-    
-    RETURN (ASCII value of s1[i]) - (ASCII value of s2[i])
-END FUNCTION
-```
 
 ---
 
@@ -288,25 +194,6 @@ size_t  ft_strcspn(const char *s, const char *reject)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION ft_strcspn(string s, string reject)
-    DECLARE size_t i = 0, k = 0
-    
-    WHILE s[i] is not null terminator
-        WHILE reject[k] is not null terminator
-            IF reject[k] equals s[i]
-                RETURN i
-            INCREMENT k
-        END WHILE
-        
-        k = 0
-        INCREMENT i
-    END WHILE
-    
-    RETURN i
-END FUNCTION
-```
 
 ---
 
@@ -341,32 +228,6 @@ char    *ft_strdup(char *src)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION ft_strdup(string src)
-    DECLARE integer i = 0
-    DECLARE string dest
-    
-    WHILE src[i] is not null terminator
-        INCREMENT i
-    END WHILE
-    
-    dest = allocate memory for (i + 1) characters
-    
-    IF memory allocation fails
-        RETURN NULL
-    END IF
-    
-    i = 0
-    WHILE src[i] is not null terminator
-        dest[i] = src[i]
-        INCREMENT i
-    END WHILE
-    
-    dest[i] = src[i] (copy null terminator)
-    RETURN dest
-END FUNCTION
-```
 
 ---
 
@@ -394,25 +255,6 @@ char *ft_strrev(char *str)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION ft_strrev(string str)
-    DECLARE integers i = -1, length = 0
-    DECLARE character temporary
-    
-    WHILE str[length] exists
-        INCREMENT length
-    END WHILE
-    
-    WHILE ++i is less than (length / 2)
-        temporary = str[i]
-        str[i] = str[length - 1 - i]
-        str[length - 1 - i] = temporary
-    END WHILE
-    
-    RETURN str
-END FUNCTION
-```
 
 ---
 
@@ -454,45 +296,6 @@ int main(int ac, char **av)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION main(argc, argv[])
-    DECLARE integers i = 0, k = 0, l = 0
-    DECLARE strings s1, s2
-    
-    IF argc equals 3
-        s1 = argv[1]
-        s2 = argv[2]
-        
-        WHILE s1[i] is not null terminator
-            k = 0
-            WHILE s2[k] is not null terminator
-                IF s1[i] equals s2[k]
-					l = 0
-					WHILE s1[l] is not equal to s1[i]
-						INCREMENT l
-					END WHILE
-
-					IF l equals i
-						l = 0
-						WHILE s2[l] is not equal to s2[k]
-							INCREMENT l
-						END WHILE
-
-						IF l equals k
-							WRITE s1[i] to stdout
-						END IF
-                    END IF
-                END IF
-                INCREMENT k
-            END WHILE
-            INCREMENT i
-        END WHILE
-    END IF
-    
-    WRITE newline to stdout
-END FUNCTION
-```
 
 ---
 
@@ -519,24 +322,6 @@ int         is_power_of_2(unsigned int n)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION is_power_of_2(unsigned integer n)
-    IF n equals 0
-        RETURN 0 (zero is not a power of 2)
-    END IF
-    
-    WHILE n is greater than 1
-        IF n is divisible by 2
-            n = n / 2
-        ELSE
-            RETURN 0 (not divisible by 2, so not a power of 2)
-        END IF
-    END WHILE
-    
-    RETURN 1 (successfully reduced to 1, so it is a power of 2)
-END FUNCTION
-```
 
 ---
 
@@ -571,32 +356,6 @@ int main(int ac, char **av)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION last_word(string str)
-    DECLARE integers j = 0, i = 0
-    
-    WHILE str[i] exists
-        IF str[i] is space AND str[i+1] is printable character (ASCII 33-126)
-            j = i + 1 (mark start of potential last word)
-        INCREMENT i
-    END WHILE
-    
-    WHILE str[j] is printable character (ASCII 33-126)
-        WRITE str[j] to stdout
-        INCREMENT j
-    END WHILE
-END FUNCTION
-
-FUNCTION main(argc, argv[])
-    IF argc equals 2
-        CALL last_word(argv[1])
-    END IF
-    
-    WRITE newline to stdout
-    RETURN 0
-END FUNCTION
-```
 
 ---
 
@@ -620,24 +379,6 @@ int	max(int* tab, unsigned int len)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION max(integer array tab, unsigned integer len)
-    IF len equals 0
-        RETURN 0
-    END IF
-    
-    DECLARE integer res = tab[0]
-    
-    FOR i = 0 to i < len, INCREMENT i
-        IF res is less than tab[i]
-            res = tab[i]
-        END IF
-    END FOR
-    
-    RETURN res
-END FUNCTION
-```
 
 ---
 
@@ -662,18 +403,6 @@ void print_bits(unsigned char octet)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION print_bits(unsigned character octet)
-    DECLARE integer i = 8
-    DECLARE unsigned character bit
-    
-    WHILE i decrements (i--)
-        bit = ((octet right-shift i positions) AND 1) + ASCII '0'
-        WRITE bit to stdout
-    END WHILE
-END FUNCTION
-```
 
 ---
 
@@ -712,21 +441,6 @@ unsigned char	reverse_bits(unsigned char octet)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION reverse_bits(unsigned character octet)
-    DECLARE integer i = 8
-    DECLARE unsigned character res = 0
-    
-    WHILE i is greater than 0
-        res = (res * 2) + (octet % 2) (extract last bit and shift result)
-        octet = octet / 2 (remove last bit)
-        DECREMENT i
-    END WHILE
-    
-    RETURN res
-END FUNCTION
-```
 
 ---
 
@@ -756,23 +470,6 @@ int main(int ac, char **av)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION main(argc, argv[])
-    IF argc equals 2
-        FOR each character i in argv[1]
-            IF argv[1][i] is underscore '_'
-                INCREMENT i (skip underscore)
-                argv[1][i] = argv[1][i] - 32 (convert to uppercase)
-            
-            WRITE argv[1][i] to stdout
-        END FOR
-    END IF
-    
-    WRITE newline to stdout
-    RETURN EXIT_SUCCESS
-END FUNCTION
-```
 
 ---
 
@@ -790,14 +487,6 @@ unsigned char	swap_bits(unsigned char octet)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION swap_bits(unsigned character octet)
-    high_nibble = octet right-shift 4 positions
-    low_nibble = octet left-shift 4 positions
-    RETURN (high_nibble) OR (low_nibble)
-END FUNCTION
-```
 
 ---
 
@@ -838,46 +527,6 @@ int main(int ac, char **av)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION check(character c, string str, integer index)
-    DECLARE integer i = 0
-    
-    WHILE i is less than index
-        IF str[i] equals c
-            RETURN 0 (character already appeared before)
-        INCREMENT i
-    END WHILE
-    
-    RETURN 1 (character is new, first occurrence)
-END FUNCTION
-
-FUNCTION main(argc, argv[])
-    DECLARE integers i = 0, j = 0, k = 0
-    
-    IF argc equals 3
-        WHILE argv[1][i] is not null terminator
-            INCREMENT i
-        END WHILE
-        
-        WHILE argv[2][j] is not null terminator
-            argv[1][i] = argv[2][j]
-            INCREMENT i
-            INCREMENT j
-        END WHILE
-        
-        i-- (move back from null terminator)
-        
-        WHILE k is less than or equal to i
-            IF check(argv[1][k], argv[1], k) equals 1
-                WRITE argv[1][k] to stdout
-            INCREMENT k
-        END WHILE
-    END IF
-    
-    WRITE newline to stdout
-END FUNCTION
-```
 
 ---
 
@@ -915,36 +564,6 @@ int	main(int argc, char const *argv[])
 }
 ```
 
-### Pseudocode
-```
-FUNCTION ft_putstr(string str)
-    DECLARE integer i = 0
-    
-    WHILE str[i] exists
-        WRITE str[i] to stdout
-        INCREMENT i
-    END WHILE
-END FUNCTION
-
-FUNCTION main(argc, argv[])
-    DECLARE integers i = 0, j = 0
-    
-    IF argc equals 3
-        WHILE argv[2][j] exists
-            IF argv[2][j] equals argv[1][i]
-                INCREMENT i (match found, move pointer in first string)
-            INCREMENT j
-        END WHILE
-        
-        IF argv[1][i] is null terminator (all characters matched)
-            CALL ft_putstr(argv[1])
-        END IF
-    END IF
-    
-    WRITE newline to stdout
-    RETURN 0
-END FUNCTION
-```
 
 ---
 

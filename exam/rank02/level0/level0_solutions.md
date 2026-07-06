@@ -37,30 +37,6 @@ int	main(int ac, char **av)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION ft_putchar(character c)
-    WRITE character c to stdout (file descriptor 1)
-END FUNCTION
-
-FUNCTION main(argc, argv[])
-    DECLARE integer i = 0
-    
-    IF number of arguments equals 2
-        WHILE argv[1][i] is space or tab
-            INCREMENT i
-        END WHILE
-        
-        WHILE argv[1][i] is not null terminator AND not space AND not tab
-            CALL ft_putchar(argv[1][i])
-            INCREMENT i
-        END WHILE
-    END IF
-    
-    CALL ft_putchar(newline)
-    RETURN 0
-END FUNCTION
-```
 
 ---
 
@@ -105,32 +81,6 @@ int	main(void)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION main()
-    DECLARE integer i = 1, k, l
-    
-    WHILE i is less than or equal to 100
-        IF i is divisible by both 3 and 5
-            WRITE "fizzbuzz" to stdout
-        ELSE IF i is divisible by 3
-            WRITE "fizz" to stdout
-        ELSE IF i is divisible by 5
-            WRITE "buzz" to stdout
-        ELSE IF i is greater than 10
-            k = (i divided by 10) + ASCII '0'
-            l = (i modulo 10) + ASCII '0'
-            WRITE k and l as characters to stdout
-        ELSE
-            k = i + ASCII '0'
-            WRITE k as character to stdout
-        END IF
-        
-        WRITE newline to stdout
-        INCREMENT i
-    END WHILE
-END FUNCTION
-```
 
 ---
 
@@ -155,17 +105,6 @@ void    ft_putstr(char *str)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION ft_putstr(string str)
-    DECLARE integer i = 0
-    
-    WHILE str[i] is not null terminator
-        WRITE str[i] to stdout
-        INCREMENT i
-    END WHILE
-END FUNCTION
-```
 
 ---
 
@@ -192,20 +131,6 @@ char	*ft_strcpy(char *s1, char *s2)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION ft_strcpy(string s1, string s2)
-    DECLARE integer i = 0
-    
-    WHILE s2[i] is not null terminator
-        s1[i] = s2[i]
-        INCREMENT i
-    END WHILE
-    
-    s1[i] = null terminator
-    RETURN s1
-END FUNCTION
-```
 
 ---
 
@@ -226,18 +151,6 @@ int     ft_strlen(char *str)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION ft_strlen(string str)
-    DECLARE integer i = 0
-    
-    WHILE str[i] is not null terminator
-        INCREMENT i
-    END WHILE
-    
-    RETURN i
-END FUNCTION
-```
 
 ---
 
@@ -260,16 +173,6 @@ void    ft_swap(int *a, int *b)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION ft_swap(pointer a, pointer b)
-    DECLARE integer temp
-    
-    temp = *a (dereference pointer a)
-    *a = *b (a now points to b's value)
-    *b = temp (b now points to original a's value)
-END FUNCTION
-```
 
 ---
 
@@ -324,37 +227,6 @@ int	main(int ac, char **av)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION main(argc, argv[])
-    DECLARE integer i = 0, k = 1
-    DECLARE string str
-    
-    IF argc equals 2
-        str = argv[1]
-        
-        WHILE str[i] is not null terminator
-            k = 1
-            
-            IF str[i] is uppercase letter (A-Z)
-                k = str[i] - 64 (calculate position: A=1, B=2, ..., Z=26)
-            
-            IF str[i] is lowercase letter (a-z)
-                k = str[i] - 96 (calculate position: a=1, b=2, ..., z=26)
-            
-            WHILE k is greater than or equal to 1
-                WRITE str[i] to stdout
-                DECREMENT k
-            END WHILE
-            
-            INCREMENT i
-        END WHILE
-    END IF
-    
-    WRITE newline to stdout
-    RETURN 0
-END FUNCTION
-```
 
 ---
 
@@ -382,26 +254,6 @@ int	main(int argc, char *argv[])
 }
 ```
 
-### Pseudocode
-```
-FUNCTION main(argc, argv[])
-    DECLARE integer i = 0
-    
-    IF argc equals 2
-        WHILE argv[1][i] is not null terminator
-            INCREMENT i
-        END WHILE
-        
-        WHILE i is not zero
-            DECREMENT i
-            WRITE argv[1][i] to stdout
-        END WHILE
-    END IF
-    
-    WRITE newline to stdout
-    RETURN 0
-END FUNCTION
-```
 
 ---
 
@@ -434,26 +286,6 @@ int main(int ac, char **av)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION main(argc, argv[])
-    DECLARE integer i = 0
-    
-    IF argc equals 2
-        WHILE argv[1][i] is not null terminator
-            IF argv[1][i] is in range [a-m] OR [A-M]
-                argv[1][i] = argv[1][i] + 13
-            ELSE IF argv[1][i] is in range [n-z] OR [N-Z]
-                argv[1][i] = argv[1][i] - 13
-            
-            WRITE argv[1][i] to stdout
-            INCREMENT i
-        END WHILE
-    END IF
-    
-    WRITE newline to stdout
-END FUNCTION
-```
 
 ---
 
@@ -498,26 +330,6 @@ int	main(int ac, char **av)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION main(argc, argv[])
-    DECLARE integer i = 0
-    
-    IF argc equals 2
-        WHILE argv[1][i] is not null terminator
-            IF argv[1][i] is in range [a-y] OR [A-Y]
-                argv[1][i] = argv[1][i] + 1
-            ELSE IF argv[1][i] is 'z' or 'Z'
-                argv[1][i] = argv[1][i] - 25 (wrap around to a or A)
-            
-            WRITE argv[1][i] to stdout
-            INCREMENT i
-        END WHILE
-    END IF
-    
-    WRITE newline to stdout
-END FUNCTION
-```
 
 ---
 
@@ -564,26 +376,6 @@ int	main(int ac, char **av)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION main(argc, argv[])
-    DECLARE integer i = 0
-    
-    IF argc equals 4
-        IF argv[2] is a single alphabetic character AND argv[3] is a single alphabetic character
-            WHILE argv[1][i] is not null terminator
-                IF argv[1][i] equals argv[2][0]
-                    argv[1][i] = argv[3][0]
-                
-                WRITE argv[1][i] to stdout
-                INCREMENT i
-            END WHILE
-        END IF
-    END IF
-    
-    WRITE newline to stdout
-END FUNCTION
-```
 
 ---
 
@@ -616,26 +408,6 @@ int main(int ac, char **av)
 }
 ```
 
-### Pseudocode
-```
-FUNCTION main(argc, argv[])
-    DECLARE integer i = 0
-    
-    IF argc equals 2
-        WHILE argv[1][i] is not null terminator
-            IF argv[1][i] is lowercase letter (a-z)
-                argv[1][i] = argv[1][i] - 32 (convert to uppercase)
-            ELSE IF argv[1][i] is uppercase letter (A-Z)
-                argv[1][i] = argv[1][i] + 32 (convert to lowercase)
-            
-            WRITE argv[1][i] to stdout
-            INCREMENT i
-        END WHILE
-    END IF
-    
-    WRITE newline to stdout
-END FUNCTION
-```
 
 ---
 
