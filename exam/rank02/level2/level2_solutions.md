@@ -115,7 +115,7 @@ int main(int ac, char **av)
 
 ---
 
-## 3.   
+## 3.   expand_str
 
 **Description:** Expand spacing - replace single spaces with three spaces between words.
 
