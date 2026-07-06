@@ -256,7 +256,7 @@ static char *word_dupe(char *s)
 {
     int len = word_len(s);
     int i = 0;
-    char *word = malloc(sizeof(char) * len) + 1;
+    char *word = malloc(sizeof(char) * (len + 1));
     if(!word)
         return 0;
     while(i < len)
@@ -271,7 +271,7 @@ static char *word_dupe(char *s)
 char **ft_split(char *s)
 {
     int count = word_count(s);
-    char **array = malloc(sizeof(char *) * count) + 1;
+    char **array = malloc(sizeof(char *) * (count + 1));
     int i = 0;
     int j = 0;
     
