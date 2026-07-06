@@ -30,26 +30,32 @@ static char	*word_dupe(char *str)
 	return (word);
 }
 
+static int word_count(char *s)
+{
+    int i = 0;
+    int count = 0;
+    
+    while (s[i])
+	{
+		while (s[i] && is_sep(s[i]))
+			++i;
+		if (s[i])
+			++count;
+		while (s[i] && !is_sep(s[i]))
+			++i;
+	}
+    return count;
+}
+
 char	**ft_split(char *str)
 {
-	char	**array;
-	int		count = 0;
+    int		count = word_count(str);
+	char	**array = malloc(sizeof(char *) * (count + 1));
 	int		i = 0;
 	int		j = 0;
 
-	while (str[i])
-	{
-		while (str[i] && is_sep(str[i]))
-			++i;
-		if (str[i])
-			++count;
-		while (str[i] && !is_sep(str[i]))
-			++i;
-	}
-	array = malloc(sizeof(char *) * (count + 1));
 	if (!array)
 		return (0);
-	i = 0;
 	while (str[i])
 	{
 		while (str[i] && is_sep(str[i]))
