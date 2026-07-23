@@ -45,9 +45,9 @@ def main() -> None:
         print(f"Item {item} represents "
               f"{round(quantity / total_qty * 100, 1)}%")
 
-    max_item = max(inventory, key=inventory.get)
+    max_item = max(inventory, key=inventory.__getitem__)
     max_qty = inventory[max_item]
-    min_item = min(inventory, key=inventory.get)
+    min_item = min(inventory, key=inventory.__getitem__)
     min_qty = inventory[min_item]
 
     print(f"Item most abundant: {max_item} with quantity {max_qty}")
