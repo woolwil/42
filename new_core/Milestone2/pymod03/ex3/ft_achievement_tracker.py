@@ -18,42 +18,36 @@ def gen_player_achievements() -> set[str]:
 
 
 def main() -> None:
-    print("=== Achievement Tracker System ===")
-    print()
-
-    players = {  # Key: Value
+    players = {
         "Alice": gen_player_achievements(),
         "Bob": gen_player_achievements(),
         "Charlie": gen_player_achievements(),
         "Dylan": gen_player_achievements()
     }
+    distinct_achievements = list(set.union(*players.values()))
+    common_achievements = list(set.intersection(*players.values()))
 
-    for name, ach_set in players.items():
-        print(f"Player: {name}: {ach_set}")
-        print()
+    for key, value in players.items():
+        print(f"Player {key}: {value}")
 
-    common_ach = set.intersection(*players.values())
-    distinct_ach = set.union(*players.values())
-    # diff_ach = set.difference(*players.values())
-
-    print(f"All distinct achievements: {distinct_ach}")
     print()
-    print(f"Common achievements: {common_ach}")
+    print(f"All distinct achievements: {distinct_achievements}")
     print()
-    for player, ach_set in players.items():
-        others = set.union(*(val for key, val in players.items()
-                             if key != player))
-        only_player = ach_set.difference(others)
-        # only_player = ach_set - others
-        print(f"Only {player} has: {only_player}")
-        print()
+    print(f"Common achievements: {common_achievements}")
+    print()
+    for current_player, current_achievements in players.items():
+        # others_achievements: set[str] = set()
+        # for compared_player, compared_achievements in players.items():
+        #     if compared_player != current_player:
+        #         others_achievements = set.union(others_achievements,
+        #                                         compared_achievements)
+        others_achievements = set.union(*(value for key, value in
+                                        players.items()
+                                        if key != current_player))
 
-    pool_set = set(ach_pool)
-    for player, ach_set in players.items():
-        missing = pool_set.difference(ach_set)
-        # missing = pool_set - ach_set
-        print(f"{player} is missing: {missing}")
-        print()
+        only_this_player = set.difference(current_achievements,
+                                          others_achievements)
+        print(f"Only {current_player} has {only_this_player}")
 
 
 if __name__ == "__main__":
