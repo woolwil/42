@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!usr/bin/env python3
 
 import sys
 
@@ -23,8 +23,8 @@ def main() -> None:
 
         try:
             qty = int(qty_str)
-        except ValueError as e:
-            print(f"Quantity error for '{item}': {e}")
+        except ValueError as error:
+            print(f"Quantity error for '{item}': {error}")
             continue
 
         inventory[item] = qty
@@ -35,36 +35,23 @@ def main() -> None:
 
     print(f"Got inventory: {inventory}")
 
-    items_list = list(inventory.keys())
-    print(f"Item list: {items_list}")
+    item_list = list(inventory.keys())
+    print(f"Item list: {item_list}")
 
     total_qty = sum(inventory.values())
     print(f"Total quantity of the {len(inventory)} items: {total_qty}")
 
-    for item in inventory.keys():
-        qty = inventory[item]
-        if total_qty > 0:
-            percentage = round((qty / total_qty) * 100, 1)
-        else:
-            percentage = 0.0
-        print(f"Item {item} represents {percentage}%")
+    for item, quantity in inventory.items():
+        print(f"Item {item} represents "
+              f"{round(quantity / total_qty * 100, 1)}%")
 
-    max_item = items_list[0]
+    max_item = max(inventory, key=inventory.get)
     max_qty = inventory[max_item]
-    min_item = items_list[0]
+    min_item = min(inventory, key=inventory.get)
     min_qty = inventory[min_item]
 
-    for item in items_list[1:]:
-        qty = inventory[item]
-        if qty > max_qty:
-            max_qty = qty
-            max_item = item
-        if qty < min_qty:
-            min_qty = qty
-            min_item = item
-
     print(f"Item most abundant: {max_item} with quantity {max_qty}")
-    print(f"Item least abundant: {min_item} with quantity {min_qty}")
+    print(f"Item most abundant: {min_item} with quantity {min_qty}")
 
     inventory.update({"magic_item": 1})
     print(f"Updated inventory: {inventory}")

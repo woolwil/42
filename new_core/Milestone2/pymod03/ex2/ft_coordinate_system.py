@@ -63,7 +63,8 @@ def main() -> None:
     distance_to_first = math.sqrt((second_pos[0] - first_pos[0]) ** 2 +
                                   (second_pos[1] - first_pos[1]) ** 2 +
                                   (second_pos[2] - first_pos[2]) ** 2)
-    print(f"Distance between the 2 sets of coordinates: {distance_to_first:.5}")
+    print(f"Distance between the 2 sets of coordinates: "
+          f"{distance_to_first:.5}")
 
 
 if __name__ == "__main__":
