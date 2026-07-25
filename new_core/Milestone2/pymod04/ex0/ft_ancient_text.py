@@ -1,29 +1,29 @@
+#!/usr/bin/env python3
+
 import sys
 from typing import IO
 
 
 def main() -> None:
-    """Recover and display digital text fragments from a specified file."""
     if len(sys.argv) != 2:
         print("Usage: ft_ancient_text.py <file>")
         return
 
     filename: str = sys.argv[1]
+    file_obj: IO[str] | None = None
+
     print("=== Cyber Archives Recovery ===")
     print(f"Accessing file '{filename}'")
 
-    file_obj: IO[str] | None = None
     try:
         file_obj = open(filename, "r")
         content: str = file_obj.read()
-        print("---")
-        if content.endswith("\n"):
-            print(content, end="")
-        else:
-            print(content)
-        print("---")
+
+        print("---\n")
+        print(content)
+        print("\n---\n")
     except OSError as e:
-        print(f"Error opening file '{filename}': {e}")
+        print(f"Error opening file '{sys.argv[1]}': {e}")
         return
     finally:
         if file_obj is not None:
