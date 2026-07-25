@@ -24,8 +24,8 @@ def main() -> None:
         "Charlie": gen_player_achievements(),
         "Dylan": gen_player_achievements()
     }
-    distinct_achievements = list(set.union(*players.values()))
-    common_achievements = list(set.intersection(*players.values()))
+    distinct_achievements = set.union(*players.values())
+    common_achievements = set.intersection(*players.values())
 
     for key, value in players.items():
         print(f"Player {key}: {value}")
@@ -47,7 +47,10 @@ def main() -> None:
 
         only_this_player = set.difference(current_achievements,
                                           others_achievements)
-        print(f"Only {current_player} has {only_this_player}")
+        print(f"Only {current_player} has: {only_this_player}")
+    print()
+    for key, value in players.items():
+        print(f"{key} is missing: {set.difference(set(ach_pool), value)}")
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 
 import sys
 
@@ -51,7 +51,7 @@ def main() -> None:
     min_qty = inventory[min_item]
 
     print(f"Item most abundant: {max_item} with quantity {max_qty}")
-    print(f"Item most abundant: {min_item} with quantity {min_qty}")
+    print(f"Item least abundant: {min_item} with quantity {min_qty}")
 
     inventory.update({"magic_item": 1})
     print(f"Updated inventory: {inventory}")

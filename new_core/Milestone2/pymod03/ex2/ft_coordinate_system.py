@@ -23,7 +23,7 @@ def get_player_pos() -> tuple[float, float, float]:
         split_data = raw_data.split(",")
 
         if len(split_data) != 3:
-            print("Invalid input")
+            print("Invalid syntax")
             continue
 
         for token in split_data:
@@ -59,12 +59,12 @@ def main() -> None:
     second_pos = get_player_pos()
     print(f"Got a second tuple: {second_pos}")
     print(f"It includes: X={second_pos[0]}, Y={second_pos[1]},"
-          f"Z={second_pos[2]}")
+          f" Z={second_pos[2]}")
     distance_to_first = math.sqrt((second_pos[0] - first_pos[0]) ** 2 +
                                   (second_pos[1] - first_pos[1]) ** 2 +
                                   (second_pos[2] - first_pos[2]) ** 2)
     print(f"Distance between the 2 sets of coordinates: "
-          f"{distance_to_first:.5}")
+          f"{distance_to_first:.4f}")
 
 
 if __name__ == "__main__":

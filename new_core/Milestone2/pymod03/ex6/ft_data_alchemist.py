@@ -3,7 +3,7 @@
 import random
 
 
-def main():
+def main() -> None:
     print("=== Game Data Alchemist ===")
 
     players = [
@@ -29,15 +29,11 @@ def main():
     score_dict = {name: random.randrange(1000) for name in players_capitalized}
     print(f"Score dict: {score_dict}")
 
-    score_average = round(sum(score_dict.values()) / len
-                          (score_dict.values()), 2)
-    print(f"Score average is {score_average}")
+    score_av = round(sum(score_dict.values()) / len(score_dict), 2)
+    print(f"Score average is {score_av}")
 
-    highscores = {
-        name: score for name, score in score_dict.items()
-        if score > score_average
-        }
-    print(f"High scores: {highscores}")
+    hs = {n: sc for n, sc in score_dict.items() if sc > score_av}
+    print(f"High scores: {hs}")
 
 
 if __name__ == "__main__":

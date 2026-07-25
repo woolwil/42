@@ -1,4 +1,4 @@
-#!/usr/bin/env python 3
+#!/usr/bin/env python3
 
 import random
 import typing
@@ -27,7 +27,7 @@ def consume_event(events_list: list[tuple[str, str]]) -> typing.Generator[
         yield event
 
 
-def main():
+def main() -> None:
     print("=== Game Data Stream Processor ===")
     event_stream = gen_event()
 
