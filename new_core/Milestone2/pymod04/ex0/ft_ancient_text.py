@@ -6,7 +6,7 @@ from typing import IO
 
 def main() -> None:
     if len(sys.argv) != 2:
-        print("Usage: ft_ancient_text.py <file>")
+        print(f"Usage: {sys.argv[0]} <file>")
         return
 
     filename: str = sys.argv[1]
@@ -19,9 +19,9 @@ def main() -> None:
         file_obj = open(filename, "r")
         content: str = file_obj.read()
 
-        print("---\n")
-        print(content)
-        print("\n---\n")
+        print("---")
+        print(content, end="")
+        print("---")
     except OSError as e:
         print(f"Error opening file '{sys.argv[1]}': {e}")
         return
