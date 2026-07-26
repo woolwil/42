@@ -18,17 +18,16 @@ def main() -> None:
     try:
         file_obj = open(filename, "r")
         content: str = file_obj.read()
-
-        print("---")
-        print(content, end="")
-        print("---")
+        print(f"--{content}", end="")
+        if content and not content.endswith("\n"):
+            print()
     except OSError as e:
-        print(f"Error opening file '{sys.argv[1]}': {e}")
+        print(f"Error opening file '{filename}': {e}")
         return
     finally:
         if file_obj is not None:
             file_obj.close()
-            print(f"File '{filename}' closed.")
+            print(f"--File '{filename}' closed.")
 
 
 if __name__ == "__main__":

@@ -16,38 +16,45 @@ def main() -> None:
     print(f"Accessing file '{filename}'")
 
     try:
-        file_obj = open(filename, 'r')
+        file_obj = open(filename, "r")
         content: str = file_obj.read()
-        file_obj.close()
-
-        print("---")
-        print(content, end="")
-        print("---")
-        print(f"File '{filename}' closed.\n")
-
-        lines: list[str] = content.splitlines()
-        new_content: str = "\n".join([line + '#' for line in lines]) + "\n"
-
-        print("Transform data:")
-        print("---")
-        print(new_content, end="")
-        print("---")
-
-        new_file: str = input("Enter new file name (or empty): ")
-        if not new_file.strip():
-            print("Not saving data.")
-        else:
-            print(f"Saving data to '{new_file}'")
-            try:
-                out_obj = open(new_file, 'w')
-                out_obj.write(new_content)
-                out_obj.close()
-                print(f"Data saved in file '{new_file}'.")
-            except OSError as e:
-                print(f"Error opening file '{new_file}': {e}")
+        print(f"--{content}", end="")
+        if content and not content.endswith("\n"):
+            print()
     except OSError as e:
-        print(f"Error opening file '{sys.argv[1]}': {e}")
+        print(f"Error opening file '{filename}': {e}")
         return
+    finally:
+        if file_obj is not None:
+            file_obj.close()
+            print(f"--File '{filename}' closed.")
+
+    print("Transform data:")
+    lines: list[str] = content.splitlines()
+    new_content: str = (
+        "\n".join([line + "#" for line in lines]) + "\n" if lines else ""
+    )
+    print(f"--{new_content}", end="")
+    if new_content and not new_content.endswith("\n"):
+        print()
+
+    new_file: str = input("--Enter new file name (or empty): ")
+    if not new_file.strip():
+        print("Not saving data.")
+        return
+
+    print(f"Saving data to '{new_file}'")
+    out_obj: IO[str] | None = None
+    try:
+        out_obj = open(new_file, "w")
+        out_obj.write(new_content)
+        print(f"Data saved in file '{new_file}'.")
+    except OSError as e:
+        print(f"Error opening file '{new_file}': {e}")
+        print("Data not saved.")
+    finally:
+        if out_obj is not None:
+            out_obj.close()
 
 
 if __name__ == "__main__":

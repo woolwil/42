@@ -4,58 +4,60 @@ import sys
 from typing import IO
 
 
-def print_content(content: str) -> None:
-    print("---")
-    print(content, end="")
-    print("---")
-
-
-def create_new_file(new_content: str) -> None:
-    sys.stdout.write("Enter new file name (or empty): ")
-    sys.stdout.flush()
-    new_file = sys.stdin.readline().rstrip('\n')
-    if not new_file.strip():
-        print("Not saving data.")
-    else:
-        print(f"Saving data to '{new_file}'")
-        try:
-            new_obj = open(new_file, "w")
-            new_obj.write(new_content)
-            new_obj.close()
-            print(f"Data saved in file '{new_file}'.")
-        except OSError as e:
-            sys.stderr.write(
-                f"[STDERR] Error opening file '{new_file}': {e}\n"
-            )
-            print("Data not saved.")
-
-
 def main() -> None:
     if len(sys.argv) != 2:
         print(f"Usage: {sys.argv[0]} <file>")
         return
+
+    filename: str = sys.argv[1]
+    file_obj: IO[str] | None = None
+
+    print("=== Cyber Archives Recovery & Preservation ===")
+    print(f"Accessing file '{filename}'")
+
     try:
-        filename: str = sys.argv[1]
-        file_obj: IO[str] | None = None
-
-        print("=== Cyber Archives Recovery & Preservation ===")
-        print(f"Accessing file '{filename}'")
         file_obj = open(filename, "r")
-        content = file_obj.read()
-        print_content(content)
-        file_obj.close()
-        print(f"File '{filename}' closed.\n")
-
-        print("Transform data:")
-        lines: list[str] = content.splitlines()
-        new_content: str = "\n".join([line + "#" for line in lines]) + "\n"
-        print_content(new_content)
-        create_new_file(new_content)
+        content: str = file_obj.read()
+        print(f"--{content}", end="")
+        if content and not content.endswith("\n"):
+            print()
     except OSError as e:
-        print(f"[STDERR] Error opening file '{filename}': "
-              f"{e}", file=sys.stderr)
-        # sys.stderr.write(f"[STDERR] Error opening file '{filename}': {e}\n")
+        sys.stderr.write(f"[STDERR] Error opening file '{filename}': {e}\n")
         return
+    finally:
+        if file_obj is not None:
+            file_obj.close()
+            print(f"--File '{filename}' closed.")
+
+    print("Transform data:")
+    lines: list[str] = content.splitlines()
+    new_content: str = (
+        "\n".join([line + "#" for line in lines]) + "\n" if lines else ""
+    )
+    print(f"--{new_content}", end="")
+    if new_content and not new_content.endswith("\n"):
+        print()
+
+    sys.stdout.write("--Enter new file name (or empty): ")
+    sys.stdout.flush()
+    new_file: str = sys.stdin.readline().rstrip("\r\n")
+
+    if not new_file.strip():
+        print("Not saving data.")
+        return
+
+    print(f"Saving data to '{new_file}'")
+    out_obj: IO[str] | None = None
+    try:
+        out_obj = open(new_file, "w")
+        out_obj.write(new_content)
+        print(f"Data saved in file '{new_file}'.")
+    except OSError as e:
+        sys.stderr.write(f"[STDERR] Error opening file '{new_file}': {e}\n")
+        print("Data not saved.")
+    finally:
+        if out_obj is not None:
+            out_obj.close()
 
 
 if __name__ == "__main__":
