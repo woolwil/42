@@ -6,9 +6,12 @@ from elements import create_fire
 
 
 def lead_to_gold() -> str:
+    """Transmute lead into gold."""
     air = create_air()
+    potion = strength_potion()
     fire = create_fire()
-    str_pot = strength_potion()
 
-    return (f"Recipe transmuting Lead to Gold: brew '[{air}]"
-            f" and '[{str_pot}]' mixed with '[{fire}]'")
+    return (
+        f"Recipe transmuting Lead to Gold: brew '{air}' "
+        f"and '{potion}' mixed with '{fire}'"
+    )

@@ -1,12 +1,18 @@
+"""alchemy/potions.py"""
+
 import alchemy.elements as elements
 import elements as root_el
 
 
 def healing_potion() -> str:
-    return (f"Healing potion brewed with '[{elements.create_earth()}] and "
-            f"'[{elements.create_air()}]'")
+    """Brew healing potion."""
+    earth = elements.create_earth()
+    air = elements.create_air()
+    return f"Healing potion brewed with '{earth}' and '{air}'"
 
 
 def strength_potion() -> str:
-    return (f"Strength potion brewed with '[{root_el.create_fire()}]'"
-            f" and '[{root_el.create_water()}]'")
+    """Brew strength potion."""
+    fire = root_el.create_fire()
+    water = root_el.create_water()
+    return f"Strength potion brewed with '{fire}' and '{water}'"
