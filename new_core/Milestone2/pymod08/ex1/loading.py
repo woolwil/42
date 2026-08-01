@@ -33,7 +33,6 @@ def check_dependencies() -> bool:
             print(f"[MISSING] {pkg} - Installation required")
             all_ok = False
         else:
-            # for val in REQUIRED_PACKAGES.values():
             print(f"[OK] {pkg} ({ver}) - {txt}")
     if not all_ok:
         print("\n" + missing_dependencies)
