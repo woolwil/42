@@ -11,7 +11,7 @@ REQUIRED_PACKAGES = {
 
 missing_dependencies = r"""To install dependencies using pip:
             pip install -r requirements.txt
-            
+
             To install dependencies using Poetry:
             poetry install
             poetry run python loading.py"""
@@ -39,9 +39,10 @@ def check_dependencies() -> bool:
         return False
     return True
 
+
 def run_matrix_analysis() -> None:
     import numpy as np
-    import pandas as pd
+    import pandas as pd  # type: ignore[import-untyped]
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
@@ -68,12 +69,13 @@ def run_matrix_analysis() -> None:
     print("Analysis complete!")
     print("Results saved to: matrix_analysis.png")
 
+
 def main() -> None:
     print("LOADING STATUS: Loading programs...")
     print("Checking dependencies:")
     if check_dependencies():
         run_matrix_analysis()
-    
+
 
 if __name__ == "__main__":
     main()
