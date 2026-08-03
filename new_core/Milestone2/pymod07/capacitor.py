@@ -6,14 +6,14 @@ from ex1 import HealingCreatureFactory, TransformCreatureFactory
 
 def test_heal() -> None:
     print("Testing Creature with healing capability")
-    print(" base:")
+    print("base:")
     hcf = HealingCreatureFactory()
     hc = hcf.create_base()
     assert isinstance(hc, HealCapability)
     print(hc.describe())
     print(hc.attack())
     print(hc.heal())
-    print(" evolved:")
+    print("evolved:")
     hc = hcf.create_evolved()
     assert isinstance(hc, HealCapability)
     print(hc.describe())
@@ -23,7 +23,7 @@ def test_heal() -> None:
 
 def test_transform() -> None:
     print("Testing Creature with transform capability")
-    print(" base:")
+    print("base:")
     tcf = TransformCreatureFactory()
     tc = tcf.create_base()
     assert isinstance(tc, TransformCapability)
@@ -32,7 +32,7 @@ def test_transform() -> None:
     print(tc.transform())
     print(tc.attack())
     print(tc.revert())
-    print(" evolved:")
+    print("evolved:")
     tc = tcf.create_evolved()
     assert isinstance(tc, TransformCapability)
     print(tc.describe())
