@@ -1,1 +1,5 @@
 /new_core/Milestone2/1pswap/evaluation_sheet.pdf
+.venv/
+.mypy_cache/
+__pycache__/
+*.pyc
