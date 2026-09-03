@@ -1,10 +1,5 @@
-def count_vowels(s: str) -> int:
-    return sum(1 for char in s.lower() if char in "aeiou")
-
-
 def cryptic_sorter(strings: list[str]) -> list[str]:
-    return sorted(strings, key=lambda s: (len(s), -count_vowels(s), s.lower()))
-
+    return sorted(strings, key=lambda s: (len(s), -sum(1 for char in s.lower() if char in "aeiou"), s.lower()))
 
 def main() -> None:
     print(cryptic_sorter(["apple","cat","banana","dog","elephant"]))

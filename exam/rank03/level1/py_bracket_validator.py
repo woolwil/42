@@ -1,29 +1,31 @@
 def bracket_validator(s: str) -> bool:
     stack = []
-    matching_bracket = {
-        ')': '(',
-        ']': '[',
-        '}': '{', 
-    }
+    pairs = {
+            ')': '(',
+            ']': '[',
+            '}': '{'
+        }
+
     for c in s:
-        if c == '(' or c == '[' or c == '{':
+        if c in "({[":
             stack.append(c)
-        elif c == ')' or c == '}' or c == ']':
-            if not stack:
+        elif c in pairs:
+            if not stack or stack.pop() != pairs[c]:
                 return False
-            else:
-                top_bracket = stack.pop()
-                if top_bracket != matching_bracket[c]:
-                    return False
-    return len(stack) == 0
+
+    return not stack
 
 
 def main() -> None:
+    # true
+    print(bracket_validator("hello(world)"))
     print(bracket_validator("()[]{}"))
     print(bracket_validator("([{}])"))
+    # false
     print(bracket_validator("([)])"))
     print(bracket_validator("((("))
     print(bracket_validator(")"))
+    print(bracket_validator("((())"))
 
 if __name__ == "__main__":
     main()
