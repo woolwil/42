@@ -1,25 +1,18 @@
 def number_base_converter(number: str, from_base: int, to_base: int) -> str:
-    if number == "0" or not number:
+    digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    if not (2 <= from_base <= 36 and 2 <= to_base <= 36):
+        return "ERROR"
+    if not number or any(c.upper() not in digits[:from_base] for c in number):
+        return "ERROR"
+    n = int(number, from_base)
+    if n == 0:
         return "0"
+    res = ""
+    while n > 0:
+        res = digits[n % to_base] + res  # Prepend digit directly
+        n //= to_base
+    return res
 
-    # STEP 1: Convert the input string into a Base-10 Integer
-    # Python's built-in int(str, base) handles bases 2 to 36 automatically!
-    decimal_val = int(number, from_base)
-
-    if to_base == 10:
-        return str(decimal_val)
-
-    # STEP 2: Convert the Base-10 Integer into the target `to_base`
-    digits = "0123456789ABCDEF"
-    result = []
-
-    while decimal_val > 0:
-        remainder = decimal_val % to_base
-        result.append(digits[remainder])  # Pick the digit for this remainder
-        decimal_val //= to_base           # Divide by target base
-
-    # Since remainders are collected backwards, reverse the list at the end
-    return "".join(reversed(result))
 
 def main() -> None:
     print(number_base_converter("42", 10, 2))      # Output: "101010"
