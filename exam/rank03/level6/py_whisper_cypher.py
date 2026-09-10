@@ -1,13 +1,11 @@
 def whisper_cipher(text: str, shift: int) -> str:
-    result = []
-    for char in text:
-        if "a" <= char <= "z":
-            result.append(chr((ord(char) - ord("a") + shift) % 26 + ord("a")))
-        elif "A" <= char <= "Z":
-            result.append(chr((ord(char) - ord("A") + shift) % 26 + ord("A")))
-        else:
-            result.append(char)
-    return "".join(result)
+    res = ""
+    for c in text:
+        if c.isalpha():
+            base = ord('a' if c.islower() else 'A')
+            c = chr((ord(c) - base + shift) % 26 + base)
+        res += c
+    return res
 
 
 def main() -> None:

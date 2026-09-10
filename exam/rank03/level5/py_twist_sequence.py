@@ -1,13 +1,7 @@
 def twist_sequence(arr: list[int], k: int) -> list[int]:
-    """
-    Rotates an array to the right by k positions.
-    The last k elements move to the front.
-    """
     if not arr:
         return []
-    k = k % len(arr)
-    if k == 0:
-        return arr[:]
+    k %= len(arr)
     return arr[-k:] + arr[:-k]
 
 

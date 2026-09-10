@@ -1,18 +1,17 @@
 def string_sculptor(text: str) -> str:
-    result = []
-    to_lower = True
+    res = ""
+    lower = True
 
-    for char in text:
-        if char == " ":
-            to_lower = True
-            result.append(char)
-        elif char.isalpha():
-            result.append(char.lower() if to_lower else char.upper())
-            to_lower = not to_lower
-        else:
-            result.append(char)
+    for c in text:
+        if c == " ":
+            lower = True
+        elif c.isalpha():
+            c = c.lower() if lower else c.upper()
+            lower = not lower
+        res += c
 
-    return "".join(result)
+    return res
+
 
 
 def main() -> None:
