@@ -13,7 +13,6 @@ def string_sculptor(text: str) -> str:
     return res
 
 
-
 def main() -> None:
     print(string_sculptor("Hello World"))        # "hElLo wOrLd"
     print(string_sculptor("42 is cool!"))        # "42 iS cOoL!"
