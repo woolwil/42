@@ -1,7 +1,4 @@
 def anagram(s1: str, s2: str) -> bool:
-    """
-    Checks if two strings are anagrams, ignoring case and spaces.
-    """
     clean_s1 = sorted(c.lower() for c in s1 if c != " ")
     clean_s2 = sorted(c.lower() for c in s2 if c != " ")
     return clean_s1 == clean_s2
