@@ -3,4 +3,4 @@
 .mypy_cache/
 __pycache__/
 *.pyc
-/new_core/exam/exam_test/
+/exam/exam_test
