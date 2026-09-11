@@ -2,7 +2,7 @@ def number_base_converter(number: str, from_base: int, to_base: int) -> str:
     digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     if not (2 <= from_base <= 36 and 2 <= to_base <= 36):
         return "ERROR"
-    if not number or any(c.upper() not in digits[:from_base] for c in number):
+    if not number or any(d.upper() not in digits[:from_base] for d in number):
         return "ERROR"
     n = int(number, from_base)
     if n == 0:

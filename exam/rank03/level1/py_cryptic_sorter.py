@@ -7,7 +7,7 @@ def cryptic_sorter(strings: list[str]) -> list[str]:
         return (len(s), s.lower(), vowels)
 
     res = list(strings)
-    legth = len(res)
+    length = len(res)
     for i in range(length):
         for j in range(0, length - 1 - i):
             if sort_key(res[j]) > sort_key(res[j + 1]):
